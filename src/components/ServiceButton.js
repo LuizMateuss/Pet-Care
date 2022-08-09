@@ -15,7 +15,7 @@ export function ServiceButton(props) {
       rounded={20}
       _pressed={{ bg: 'gray.100' }}
     >
-      <Text color={`${props.color}`}>{title}</Text>
+      <Text color={`${props.color}`}>{props.title}</Text>
     </ButtonNativeBase>
   )
 }
