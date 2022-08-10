@@ -11,6 +11,7 @@ import { Loading } from './src/components/Loading'
 import { Chat } from './src/screens/Chat'
 import { StartService } from './src/screens/StartService'
 import { ServiceInProgress } from './src/screens/ServiceInProgress'
+import { StartPetCare } from './src/screens/StartPetCare'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
@@ -21,7 +22,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <ServiceInProgress /> : Loading}
+      {fontsLoaded ? <StartPetCare /> : Loading}
     </NativeBaseProvider>
   )
 }
