@@ -74,7 +74,7 @@ export function StartService() {
           alignItems="center"
           w="100%"
         >
-          <View p={2} rounded={40} bg="white">
+          <View p={4} rounded={40} bg="white">
             <PawPrint size={25} color="#00ABBC" />
           </View>
           <Text color="white">Data: 14/06/2022</Text>
