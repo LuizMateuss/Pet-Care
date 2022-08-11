@@ -13,6 +13,7 @@ import { StartService } from './src/screens/StartService'
 import { ServiceInProgress } from './src/screens/ServiceInProgress'
 import { StartPetCare } from './src/screens/StartPetCare'
 import { ProfileCare } from './src/screens/ProfileCare'
+import { Requests } from './src/screens/Requests'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
@@ -23,7 +24,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <ProfileCare /> : Loading}
+      {fontsLoaded ? <Requests /> : Loading}
     </NativeBaseProvider>
   )
 }
