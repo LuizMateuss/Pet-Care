@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
   },
   shape: {
     overflow: 'hidden',
-    height: 75,
+    height: 25,
 
-    borderBottomEndRadius: 25,
-    borderBottomLeftRadius: 25,
+    borderBottomEndRadius: 50,
+    borderBottomLeftRadius: 50,
 
     backgroundColor: 'transparent',
     transform: [{ scaleX: 7 }]
