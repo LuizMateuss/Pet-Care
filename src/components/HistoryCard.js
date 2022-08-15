@@ -64,12 +64,12 @@ export function HistoryCard(props) {
         bg="secondary.700"
         borderBottomRadius={40}
       >
-        <Button bg="transparent" ml={6}>
+        <Button bg="transparent" _pressed={{ bg: 'transparent' }} ml={6}>
           <Text fontWeight="black" fontSize={16} color="white">
             {props.isCare ? 'Perfil do tutor' : 'Perfil do cuidador'}
           </Text>
         </Button>
-        <Button bg="transparent" mr={6}>
+        <Button bg="transparent" _pressed={{ bg: 'transparent' }} mr={6}>
           <Text fontWeight="black" fontSize={16} color="white">
             Avaliar
           </Text>

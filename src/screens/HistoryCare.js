@@ -5,9 +5,9 @@ import { HistoryCard } from '../components/HistoryCard'
 export function HistoryCare() {
   return (
     <VStack>
-      <Header title="Histórico" />
-
       <ScrollView>
+        <Header title="Histórico" />
+
         <HistoryCard
           name="Nome tutor"
           image={require('../../assets/img/anonymous.png')}
