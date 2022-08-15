@@ -4,18 +4,18 @@ import { CaretLeft } from 'phosphor-react-native'
 export function Header(props) {
   return (
     <HStack
-      bg="secondary.700"
+      bg={`${props.color}`}
       justifyContent="space-between"
       alignItems="center"
       mt={8}
       p={4}
     >
-      <CaretLeft size={24} color="#FFFFFF" />
+      <CaretLeft size={20} color="#FFFFFF" />
       <Text
         flex={1}
         color="#FFFFFF"
         textAlign="center"
-        fontSize={24}
+        fontSize={20}
         fontWeight="bold"
       >
         {props.title}

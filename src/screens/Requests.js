@@ -5,7 +5,7 @@ import { Order } from '../components/Order'
 export function Requests() {
   return (
     <VStack>
-      <Header title="Solicitações" />
+      <Header title="Solicitações" color="#00ABBC" />
 
       <ScrollView>
         <Order />
