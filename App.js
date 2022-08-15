@@ -17,6 +17,7 @@ import { Requests } from './src/screens/Requests'
 import { HistoryCare } from './src/screens/HistoryCare'
 import { OrderInfo } from './src/screens/OrderInfo'
 import { UserProfile } from './src/screens/UserProfile'
+import { Routes } from './src/routes'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
@@ -27,7 +28,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <UserProfile /> : Loading}
+      {fontsLoaded ? <Routes /> : Loading}
     </NativeBaseProvider>
   )
 }

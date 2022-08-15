@@ -1,7 +1,11 @@
 import { HStack, Text } from 'native-base'
 import { CaretLeft } from 'phosphor-react-native'
+import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 export function Header(props) {
+  const navigation = useNavigation()
+
   return (
     <HStack
       bg={`${props.color}`}
@@ -10,7 +14,9 @@ export function Header(props) {
       mt={8}
       p={4}
     >
-      <CaretLeft size={20} color="#FFFFFF" />
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <CaretLeft size={20} color="#FFFFFF" />
+      </TouchableOpacity>
       <Text
         flex={1}
         color="#FFFFFF"

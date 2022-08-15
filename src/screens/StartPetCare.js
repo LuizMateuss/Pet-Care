@@ -11,9 +11,12 @@ import { Image, SafeAreaView, StyleSheet } from 'react-native'
 
 import { ButtonMain } from '../components/ButtonMain'
 
+import { useNavigation } from '@react-navigation/native'
+
 export function StartPetCare() {
   const { colors } = useTheme()
 
+  const navigation = useNavigation()
   return (
     <SafeAreaView>
       <ScrollView>
@@ -37,21 +40,25 @@ export function StartPetCare() {
             title="Perfil"
             color={colors.secondary[700]}
             colorText={colors.white}
+            nextPage={() => navigation.navigate('profileCare')}
           />
           <ButtonMain
             title="Solicitações"
             color={colors.secondary[700]}
             colorText={colors.white}
+            nextPage={() => navigation.navigate('requests')}
           />
           <ButtonMain
             title="Históricos"
             color={colors.secondary[700]}
             colorText={colors.white}
+            nextPage={() => navigation.navigate('historyCare')}
           />
           <ButtonMain
             title="Trabalhos em andamento"
             color={colors.secondary[700]}
             colorText={colors.white}
+            nextPage={() => navigation.navigate('startService')}
           />
           <HStack w="70%" mx="auto" mt={20} mb={18} alignItems="center">
             <Switch size="lg" colorScheme="primary" />

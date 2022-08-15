@@ -14,8 +14,11 @@ import { TouchableOpacity } from 'react-native'
 import { Header } from '../components/Header'
 import { ServiceButton } from '../components/ServiceButton'
 
+import { useNavigation } from '@react-navigation/native'
+
 export function UserProfile() {
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
+  const navigation = useNavigation()
   const RatingBar = () => {
     return (
       <HStack>
@@ -78,7 +81,11 @@ export function UserProfile() {
         </Text>
       </VStack>
       <View w="40%" m="auto">
-        <ServiceButton title="Chat" color="primary.700" />
+        <ServiceButton
+          title="Chat"
+          color="primary.700"
+          nextPage={() => navigation.navigate('chat')}
+        />
       </View>
     </VStack>
   )

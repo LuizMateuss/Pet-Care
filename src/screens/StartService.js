@@ -15,6 +15,8 @@ import { PawPrint } from 'phosphor-react-native'
 
 import { ServiceButton } from '../components/ServiceButton'
 
+import { useNavigation } from '@react-navigation/native'
+
 const ModalCancel = ({ visible, children, ...props }) => {
   const { colors } = useTheme()
   const [showModal, setShowModal] = useState(props.visible)
@@ -34,6 +36,12 @@ const ModalCancel = ({ visible, children, ...props }) => {
 export function StartService() {
   const { colors } = useTheme()
   const [visible, setVisible] = useState(false)
+  const navigation = useNavigation()
+
+  function cancelService() {
+    navigation.navigate('startPetCare')
+    setVisible(false)
+  }
   return (
     <VStack pb={12}>
       <HStack
@@ -90,7 +98,11 @@ export function StartService() {
             <Text style={[styles.textStyle, { fontSize: 15 }]}>
               *Punições poderão ser aplicadas segundo os termos de serviço
             </Text>
-            <ServiceButton title="Sim" color={colors.cyan[700]} />
+            <ServiceButton
+              title="Sim"
+              color={colors.cyan[700]}
+              nextPage={cancelService}
+            />
             <ButtonNativeBase
               borderWidth={1}
               borderColor={colors.red[700]}
@@ -105,8 +117,16 @@ export function StartService() {
           </View>
         </ModalCancel>
         <VStack mt={4}>
-          <ServiceButton title="Começar serviço" color={colors.cyan[700]} />
-          <ServiceButton title="Chat" color={colors.secondary[700]} />
+          <ServiceButton
+            title="Começar serviço"
+            color={colors.cyan[700]}
+            nextPage={() => navigation.navigate('serviceInProgress')}
+          />
+          <ServiceButton
+            title="Chat"
+            color={colors.secondary[700]}
+            nextPage={() => navigation.navigate('chat')}
+          />
           <ButtonNativeBase
             borderWidth={1}
             borderColor={colors.red[700]}

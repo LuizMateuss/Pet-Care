@@ -3,9 +3,11 @@ import { Dimensions, Image, StyleSheet, ScrollView } from 'react-native'
 import { PawPrint } from 'phosphor-react-native'
 import { ServiceButton } from '../components/ServiceButton'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useNavigation } from '@react-navigation/native'
 
 export function ServiceInProgress() {
   const { colors } = useTheme()
+  const navigation = useNavigation()
   return (
     <SafeAreaView>
       <VStack pb={12}>
@@ -37,7 +39,11 @@ export function ServiceInProgress() {
             </View>
             <View w="50%" m={2}>
               <Text style={styles.messagePopup}>1</Text>
-              <ServiceButton title="Chat" color={colors.white} />
+              <ServiceButton
+                title="Chat"
+                color={colors.white}
+                nextPage={() => navigation.navigate('chat')}
+              />
             </View>
             <Text color="white">Data: 14/06/2022</Text>
             <Text color="white">Hora de início: 20:29</Text>
@@ -45,7 +51,11 @@ export function ServiceInProgress() {
             <Text color="white">Cliente: xxx-xxx</Text>
           </VStack>
           <VStack mt={4}>
-            <ServiceButton title="Terminar passeio" color={colors.red[700]} />
+            <ServiceButton
+              title="Terminar passeio"
+              color={colors.red[700]}
+              nextPage={() => navigation.navigate('startPetCare')}
+            />
           </VStack>
         </VStack>
       </VStack>

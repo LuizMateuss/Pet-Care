@@ -1,5 +1,11 @@
 import { VStack, HStack, View, Text, ScrollView, useTheme } from 'native-base'
-import { Dimensions, Image, SafeAreaView, StyleSheet } from 'react-native'
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native'
 
 import { CaretLeft, MapPin, User } from 'phosphor-react-native'
 
@@ -7,12 +13,18 @@ import { ProfileInfo } from '../components/ProfileInfo'
 
 import { ButtonMain } from '../components/ButtonMain'
 
+import { useNavigation } from '@react-navigation/native'
+
 export function ProfileCare() {
   const { colors } = useTheme()
 
+  const navigation = useNavigation()
+
   return (
     <ScrollView bg="white" mt={8}>
-      <CaretLeft size={26} color="#00ABBC" />
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <CaretLeft size={26} color="#00ABBC" />
+      </TouchableOpacity>
 
       <HStack alignItems="center" mx="auto" mb={4}>
         <Image

@@ -12,6 +12,8 @@ import {
 import { StyleSheet, Modal, TouchableOpacity } from 'react-native'
 import { CaretLeft } from 'phosphor-react-native'
 
+import { useNavigation } from '@react-navigation/native'
+
 const ModalRating = ({ visible, children, ...props }) => {
   const { colors } = useTheme()
   const [showModal, setShowModal] = useState(props.visible)
@@ -35,6 +37,8 @@ export function HistoryCard(props) {
 
   const [defaultRating, setDefaultRating] = useState(2)
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
+
+  const navigation = useNavigation()
 
   const RatingBar = () => {
     return (
@@ -73,7 +77,7 @@ export function HistoryCard(props) {
     >
       <VStack borderTopRadius={40} alignItems="center" bg="secondary.700" p={4}>
         <Image
-          alt="Image tutor"
+          alt="Imagem tutor"
           style={styles.imageUser}
           source={props.image}
         />
@@ -124,7 +128,12 @@ export function HistoryCard(props) {
         bg="secondary.700"
         borderBottomRadius={40}
       >
-        <Button bg="transparent" _pressed={{ bg: 'transparent' }} ml={6}>
+        <Button
+          bg="transparent"
+          _pressed={{ bg: 'transparent' }}
+          ml={6}
+          onPress={() => navigation.navigate('userProfile')}
+        >
           <Text fontWeight="black" fontSize={16} color="white">
             {props.isCare ? 'Perfil do tutor' : 'Perfil do cuidador'}
           </Text>
@@ -142,7 +151,9 @@ export function HistoryCard(props) {
       </HStack>
       <ModalRating visible={visible}>
         <View style={styles.modalCard}>
-          <CaretLeft size={26} color="#511AC7" />
+          <TouchableOpacity onPress={() => setVisible(false)}>
+            <CaretLeft size={26} color="#511AC7" />
+          </TouchableOpacity>
           <VStack alignItems="center">
             <Image
               mb={5}

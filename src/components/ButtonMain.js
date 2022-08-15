@@ -16,6 +16,7 @@ export function ButtonMain(props) {
       py={4}
       px={8}
       _pressed={{ opacity: 1 }}
+      onPress={props.nextPage}
     >
       <Text
         fontWeight="bold"
