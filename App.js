@@ -26,7 +26,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <OrderInfo /> : Loading}
+      {fontsLoaded ? <HistoryCare /> : Loading}
     </NativeBaseProvider>
   )
 }
