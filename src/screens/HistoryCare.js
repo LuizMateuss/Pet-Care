@@ -6,7 +6,7 @@ export function HistoryCare() {
   return (
     <VStack>
       <ScrollView>
-        <Header title="Histórico" />
+        <Header title="Histórico" color="#00ABBC" />
 
         <HistoryCard
           name="Nome tutor"
