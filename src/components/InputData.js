@@ -9,6 +9,7 @@ export function InputData(props) {
       _focus={{
         bg: 'white'
       }}
+      type={props.type}
       placeholder={`${props.title}`}
     />
   )

@@ -10,6 +10,7 @@ import {
 import { Loading } from './src/components/Loading'
 import { Routes } from './src/routes'
 import { CreateAccount } from './src/screens/CreateAccount'
+import { SignIn } from './src/screens/SignIn'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
@@ -20,7 +21,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <CreateAccount /> : Loading}
+      {fontsLoaded ? <SignIn /> : Loading}
     </NativeBaseProvider>
   )
 }

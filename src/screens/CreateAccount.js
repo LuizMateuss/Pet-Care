@@ -39,8 +39,8 @@ export function CreateAccount() {
           <VStack w="80%" mx="auto">
             <InputData title="Nome Usuário:" />
             <InputData title="E-mail:" />
-            <InputData title="Senha:" />
-            <InputData title="Repetir Senha:" />
+            <InputData title="Senha:" type="password" />
+            <InputData title="Repetir Senha:" type="password" />
             <HStack alignItems="center" mx="auto" mb={10} color="white">
               <Checkbox
                 accessibilityLabel="oi"
