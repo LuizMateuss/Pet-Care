@@ -10,8 +10,10 @@ import {
 import { ImageBackground, StyleSheet } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { ButtonMain } from '../components/ButtonMain'
+import { useNavigation } from '@react-navigation/native'
 
 export function OptionsSignUp() {
+  const navigation = useNavigation()
   const images = [
     require('../../assets/img/husky-bg.png'),
     require('../../assets/img/cat-dog-bg.png'),
@@ -65,6 +67,11 @@ export function OptionsSignUp() {
               py={4}
               px={8}
               _pressed={{ opacity: 1 }}
+              onPress={() =>
+                navigation.navigate('createAccount', {
+                  isCare: true
+                })
+              }
             >
               <Text
                 fontWeight="bold"
@@ -84,6 +91,11 @@ export function OptionsSignUp() {
               py={4}
               px={8}
               _pressed={{ opacity: 1 }}
+              onPress={() =>
+                navigation.navigate('createAccount', {
+                  isCare: false
+                })
+              }
             >
               <Text
                 fontWeight="bold"

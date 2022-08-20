@@ -12,9 +12,11 @@ import { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { InputData } from '../components/InputData'
 import { ServiceButton } from '../components/ServiceButton'
+import { useNavigation } from '@react-navigation/native'
 
 export function SignIn() {
   const [value, setValue] = useState('')
+  const navigation = useNavigation()
   return (
     <ScrollView>
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
@@ -60,7 +62,11 @@ export function SignIn() {
             <Text textAlign="center" color="white" fontWeight="black">
               Não tem uma conta?
             </Text>
-            <ServiceButton title="Cadastre-se" color="white" />
+            <ServiceButton
+              title="Cadastre-se"
+              color="white"
+              nextPage={() => navigation.navigate('optionsSignUp')}
+            />
           </VStack>
           <View alignItems="center">
             <VStack position="absolute" zIndex={1} top={10}>

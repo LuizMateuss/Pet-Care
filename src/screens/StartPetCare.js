@@ -11,6 +11,8 @@ import { Image, SafeAreaView, StyleSheet } from 'react-native'
 
 import { ButtonMain } from '../components/ButtonMain'
 
+import { List } from 'native-base'
+
 import { useNavigation } from '@react-navigation/native'
 
 export function StartPetCare() {

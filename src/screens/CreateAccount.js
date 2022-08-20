@@ -12,12 +12,16 @@ import {
 import { CheckBox } from 'react-native'
 import { InputData } from '../components/InputData'
 import { ServiceButton } from '../components/ServiceButton'
+import { useNavigation } from '@react-navigation/native'
 
-export function CreateAccount() {
+export function CreateAccount({ route }) {
+  const navigation = useNavigation()
+  const { isCare } = route.params
+
   return (
     <ScrollView>
       <LinearGradient
-        colors={['#00abbc52', '#00abbc']}
+        colors={isCare ? ['#00abbc52', '#00abbc'] : ['#511AC752', '#511AC7']}
         style={{ paddingBottom: 50 }}
       >
         <VStack>
@@ -27,7 +31,11 @@ export function CreateAccount() {
               zIndex={1}
               top={10}
               alt="Logo pet care"
-              source={require('../../assets/img/petCareGreenLogo.png')}
+              source={
+                isCare
+                  ? require('../../assets/img/petCareGreenLogo.png')
+                  : require('../../assets/img/petCarePurpleLogo.png')
+              }
             />
             <Image
               w="100%"
@@ -53,9 +61,21 @@ export function CreateAccount() {
                 concordo com os termos de serviço e a política de privacidade
               </Text>
             </HStack>
-            <ServiceButton title="Cadastrar" color="white" />
+            <ServiceButton
+              title="Cadastrar"
+              color="white"
+              nextPage={() =>
+                navigation.navigate('startPetCare', {
+                  isCare
+                })
+              }
+            />
             <View borderBottomWidth={1} my={5} borderColor="white" />
-            <ServiceButton title="Login" color="white" />
+            <ServiceButton
+              title="Login"
+              color="white"
+              nextPage={() => navigation.navigate('signIn')}
+            />
           </VStack>
         </VStack>
       </LinearGradient>

@@ -9,12 +9,18 @@ import { ServiceInProgress } from '../screens/ServiceInProgress'
 import { StartPetCare } from '../screens/StartPetCare'
 import { StartService } from '../screens/StartService'
 import { UserProfile } from '../screens/UserProfile'
+import { OptionsSignUp } from '../screens/OptionsSignUp'
+import { CreateAccount } from '../screens/CreateAccount'
+import { SignIn } from '../screens/SignIn'
 
 const { Navigator, Screen } = createNativeStackNavigator()
 
 export function AppRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="signIn" component={SignIn} />
+      <Screen name="optionsSignUp" component={OptionsSignUp} />
+      <Screen name="createAccount" component={CreateAccount} />
       <Screen name="startPetCare" component={StartPetCare} />
       <Screen name="profileCare" component={ProfileCare} />
       <Screen name="requests" component={Requests} />
