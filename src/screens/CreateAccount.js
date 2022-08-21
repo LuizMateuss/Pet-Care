@@ -64,10 +64,17 @@ export function CreateAccount({ route }) {
             <ServiceButton
               title="Cadastrar"
               color="white"
-              nextPage={() =>
-                navigation.navigate('startPetCare', {
-                  isCare
-                })
+              nextPage={
+                isCare
+                  ? () =>
+                      navigation.navigate('startPetCare', {
+                        isCare
+                      })
+                  : () =>
+                      navigation.navigate('menuHamburguer', {
+                        screen: 'startPetCare',
+                        params: { isCare }
+                      })
               }
             />
             <View borderBottomWidth={1} my={5} borderColor="white" />

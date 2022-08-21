@@ -1,10 +1,5 @@
 import { Button as ButtonNativeBase, IButtonProps, Text } from 'native-base'
 
-// type Props = IButtonProps & {
-//   title: string;
-//   color: string;
-// }
-
 export function ServiceButton(props) {
   return (
     <ButtonNativeBase

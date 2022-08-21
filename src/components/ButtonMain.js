@@ -6,11 +6,15 @@ export function ButtonMain(props) {
     <ButtonNativeBase
       borderWidth={1}
       borderColor={
-        props.color === 'transparent' ? colors.secondary[700] : `${props.color}`
+        props.color === 'transparent'
+          ? props.colorText === colors.primary[700]
+            ? colors.primary[700]
+            : colors.secondary[700]
+          : `${props.color}`
       }
       bg={`${props.color}`}
       rounded={60}
-      w="70%"
+      w="80%"
       m="auto"
       my={3}
       py={4}
@@ -21,7 +25,11 @@ export function ButtonMain(props) {
       <Text
         fontWeight="bold"
         textAlign="center"
-        fontSize={18}
+        fontSize={{
+          base: 'sm',
+          md: 'md',
+          lg: 'xl'
+        }}
         color={`${props.colorText}`}
       >
         {props.title}

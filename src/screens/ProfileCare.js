@@ -15,15 +15,16 @@ import { ButtonMain } from '../components/ButtonMain'
 
 import { useNavigation } from '@react-navigation/native'
 
-export function ProfileCare() {
+export function ProfileCare({ route }) {
   const { colors } = useTheme()
 
   const navigation = useNavigation()
 
+  const { isCare } = route.params
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <CaretLeft size={26} color="#00ABBC" />
+        <CaretLeft size={26} color={isCare ? '#00ABBC' : '#511AC7'} />
       </TouchableOpacity>
 
       <HStack alignItems="center" mx="auto" mb={4}>
@@ -32,10 +33,18 @@ export function ProfileCare() {
           source={require('../../assets/img/anonymous.png')}
         />
         <VStack ml={5}>
-          <Text fontWeight="black" fontSize={20} color="secondary.700">
+          <Text
+            fontWeight="black"
+            fontSize={20}
+            color={isCare ? '#00ABBC' : '#511AC7'}
+          >
             Nome Usuário
           </Text>
-          <Text fontWeight="black" fontSize={15} color="secondary.700">
+          <Text
+            fontWeight="black"
+            fontSize={15}
+            color={isCare ? '#00ABBC' : '#511AC7'}
+          >
             Editar perfil
           </Text>
         </VStack>
@@ -43,7 +52,7 @@ export function ProfileCare() {
 
       <View
         borderBottomWidth={1}
-        borderColor="secondary.700"
+        borderColor={isCare ? '#00ABBC' : '#511AC7'}
         w="70%"
         m="auto"
         my={2}
@@ -53,18 +62,20 @@ export function ProfileCare() {
         icon={<MapPin size={26} color="#FFFFFF" />}
         title="Endereço"
         info="Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP."
+        backgroundInfo={isCare ? '#00ABBC' : '#511AC7'}
       />
       <ProfileInfo
         icon={<User size={26} color="#FFFFFF" />}
         title="Dados pessoais"
         info="Nome Completo: XXXXXXXX Data de nascimento: XX/XX/XXXX"
+        backgroundInfo={isCare ? '#00ABBC' : '#511AC7'}
       />
 
       <View mt={20}>
         <ButtonMain
           title="Logout"
           color={'transparent'}
-          colorText={colors.secondary[700]}
+          colorText={isCare ? '#00ABBC' : '#511AC7'}
         />
       </View>
     </ScrollView>

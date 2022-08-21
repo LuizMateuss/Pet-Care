@@ -6,7 +6,7 @@ export function ProfileInfo(props) {
       m="auto"
       p={5}
       my={3}
-      bg="secondary.700"
+      bg={props.backgroundInfo}
       w="80%"
       alignItems="center"
       borderRadius={15}

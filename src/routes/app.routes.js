@@ -12,6 +12,27 @@ import { UserProfile } from '../screens/UserProfile'
 import { OptionsSignUp } from '../screens/OptionsSignUp'
 import { CreateAccount } from '../screens/CreateAccount'
 import { SignIn } from '../screens/SignIn'
+import { CustomHamburguer } from '../components/CustomHamburguer'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+
+const Drawer = createDrawerNavigator()
+function MenuHamburguer() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerTitle: '',
+        drawerActiveTintColor: '#511AC7',
+        headerTintColor: '#511AC7',
+        drawerPosition: 'right',
+        drawerType: 'slide'
+      }}
+      drawerContent={props => <CustomHamburguer {...props.state} />}
+    >
+      <Drawer.Screen name="startPetCare" component={StartPetCare} />
+      <Drawer.Screen name="profileCare" component={ProfileCare} />
+    </Drawer.Navigator>
+  )
+}
 
 const { Navigator, Screen } = createNativeStackNavigator()
 
@@ -21,10 +42,11 @@ export function AppRoutes() {
       <Screen name="signIn" component={SignIn} />
       <Screen name="optionsSignUp" component={OptionsSignUp} />
       <Screen name="createAccount" component={CreateAccount} />
-      <Screen name="startPetCare" component={StartPetCare} />
+      <Screen name="menuHamburguer" component={MenuHamburguer} />
       <Screen name="profileCare" component={ProfileCare} />
       <Screen name="requests" component={Requests} />
       <Screen name="historyCare" component={HistoryCare} />
+      <Screen name="startPetCare" component={StartPetCare} />
       <Screen name="serviceInProgress" component={ServiceInProgress} />
       <Screen name="chat" component={Chat} />
       <Screen name="orderInfo" component={OrderInfo} />

@@ -21,13 +21,13 @@ export function OptionsSignUp() {
   ]
   return (
     <VStack>
-      <ScrollView>
+      <ScrollView bg="white">
         <View position="relative" zIndex={-2}>
           <SliderBox
             disableOnPress
             images={images}
             sliderBoxHeight={552}
-            autoplayInterval={10000}
+            autoplayInterval={8000}
             autoplay
             circleLoop
             dotColor="#FFF"

@@ -1,4 +1,5 @@
 import { NativeBaseProvider, StatusBar, Text } from 'native-base'
+import 'react-native-gesture-handler'
 
 import { THEME } from './src/styles/theme'
 
