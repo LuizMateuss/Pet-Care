@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import { List } from 'phosphor-react-native'
+
 import { Chat } from '../screens/Chat'
 import { HistoryCare } from '../screens/HistoryCare'
 import { OrderInfo } from '../screens/OrderInfo'
@@ -13,7 +15,12 @@ import { OptionsSignUp } from '../screens/OptionsSignUp'
 import { CreateAccount } from '../screens/CreateAccount'
 import { SignIn } from '../screens/SignIn'
 import { CustomHamburguer } from '../components/CustomHamburguer'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import { PetProfile } from '../screens/PetProfile'
+import {
+  createDrawerNavigator,
+  DrawerToggleButton
+} from '@react-navigation/drawer'
+import { TouchableOpacity } from 'react-native'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -21,15 +28,14 @@ function MenuHamburguer() {
     <Drawer.Navigator
       screenOptions={{
         headerTitle: '',
-        drawerActiveTintColor: '#511AC7',
-        headerTintColor: '#511AC7',
+        headerLeft: false,
+        headerRight: () => <DrawerToggleButton tintColor="#511AC7" />,
         drawerPosition: 'right',
-        drawerType: 'slide'
+        drawerType: 'front'
       }}
       drawerContent={props => <CustomHamburguer {...props.state} />}
     >
       <Drawer.Screen name="startPetCare" component={StartPetCare} />
-      <Drawer.Screen name="profileCare" component={ProfileCare} />
     </Drawer.Navigator>
   )
 }
@@ -52,6 +58,7 @@ export function AppRoutes() {
       <Screen name="orderInfo" component={OrderInfo} />
       <Screen name="startService" component={StartService} />
       <Screen name="userProfile" component={UserProfile} />
+      <Screen name="petProfile" component={PetProfile} />
     </Navigator>
   )
 }

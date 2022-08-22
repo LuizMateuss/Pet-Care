@@ -20,13 +20,13 @@ export function OptionsSignUp() {
     require('../../assets/img/dog-bg.png')
   ]
   return (
-    <VStack>
-      <ScrollView bg="white">
+    <View flex={1} bg="white">
+      <ScrollView>
         <View position="relative" zIndex={-2}>
           <SliderBox
             disableOnPress
             images={images}
-            sliderBoxHeight={552}
+            sliderBoxHeight={500}
             autoplayInterval={8000}
             autoplay
             circleLoop
@@ -49,12 +49,13 @@ export function OptionsSignUp() {
             color="secondary.700"
             textAlign="center"
             mx="auto"
+            mb={1}
             w="70%"
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed
-            velit urna. Nam ullamcorper eleifend cursus. Donec in sapien ante.
-            Ut dictum hendrerit justo, ac hendrerit quam volutpat quis. Sed nibh
-            massa, vehicula ac justo in, sollicitudin ullamcorper tortor.
+            Encontre o cuidado ideal para o seu melhor amigo Disponibilizamos
+            serviços para que seu animal de estimação esteja sempre ativo e
+            feliz mesmo durante a semana corrida Junte-se a nós agora para fazer
+            parte da família PetCare.
           </Text>
 
           <VStack>
@@ -63,7 +64,7 @@ export function OptionsSignUp() {
               rounded={60}
               w="70%"
               m="auto"
-              my={3}
+              my={1}
               py={4}
               px={8}
               _pressed={{ opacity: 1 }}
@@ -87,7 +88,7 @@ export function OptionsSignUp() {
               rounded={60}
               w="70%"
               m="auto"
-              my={3}
+              my={1}
               py={4}
               px={8}
               _pressed={{ opacity: 1 }}
@@ -118,6 +119,6 @@ export function OptionsSignUp() {
           />
         </VStack>
       </ScrollView>
-    </VStack>
+    </View>
   )
 }

@@ -21,10 +21,12 @@ export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
   const { isCare } = route.params
+
+  const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <CaretLeft size={26} color={isCare ? '#00ABBC' : '#511AC7'} />
+        <CaretLeft size={26} color={mainColor} />
       </TouchableOpacity>
 
       <HStack alignItems="center" mx="auto" mb={4}>
@@ -33,18 +35,10 @@ export function ProfileCare({ route }) {
           source={require('../../assets/img/anonymous.png')}
         />
         <VStack ml={5}>
-          <Text
-            fontWeight="black"
-            fontSize={20}
-            color={isCare ? '#00ABBC' : '#511AC7'}
-          >
+          <Text fontWeight="black" fontSize={20} color={mainColor}>
             Nome Usuário
           </Text>
-          <Text
-            fontWeight="black"
-            fontSize={15}
-            color={isCare ? '#00ABBC' : '#511AC7'}
-          >
+          <Text fontWeight="black" fontSize={15} color={mainColor}>
             Editar perfil
           </Text>
         </VStack>
@@ -52,7 +46,7 @@ export function ProfileCare({ route }) {
 
       <View
         borderBottomWidth={1}
-        borderColor={isCare ? '#00ABBC' : '#511AC7'}
+        borderColor={mainColor}
         w="70%"
         m="auto"
         my={2}
@@ -62,20 +56,21 @@ export function ProfileCare({ route }) {
         icon={<MapPin size={26} color="#FFFFFF" />}
         title="Endereço"
         info="Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP."
-        backgroundInfo={isCare ? '#00ABBC' : '#511AC7'}
+        backgroundInfo={mainColor}
       />
       <ProfileInfo
         icon={<User size={26} color="#FFFFFF" />}
         title="Dados pessoais"
         info="Nome Completo: XXXXXXXX Data de nascimento: XX/XX/XXXX"
-        backgroundInfo={isCare ? '#00ABBC' : '#511AC7'}
+        backgroundInfo={mainColor}
       />
 
       <View mt={20}>
         <ButtonMain
           title="Logout"
           color={'transparent'}
-          colorText={isCare ? '#00ABBC' : '#511AC7'}
+          colorText={mainColor}
+          nextPage={() => navigation.navigate('signIn')}
         />
       </View>
     </ScrollView>
