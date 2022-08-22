@@ -1,10 +1,10 @@
 import { View, TextInput, StyleSheet, Dimensions } from 'react-native'
-
 import { PaperPlaneRight, Camera } from 'phosphor-react-native'
 
 export function InputMessage() {
   return (
     <View style={styles.inputContainer}>
+
       <View style={styles.chatInputView}>
         <View style={[styles.chatIcon, styles.cameraIcon]}>
           <Camera size={32} color="#ffffff" />
@@ -15,9 +15,11 @@ export function InputMessage() {
           placeholderTextColor="#000000"
         />
       </View>
+
       <View style={styles.chatIcon}>
         <PaperPlaneRight size={32} color="#ffffff" />
       </View>
+
     </View>
   )
 }

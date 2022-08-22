@@ -9,7 +9,9 @@ export function Chat() {
 
   return (
     <ScrollView style={styles.container}>
+
       <View style={styles.mobile}>
+        
         <View style={styles.chatHeader}>
           <X size={25} color="#ffffff" />
           <View style={{ alignItems: 'center'}}>
@@ -18,23 +20,22 @@ export function Chat() {
             </View> 
           </View>
         </View>
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.chatMessages}>
             <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={true}/>
             <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={false}/>
             <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={true}/>
             <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={true}/>
-          </View>
-          
+          </View>         
         </ScrollView>
+
         <View>
-          <InputMessage/>
-            
+          <InputMessage/>            
         </View>
-      </View>
-      
-    </ScrollView>
-    
+        
+      </View>     
+    </ScrollView>    
   )
 }
 

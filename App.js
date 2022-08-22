@@ -27,7 +27,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <UserProfile /> : Loading}
+      {fontsLoaded ? <Chat /> : Loading}
     </NativeBaseProvider>
   )
 }
