@@ -1,8 +1,8 @@
 
 import { ChatDots, X, Camera, PaperPlaneRight } from 'phosphor-react-native'
 import { View, StyleSheet, Text, ScrollView, Dimensions, TextInput } from 'react-native'
-import { InputMessage } from '../components/InputMessage'
-import { Message } from '../components/Message'
+import { InputMessage } from '../components/chat/InputMessage'
+import { Message } from '../components/chat/Message'
 
 
 export function Chat() {

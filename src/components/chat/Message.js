@@ -12,7 +12,7 @@ export function Message(props) {
         <>
           <Image
             style={styles.userImageChatReply}
-            source={require('../../assets/img/anonymous.png')}
+            source={require('../../../assets/img/anonymous.png')}
           />
 
           <View style={styles.userMessageReply}>
@@ -27,7 +27,7 @@ export function Message(props) {
 
           <Image
             style={styles.userImageChatReply}
-            source={require('../../assets/img/anonymous.png')}
+            source={require('../../../assets/img/anonymous.png')}
           />
         </>
       )}
