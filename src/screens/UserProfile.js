@@ -14,7 +14,7 @@ import { ServiceButton } from '../components/ServiceButton'
 
 import { useNavigation } from '@react-navigation/native'
 import { AvaliationCard } from '../components/AvaliationCard'
-import { RatingBar } from '../components/ratingStar'
+import { RatingBar } from '../components/RatingStar'
 
 export function UserProfile({ route }) {
   const { isCare } = route.params

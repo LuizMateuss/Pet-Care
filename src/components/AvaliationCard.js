@@ -1,5 +1,5 @@
 import { HStack, VStack, Text, Image, View } from 'native-base'
-import { RatingBar } from './ratingStar'
+import { RatingBar } from './RatingStar'
 
 export function AvaliationCard(props) {
   return (

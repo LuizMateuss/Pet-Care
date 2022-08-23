@@ -21,6 +21,7 @@ import {
   DrawerToggleButton
 } from '@react-navigation/drawer'
 import { TouchableOpacity } from 'react-native'
+import { SearchLocalization } from '../screens/SearchLocalization'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -59,6 +60,7 @@ export function AppRoutes() {
       <Screen name="startService" component={StartService} />
       <Screen name="userProfile" component={UserProfile} />
       <Screen name="petProfile" component={PetProfile} />
+      <Screen name="searchLocalization" component={SearchLocalization} />
     </Navigator>
   )
 }

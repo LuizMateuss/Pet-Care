@@ -73,7 +73,9 @@ export function StartPetCare({ route }) {
                 title="Passeio"
                 color={colors.primary[700]}
                 colorText={colors.white}
-                nextPage={() => navigation.navigate('profileCare', { isCare })}
+                nextPage={() =>
+                  navigation.navigate('searchLocalization', { isCare })
+                }
               />
             </View>
           )}
