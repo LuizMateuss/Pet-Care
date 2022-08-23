@@ -22,6 +22,7 @@ import {
 } from '@react-navigation/drawer'
 import { TouchableOpacity } from 'react-native'
 import { SearchLocalization } from '../screens/SearchLocalization'
+import { SearchPetCare } from '../screens/SearchPetCare'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -61,6 +62,7 @@ export function AppRoutes() {
       <Screen name="userProfile" component={UserProfile} />
       <Screen name="petProfile" component={PetProfile} />
       <Screen name="searchLocalization" component={SearchLocalization} />
+      <Screen name="searchPetCare" component={SearchPetCare} />
     </Navigator>
   )
 }

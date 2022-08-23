@@ -73,6 +73,7 @@ export function SearchLocalization({ route }) {
             title="Achar um cuidador"
             color="#511AC7"
             colorText="white"
+            nextPage={() => navigation.navigate('searchPetCare', { isCare })}
           />
         </VStack>
       </ScrollView>
