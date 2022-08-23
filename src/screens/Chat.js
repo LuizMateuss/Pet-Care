@@ -23,10 +23,7 @@ export function Chat() {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.chatMessages}>
-            <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={true}/>
-            <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={false}/>
-            <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={true}/>
-            <Message message='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!' reply={true}/>
+            <Message message='Lorem ipsum' reply={true}/>
           </View>         
         </ScrollView>
 

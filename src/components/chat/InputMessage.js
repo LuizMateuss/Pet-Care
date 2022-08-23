@@ -1,7 +1,9 @@
 import { View, TextInput, StyleSheet, Dimensions } from 'react-native'
 import { PaperPlaneRight, Camera } from 'phosphor-react-native'
+import { useState } from 'react'
 
 export function InputMessage() {
+  const [message, setMessage] = useState('')
   return (
     <View style={styles.inputContainer}>
 
@@ -10,6 +12,17 @@ export function InputMessage() {
           <Camera size={32} color="#ffffff" />
         </View>
         <TextInput
+          value={message}
+          onChange={(event)=>{
+            const value = event.target.value
+            setMessage(value)
+            console.log({value})
+          }}
+          onKeypress={(event)=>{
+            if(event.key === 'Enter'){
+              console.log({event})
+            }
+          }}
           style={styles.chatInput}
           placeholder="Envie sua menssagem..."
           placeholderTextColor="#000000"
