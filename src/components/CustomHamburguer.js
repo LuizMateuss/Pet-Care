@@ -64,6 +64,7 @@ export function CustomHamburguer(props) {
           title="Logout"
           color={'transparent'}
           colorText={colors.primary[700]}
+          nextPage={() => navigation.navigate('signIn')}
         />
       </View>
     </VStack>
