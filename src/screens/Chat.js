@@ -13,9 +13,9 @@ import { Message } from '../components/Message'
 
 import { useNavigation } from '@react-navigation/native'
 
-export function Chat() {
+export function Chat({ route }) {
   const navigation = useNavigation()
-
+  const { isCare } = route.params
   return (
     <ScrollView style={styles.container}>
       <View style={styles.mobile}>

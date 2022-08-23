@@ -33,13 +33,13 @@ const ModalCancel = ({ visible, children, ...props }) => {
   )
 }
 
-export function StartService() {
+export function StartService({ route }) {
   const { colors } = useTheme()
   const [visible, setVisible] = useState(false)
   const navigation = useNavigation()
-
+  const { isCare } = route.params
   function cancelService() {
-    navigation.navigate('startPetCare')
+    navigation.navigate('startPetCare', { isCare })
     setVisible(false)
   }
   return (
@@ -120,12 +120,14 @@ export function StartService() {
           <ServiceButton
             title="Começar serviço"
             color={colors.cyan[700]}
-            nextPage={() => navigation.navigate('serviceInProgress')}
+            nextPage={() =>
+              navigation.navigate('serviceInProgress', { isCare })
+            }
           />
           <ServiceButton
             title="Chat"
             color={colors.secondary[700]}
-            nextPage={() => navigation.navigate('chat')}
+            nextPage={() => navigation.navigate('chat', { isCare })}
           />
           <ButtonNativeBase
             borderWidth={1}

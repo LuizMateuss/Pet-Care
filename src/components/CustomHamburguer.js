@@ -54,7 +54,7 @@ export function CustomHamburguer(props) {
         color={colors.primary[700]}
         colorText={colors.white}
         nextPage={() =>
-          navigation.navigate('profileCare', {
+          navigation.navigate('serviceInProgress', {
             isCare
           })
         }
