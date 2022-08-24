@@ -15,6 +15,8 @@ import { PawPrint } from 'phosphor-react-native'
 
 import { ServiceButton } from '../components/ServiceButton'
 
+import { useNavigation } from '@react-navigation/native'
+
 const ModalCancel = ({ visible, children, ...props }) => {
   const { colors } = useTheme()
   const [showModal, setShowModal] = useState(props.visible)
@@ -31,11 +33,20 @@ const ModalCancel = ({ visible, children, ...props }) => {
   )
 }
 
-export function StartService() {
+export function StartService({ route }) {
   const { colors } = useTheme()
   const [visible, setVisible] = useState(false)
+  const mainColor = isCare ? '#00ABBC' : '#511AC7'
+  const navigation = useNavigation()
+  const { isCare } = route.params
+  function cancelService() {
+    isCare
+      ? navigation.navigate('startPetCare', { isCare })
+      : navigation.navigate('searchLocalization', { isCare })
+    setVisible(false)
+  }
   return (
-    <VStack pb={12}>
+    <VStack pb={12} bg="white">
       <HStack
         position="absolute"
         zIndex={1}
@@ -46,7 +57,7 @@ export function StartService() {
         pb={8}
         rounded={20}
       >
-        <Text bg="secondary.700" p={8} rounded={20} color="white">
+        <Text bg={mainColor} p={8} rounded={20} color="white">
           Localização do Serviço
         </Text>
       </HStack>
@@ -67,15 +78,9 @@ export function StartService() {
         px={5}
         rounded={20}
       >
-        <VStack
-          bg="secondary.700"
-          py={5}
-          rounded={20}
-          alignItems="center"
-          w="100%"
-        >
-          <View p={4} rounded={40} bg="white">
-            <PawPrint size={25} color="#00ABBC" />
+        <VStack bg={mainColor} py={5} rounded={20} alignItems="center" w="100%">
+          <View p={4} rounded={40} mb={2} bg="white">
+            <PawPrint size={25} color={mainColor} />
           </View>
           <Text color="white">Data: 14/06/2022</Text>
           <Text color="white">Hora de início: 20:29</Text>
@@ -90,7 +95,11 @@ export function StartService() {
             <Text style={[styles.textStyle, { fontSize: 15 }]}>
               *Punições poderão ser aplicadas segundo os termos de serviço
             </Text>
-            <ServiceButton title="Sim" color={colors.cyan[700]} />
+            <ServiceButton
+              title="Sim"
+              color={colors.cyan[700]}
+              nextPage={cancelService}
+            />
             <ButtonNativeBase
               borderWidth={1}
               borderColor={colors.red[700]}
@@ -105,8 +114,23 @@ export function StartService() {
           </View>
         </ModalCancel>
         <VStack mt={4}>
-          <ServiceButton title="Começar serviço" color={colors.cyan[700]} />
-          <ServiceButton title="Chat" color={colors.secondary[700]} />
+          {isCare ? (
+            <ServiceButton
+              title="Começar serviço"
+              color={colors.cyan[700]}
+              nextPage={() =>
+                navigation.navigate('serviceInProgress', { isCare })
+              }
+            />
+          ) : (
+            <></>
+          )}
+
+          <ServiceButton
+            title="Chat"
+            color={mainColor}
+            nextPage={() => navigation.navigate('chat', { isCare })}
+          />
           <ButtonNativeBase
             borderWidth={1}
             borderColor={colors.red[700]}

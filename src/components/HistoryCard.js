@@ -12,6 +12,8 @@ import {
 import { StyleSheet, Modal, TouchableOpacity } from 'react-native'
 import { CaretLeft } from 'phosphor-react-native'
 
+import { useNavigation } from '@react-navigation/native'
+
 const ModalRating = ({ visible, children, ...props }) => {
   const { colors } = useTheme()
   const [showModal, setShowModal] = useState(props.visible)
@@ -33,8 +35,14 @@ const ModalRating = ({ visible, children, ...props }) => {
 export function HistoryCard(props) {
   const [visible, setVisible] = useState(false)
 
-  const [defaultRating, setDefaultRating] = useState(2)
+  const { isCare } = props
+  const mainColor = isCare ? '#00ABBC' : '#511AC7'
+  const reverseMainColor = isCare ? '#511AC7' : '#00ABBC'
+
+  const [defaultRating, setDefaultRating] = useState(5)
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
+
+  const navigation = useNavigation()
 
   const RatingBar = () => {
     return (
@@ -65,15 +73,15 @@ export function HistoryCard(props) {
   return (
     <VStack
       borderWidth={1}
-      borderColor="secondary.700"
+      borderColor={mainColor}
       borderRadius={40}
       w="90%"
       mx="auto"
       my={5}
     >
-      <VStack borderTopRadius={40} alignItems="center" bg="secondary.700" p={4}>
+      <VStack borderTopRadius={40} alignItems="center" bg={mainColor} p={4}>
         <Image
-          alt="Image tutor"
+          alt="Imagem tutor"
           style={styles.imageUser}
           source={props.image}
         />
@@ -81,38 +89,36 @@ export function HistoryCard(props) {
           {props.name}
         </Text>
       </VStack>
-      <View m="auto" style={styles.shape}>
-        <View style={styles.shapeBg}></View>
-      </View>
+
       <VStack p={4}>
         <Text
           textAlign="center"
           fontWeight="black"
           fontSize={18}
-          color="secondary.700"
+          color={mainColor}
         >
           Detalhes do serviço
         </Text>
         <HStack justifyContent="space-between" mx={4}>
           <VStack>
-            <Text fontWeight="black" fontSize={14} color="secondary.700">
+            <Text fontWeight="black" fontSize={14} color={mainColor}>
               Tipo
             </Text>
-            <Text fontWeight="black" fontSize={14} color="secondary.700">
+            <Text fontWeight="black" fontSize={14} color={mainColor}>
               Data
             </Text>
-            <Text fontWeight="black" fontSize={14} color="secondary.700">
+            <Text fontWeight="black" fontSize={14} color={mainColor}>
               Valor
             </Text>
           </VStack>
           <VStack>
-            <Text fontWeight="black" fontSize={14} color="secondary.700">
+            <Text fontWeight="black" fontSize={14} color={mainColor}>
               {props.typeService}
             </Text>
-            <Text fontWeight="black" fontSize={14} color="secondary.700">
+            <Text fontWeight="black" fontSize={14} color={mainColor}>
               {props.dateService}
             </Text>
-            <Text fontWeight="black" fontSize={14} color="secondary.700">
+            <Text fontWeight="black" fontSize={14} color={mainColor}>
               R${props.valueService}
             </Text>
           </VStack>
@@ -121,10 +127,15 @@ export function HistoryCard(props) {
       <HStack
         p={2}
         justifyContent="space-between"
-        bg="secondary.700"
+        bg={mainColor}
         borderBottomRadius={40}
       >
-        <Button bg="transparent" _pressed={{ bg: 'transparent' }} ml={6}>
+        <Button
+          bg="transparent"
+          _pressed={{ bg: 'transparent' }}
+          ml={6}
+          onPress={() => navigation.navigate('userProfile', { isCare })}
+        >
           <Text fontWeight="black" fontSize={16} color="white">
             {props.isCare ? 'Perfil do tutor' : 'Perfil do cuidador'}
           </Text>
@@ -142,7 +153,9 @@ export function HistoryCard(props) {
       </HStack>
       <ModalRating visible={visible}>
         <View style={styles.modalCard}>
-          <CaretLeft size={26} color="#511AC7" />
+          <TouchableOpacity onPress={() => setVisible(false)}>
+            <CaretLeft size={26} color="#511AC7" />
+          </TouchableOpacity>
           <VStack alignItems="center">
             <Image
               mb={5}
@@ -162,7 +175,7 @@ export function HistoryCard(props) {
             borderColor="transparent"
           />
         </View>
-        <VStack borderBottomRadius={20} w="90%" p="5" bg="primary.700">
+        <VStack borderBottomRadius={20} w="90%" p="5" bg={reverseMainColor}>
           <Text
             textAlign="center"
             fontWeight="black"
@@ -184,22 +197,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50
   },
-  shape: {
-    overflow: 'hidden',
-    height: 25,
 
-    borderBottomEndRadius: 50,
-    borderBottomLeftRadius: 50,
-
-    backgroundColor: 'transparent',
-    transform: [{ scaleX: 7 }]
-  },
-  shapeBg: {
-    backgroundColor: '#00ABBC',
-    width: 50,
-    height: 50,
-    transform: [{ scaleX: 7 }]
-  },
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(217,217,217,0.8)',

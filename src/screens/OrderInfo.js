@@ -10,7 +10,10 @@ import {
 import { MapPin } from 'phosphor-react-native'
 import { ServiceButton } from '../components/ServiceButton'
 
+import { useNavigation } from '@react-navigation/native'
+
 export function OrderInfo() {
+  const navigation = useNavigation()
   return (
     <VStack mt={8}>
       <ScrollView>
@@ -117,7 +120,11 @@ export function OrderInfo() {
                 <Text color="white">Recusar</Text>
               </Button>
             </HStack>
-            <ServiceButton color="white" title="Voltar" />
+            <ServiceButton
+              color="white"
+              title="Voltar"
+              nextPage={() => navigation.goBack()}
+            />
           </VStack>
         </VStack>
       </ScrollView>

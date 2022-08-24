@@ -2,21 +2,29 @@ import { HStack, VStack, View, Text, ScrollView } from 'native-base'
 import { Header } from '../components/Header'
 import { HistoryCard } from '../components/HistoryCard'
 
-export function HistoryCare() {
+export function HistoryCare({ route }) {
+  const { isCare } = route.params
+  const mainColor = isCare ? '#00ABBC' : '#511AC7'
+
   return (
     <VStack>
-      <ScrollView>
-        <Header title="Histórico" color="#00ABBC" />
+      <Header
+        title={isCare ? 'Histórico' : 'Histórico do serviço'}
+        color={mainColor}
+      />
 
-        <HistoryCard
-          name="Nome tutor"
-          image={require('../../assets/img/anonymous.png')}
-          typeService="Hospedagem"
-          dateService="11/08/2022"
-          valueService={70}
-          isCare={true}
-        />
-      </ScrollView>
+      <View>
+        <ScrollView mb="60%">
+          <HistoryCard
+            name={isCare ? 'Nome tutor' : 'Nome cuidador'}
+            image={require('../../assets/img/anonymous.png')}
+            typeService="Hospedagem"
+            dateService="11/08/2022"
+            valueService={70}
+            isCare={isCare}
+          />
+        </ScrollView>
+      </View>
     </VStack>
   )
 }

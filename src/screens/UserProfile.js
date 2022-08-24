@@ -8,37 +8,28 @@ import {
   Button
 } from 'native-base'
 import { Info, MapPin } from 'phosphor-react-native'
-import { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
 
 import { Header } from '../components/Header'
 import { ServiceButton } from '../components/ServiceButton'
 
-export function UserProfile() {
-  const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
-  const RatingBar = () => {
-    return (
-      <HStack>
-        {maxRating.map((item, key) => {
-          return (
-            <TouchableOpacity activeOpacity={0.7} key={item}>
-              <Image
-                w={15}
-                h={15}
-                mx={1}
-                alt="Estrelas de avaliação"
-                source={require('../../assets/img/star_filled.png')}
-              />
-            </TouchableOpacity>
-          )
-        })}
-      </HStack>
-    )
-  }
+import { useNavigation } from '@react-navigation/native'
+import { AvaliationCard } from '../components/AvaliationCard'
+import { RatingBar } from '../components/RatingStar'
+
+export function UserProfile({ route }) {
+  const { isCare } = route.params
+
+  const mainColor = isCare ? '#511AC7' : '#00ABBC'
+
+  const navigation = useNavigation()
+
   return (
     <VStack>
-      <Header title="Perfil do tutor" color="#511AC7" />
-      <VStack bg="primary.700" p={5} alignItems="center">
+      <Header
+        title={isCare ? 'Perfil do tutor' : 'Perfil do cuidador'}
+        color={mainColor}
+      />
+      <VStack bg={mainColor} p={5} alignItems="center">
         <Image
           w={100}
           h={100}
@@ -48,7 +39,7 @@ export function UserProfile() {
           source={require('../../assets/img/anonymous.png')}
         />
         <Text mb={1} fontWeight="black" fontSize={16} color="white">
-          Nome tutor
+          {isCare ? 'Nome tutor' : 'Nome cuidador'}
         </Text>
         <RatingBar />
         <HStack mt={2}>
@@ -58,13 +49,7 @@ export function UserProfile() {
           </Text>
         </HStack>
       </VStack>
-      <VStack
-        alignItems="center"
-        m={5}
-        borderRadius={20}
-        bg="primary.700"
-        px={4}
-      >
+      <VStack alignItems="center" m={5} borderRadius={20} bg={mainColor} px={4}>
         <HStack mt={2}>
           <Info size={24} color="#FFFFFF" />
           <Text ml={5} fontSize={14} color="white">
@@ -77,9 +62,36 @@ export function UserProfile() {
           dictum hendrerit justo, ac hendrerit quam volutpat quis.{' '}
         </Text>
       </VStack>
-      <View w="40%" m="auto">
-        <ServiceButton title="Chat" color="primary.700" />
-      </View>
+      {isCare ? (
+        <View w="40%" m="auto">
+          <ServiceButton
+            title="Chat"
+            color={mainColor}
+            nextPage={() => navigation.navigate('chat', isCare)}
+          />
+        </View>
+      ) : (
+        <VStack>
+          <Text
+            textAlign="center"
+            fontWeight="black"
+            fontSize={18}
+            color="secondary.700"
+          >
+            Avaliações recentes deste cuidador
+          </Text>
+          <View h="50%">
+            <ScrollView>
+              <AvaliationCard
+                avaliationDescription="Foi minha primeira experiência em deixar meu filhote para eu poder
+        viajar, e posso garantir que foi incrível, pois, ele ficou em excelentes
+        mãos."
+              />
+              <AvaliationCard avaliationDescription="Foi a primeira vez que eu deixei o Ozzy com alguém. O cuidador foi incrível em sempre me mandar fotos e vídeos dele pra eu saber que tava tudo bem. Deu tudo certo! Com certeza recomendo ;)" />
+            </ScrollView>
+          </View>
+        </VStack>
+      )}
     </VStack>
   )
 }
