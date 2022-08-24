@@ -24,6 +24,7 @@ export function Chat() {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.chatMessages}>
             <Message message='Lorem ipsum' reply={true}/>
+            <Message message='Lorem ipsum' reply={false}/>
           </View>         
         </ScrollView>
 

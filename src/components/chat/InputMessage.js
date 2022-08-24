@@ -14,14 +14,8 @@ export function InputMessage() {
         <TextInput
           value={message}
           onChange={(event)=>{
-            const value = event.target.value
+            const value = event.nativeEvent.text
             setMessage(value)
-            console.log({value})
-          }}
-          onKeypress={(event)=>{
-            if(event.key === 'Enter'){
-              console.log({event})
-            }
           }}
           style={styles.chatInput}
           placeholder="Envie sua menssagem..."
@@ -29,7 +23,11 @@ export function InputMessage() {
         />
       </View>
 
-      <View style={styles.chatIcon}>
+      <View style={styles.chatIcon}
+        onTouchEnd={()=>{
+            console.warn({message})
+      }}
+      >
         <PaperPlaneRight size={32} color="#ffffff" />
       </View>
 
