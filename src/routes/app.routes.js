@@ -23,6 +23,7 @@ import {
 import { TouchableOpacity } from 'react-native'
 import { SearchLocalization } from '../screens/SearchLocalization'
 import { SearchPetCare } from '../screens/SearchPetCare'
+import { ContractService } from '../screens/ContractService'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -63,6 +64,7 @@ export function AppRoutes() {
       <Screen name="petProfile" component={PetProfile} />
       <Screen name="searchLocalization" component={SearchLocalization} />
       <Screen name="searchPetCare" component={SearchPetCare} />
+      <Screen name="contractService" component={ContractService} />
     </Navigator>
   )
 }

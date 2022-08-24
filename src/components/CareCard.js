@@ -30,7 +30,12 @@ export function CareCard(props) {
         </View>
       </HStack>
       <TouchableOpacity>
-        <Button borderRadius={100} bg="primary.700" p={3}>
+        <Button
+          borderRadius={100}
+          bg="primary.700"
+          p={3}
+          onPress={props.nextPage}
+        >
           <List size={24} color="#FFF" />
         </Button>
       </TouchableOpacity>

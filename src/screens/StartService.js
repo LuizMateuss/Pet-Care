@@ -36,6 +36,7 @@ const ModalCancel = ({ visible, children, ...props }) => {
 export function StartService({ route }) {
   const { colors } = useTheme()
   const [visible, setVisible] = useState(false)
+  const mainColor = isCare ? '#00ABBC' : '#511AC7'
   const navigation = useNavigation()
   const { isCare } = route.params
   function cancelService() {
@@ -43,7 +44,7 @@ export function StartService({ route }) {
     setVisible(false)
   }
   return (
-    <VStack pb={12}>
+    <VStack pb={12} bg="white">
       <HStack
         position="absolute"
         zIndex={1}
@@ -54,7 +55,7 @@ export function StartService({ route }) {
         pb={8}
         rounded={20}
       >
-        <Text bg="secondary.700" p={8} rounded={20} color="white">
+        <Text bg={mainColor} p={8} rounded={20} color="white">
           Localização do Serviço
         </Text>
       </HStack>
@@ -75,15 +76,9 @@ export function StartService({ route }) {
         px={5}
         rounded={20}
       >
-        <VStack
-          bg="secondary.700"
-          py={5}
-          rounded={20}
-          alignItems="center"
-          w="100%"
-        >
-          <View p={4} rounded={40} bg="white">
-            <PawPrint size={25} color="#00ABBC" />
+        <VStack bg={mainColor} py={5} rounded={20} alignItems="center" w="100%">
+          <View p={4} rounded={40} mb={2} bg="white">
+            <PawPrint size={25} color={mainColor} />
           </View>
           <Text color="white">Data: 14/06/2022</Text>
           <Text color="white">Hora de início: 20:29</Text>
@@ -117,16 +112,21 @@ export function StartService({ route }) {
           </View>
         </ModalCancel>
         <VStack mt={4}>
-          <ServiceButton
-            title="Começar serviço"
-            color={colors.cyan[700]}
-            nextPage={() =>
-              navigation.navigate('serviceInProgress', { isCare })
-            }
-          />
+          {isCare ? (
+            <ServiceButton
+              title="Começar serviço"
+              color={colors.cyan[700]}
+              nextPage={() =>
+                navigation.navigate('serviceInProgress', { isCare })
+              }
+            />
+          ) : (
+            <></>
+          )}
+
           <ServiceButton
             title="Chat"
-            color={colors.secondary[700]}
+            color={mainColor}
             nextPage={() => navigation.navigate('chat', { isCare })}
           />
           <ButtonNativeBase

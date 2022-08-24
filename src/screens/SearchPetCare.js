@@ -1,7 +1,11 @@
 import { View, VStack, Text, ScrollView } from 'native-base'
 import { CareCard } from '../components/CareCard'
 
-export function SearchPetCare() {
+import { useNavigation } from '@react-navigation/native'
+
+export function SearchPetCare({ route }) {
+  const navigation = useNavigation()
+  const { isCare } = route.params
   return (
     <View flex={1} pt={10} bg="white">
       <VStack>
@@ -27,7 +31,11 @@ export function SearchPetCare() {
         </View>
         <View h="80%">
           <ScrollView>
-            <CareCard />
+            <CareCard
+              nextPage={() =>
+                navigation.navigate('contractService', { isCare })
+              }
+            />
             <CareCard />
             <CareCard />
             <CareCard />
