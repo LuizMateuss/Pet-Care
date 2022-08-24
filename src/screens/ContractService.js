@@ -79,7 +79,7 @@ export function ContractService({ route }) {
           />
         </View>
         <View w="40%" mx={2}>
-          <ServiceButton title="Sim" color="#BC0000" />
+          <ServiceButton title="Não" color="#BC0000" />
         </View>
       </HStack>
     </View>

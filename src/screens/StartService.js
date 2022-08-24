@@ -40,7 +40,9 @@ export function StartService({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
   function cancelService() {
-    navigation.navigate('startPetCare', { isCare })
+    isCare
+      ? navigation.navigate('startPetCare', { isCare })
+      : navigation.navigate('searchLocalization', { isCare })
     setVisible(false)
   }
   return (
