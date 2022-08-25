@@ -1,13 +1,6 @@
 import { ChatDots, X, Camera, PaperPlaneRight } from 'phosphor-react-native'
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  Dimensions,
-  TextInput,
-  TouchableOpacity
-} from 'react-native'
+import { StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { View, ScrollView } from 'native-base'
 import { InputMessage } from '../components/InputMessage'
 import { Message } from '../components/Message'
 
@@ -16,72 +9,55 @@ import { useNavigation } from '@react-navigation/native'
 export function Chat({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
+  const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.mobile}>
-        <View style={styles.chatHeader}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <X size={25} color="#ffffff" />
-          </TouchableOpacity>
-          <View style={{ alignItems: 'center' }}>
-            <View style={styles.chatIcon}>
-              <ChatDots size={25} color="#00ABBC" />
+    <View flex={1} bg="white">
+      <ScrollView m={15} mt={30} bg="white">
+        <View
+          borderRadius={20}
+          borderWidth={0.5}
+          borderColor={mainColor}
+          h={Dimensions.get('screen').height * 0.85}
+        >
+          <View bg={mainColor} borderRadius={20} p={10}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <X size={25} color="#ffffff" />
+            </TouchableOpacity>
+            <View alignItems="center">
+              <View bg="white" borderRadius={40} p={5}>
+                <ChatDots size={25} color={mainColor} />
+              </View>
             </View>
           </View>
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.chatMessages}>
-            <Message
-              message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
-              reply={true}
-            />
-            <Message
-              message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
-              reply={false}
-            />
-            <Message
-              message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
-              reply={true}
-            />
-            <Message
-              message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
-              reply={true}
-            />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View m="auto">
+              <Message
+                message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
+                reply={true}
+                isCare={isCare}
+              />
+              <Message
+                message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
+                reply={false}
+                isCare={isCare}
+              />
+              <Message
+                message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
+                reply={true}
+                isCare={isCare}
+              />
+              <Message
+                message="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, unde velit, omnis beatae distinctio porro ut vel repellendus dolor, quod voluptatibus voluptatem veniam maxime quisquam. Eveniet numquam veritatis iste incidunt!"
+                reply={true}
+                isCare={isCare}
+              />
+            </View>
+          </ScrollView>
+          <View>
+            <InputMessage isCare={isCare} />
           </View>
-        </ScrollView>
-        <View>
-          <InputMessage />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 15,
-    marginTop: 30,
-    backgroundColor: '#FFFFFF'
-  },
-  chatHeader: {
-    backgroundColor: '#00ABBC',
-    borderRadius: 20,
-    padding: 20
-  },
-  chatMessages: {
-    padding: 20
-  },
-  chatIcon: {
-    borderRadius: 40,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    alignItems: 'center'
-  },
-  mobile: {
-    borderRadius: 20,
-    borderColor: '#00ABBC',
-    borderWidth: 0.5,
-    height: Dimensions.get('screen').height * 0.85
-  }
-})

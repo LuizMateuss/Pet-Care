@@ -1,62 +1,50 @@
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
-import { User } from 'phosphor-react-native'
+import { Text, View, Image, HStack } from 'native-base'
 
-// type Props = {
-//   message: string;
-//   reply: boolean;
-// }
 export function Message(props) {
+  const mainColor = props.isCare ? '#00ABBC' : '#511AC7'
   return (
-    <View style={styles.message}>
+    <HStack mt={10} justifyContent="center">
       {props.reply ? (
         <>
           <Image
-            style={styles.userImageChatReply}
+            alt="Foto usuário"
+            borderRadius={50}
             source={require('../../assets/img/anonymous.png')}
           />
 
-          <View style={styles.userMessageReply}>
+          <View
+            bg={mainColor}
+            p={4}
+            w="70%"
+            ml={4}
+            borderTopRightRadius={20}
+            borderBottomLeftRadius={20}
+            borderBottomRightRadius={20}
+          >
             <Text style={{ color: '#ffffff' }}>{props.message}</Text>
           </View>
         </>
       ) : (
         <>
-          <View style={[styles.userMessageReply, styles.userMessage]}>
+          <View
+            bg={mainColor}
+            p={4}
+            w="70%"
+            mr={4}
+            borderBottomLeftRadius={20}
+            borderBottomRightRadius={20}
+            borderTopLeftRadius={20}
+          >
             <Text style={{ color: '#ffffff' }}>{props.message}</Text>
           </View>
 
           <Image
-            style={styles.userImageChatReply}
+            alt="Foto usuário"
+            borderRadius={50}
             source={require('../../assets/img/anonymous.png')}
           />
         </>
       )}
-    </View>
+    </HStack>
   )
 }
-
-const styles = StyleSheet.create({
-  message: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 25
-  },
-  userImageChatReply: {
-    borderRadius: 50
-  },
-  userMessageReply: {
-    backgroundColor: '#00ABBC',
-    padding: 10,
-    width: Dimensions.get('window').width * 0.6,
-    marginLeft: 15,
-    borderTopRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20
-  },
-  userMessage: {
-    borderTopRightRadius: 0,
-    marginRight: 15,
-    borderTopLeftRadius: 20,
-    marginLeft: 0
-  }
-})
