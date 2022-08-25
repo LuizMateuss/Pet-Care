@@ -1,53 +1,35 @@
-import { View, TextInput, StyleSheet, Dimensions } from 'react-native'
+import { View, Input, HStack } from 'native-base'
 
 import { PaperPlaneRight, Camera } from 'phosphor-react-native'
 
-export function InputMessage() {
+export function InputMessage(props) {
+  const mainColor = props.isCare ? '#00ABBC' : '#511AC7'
   return (
-    <View style={styles.inputContainer}>
-      <View style={styles.chatInputView}>
-        <View style={[styles.chatIcon, styles.cameraIcon]}>
-          <Camera size={32} color="#ffffff" />
+    <HStack alignItems="center" justifyContent="center" py={4} m="auto">
+      <View w="70%">
+        <View
+          bg={mainColor}
+          borderWidth={1}
+          borderColor={mainColor}
+          borderRadius={50}
+          p={3}
+          position="absolute"
+        >
+          <Camera size={28} color="#ffffff" />
         </View>
-        <TextInput
-          style={styles.chatInput}
-          placeholder="Envie sua menssagem..."
-          placeholderTextColor="#000000"
+        <Input
+          bg="transparent"
+          p={3}
+          borderRadius={50}
+          borderColor={mainColor}
+          borderWidth={1}
+          pl={20}
+          placeholder="Envie sua mensagem..."
         />
       </View>
-      <View style={styles.chatIcon}>
-        <PaperPlaneRight size={32} color="#ffffff" />
+      <View bg={mainColor} borderRadius={50} p={3} ml={2}>
+        <PaperPlaneRight size={28} color="#fff" />
       </View>
-    </View>
+    </HStack>
   )
 }
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    margin: 10,
-    justifyContent: 'center'
-  },
-  chatInputView: {
-    width: Dimensions.get('screen').width * 0.7
-  },
-  chatInput: {
-    backgroundColor: 'transparent',
-    borderColor: '#00ABBC',
-    borderWidth: 1,
-    padding: 11,
-    borderRadius: 50,
-    paddingLeft: 60
-  },
-  chatIcon: {
-    backgroundColor: '#00ABBC',
-    borderRadius: 50,
-    padding: 10,
-    marginLeft: 5
-  },
-  cameraIcon: {
-    position: 'absolute',
-    left: -5
-  }
-})
