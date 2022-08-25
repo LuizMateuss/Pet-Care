@@ -1,4 +1,4 @@
-import { Image, Text, VStack, useTheme, View } from 'native-base'
+import { Image, VStack, useTheme, View } from 'native-base'
 import { ButtonMain } from './ButtonMain'
 import { useNavigation } from '@react-navigation/native'
 

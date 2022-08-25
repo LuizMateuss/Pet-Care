@@ -5,8 +5,7 @@ import {
   Text,
   VStack,
   View,
-  useTheme,
-  ScrollView
+  useTheme
 } from 'native-base'
 
 import { Dimensions, Image, StyleSheet, Modal } from 'react-native'
@@ -18,7 +17,6 @@ import { ServiceButton } from '../components/ServiceButton'
 import { useNavigation } from '@react-navigation/native'
 
 const ModalCancel = ({ visible, children, ...props }) => {
-  const { colors } = useTheme()
   const [showModal, setShowModal] = useState(props.visible)
   useEffect(() => {
     toggleModal()

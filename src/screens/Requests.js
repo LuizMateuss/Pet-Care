@@ -1,4 +1,4 @@
-import { ScrollView, VStack, Text } from 'native-base'
+import { ScrollView, VStack } from 'native-base'
 import { Header } from '../components/Header'
 import { Order } from '../components/Order'
 

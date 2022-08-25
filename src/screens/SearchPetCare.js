@@ -36,13 +36,26 @@ export function SearchPetCare({ route }) {
                 navigation.navigate('contractService', { isCare })
               }
             />
-            <CareCard />
-            <CareCard />
-            <CareCard />
-            <CareCard />
-            <CareCard />
-            <CareCard />
-            <CareCard />
+            <CareCard
+              nextPage={() =>
+                navigation.navigate('contractService', { isCare })
+              }
+            />
+            <CareCard
+              nextPage={() =>
+                navigation.navigate('contractService', { isCare })
+              }
+            />
+            <CareCard
+              nextPage={() =>
+                navigation.navigate('contractService', { isCare })
+              }
+            />
+            <CareCard
+              nextPage={() =>
+                navigation.navigate('contractService', { isCare })
+              }
+            />
           </ScrollView>
         </View>
       </VStack>

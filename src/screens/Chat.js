@@ -1,5 +1,5 @@
-import { ChatDots, X, Camera, PaperPlaneRight } from 'phosphor-react-native'
-import { StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { ChatDots, X } from 'phosphor-react-native'
+import { Dimensions, TouchableOpacity } from 'react-native'
 import { View, ScrollView } from 'native-base'
 import { InputMessage } from '../components/InputMessage'
 import { Message } from '../components/Message'

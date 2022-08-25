@@ -1,12 +1,4 @@
-import {
-  HStack,
-  VStack,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Button
-} from 'native-base'
+import { HStack, VStack, View, Text, ScrollView, Image } from 'native-base'
 import { Info, MapPin } from 'phosphor-react-native'
 
 import { Header } from '../components/Header'

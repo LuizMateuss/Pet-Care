@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import { VStack, ScrollView, View, Image, Text, Input } from 'native-base'
 import { useNavigation } from '@react-navigation/native'
 import { CalendarBlank, MagnifyingGlass } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
 import { ButtonMain } from '../components/ButtonMain'
 
 export function SearchLocalization({ route }) {

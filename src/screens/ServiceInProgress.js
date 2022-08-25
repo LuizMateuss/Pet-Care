@@ -1,4 +1,4 @@
-import { Image, Text, VStack, View, ScrollView, useTheme } from 'native-base'
+import { Image, Text, VStack, View, useTheme } from 'native-base'
 import { PawPrint } from 'phosphor-react-native'
 import { ServiceButton } from '../components/ServiceButton'
 import { SafeAreaView } from 'react-native-safe-area-context'

@@ -1,4 +1,4 @@
-import { Button as ButtonNativeBase, IButtonProps, Text } from 'native-base'
+import { Button as ButtonNativeBase, Text } from 'native-base'
 
 export function ServiceButton(props) {
   return (
