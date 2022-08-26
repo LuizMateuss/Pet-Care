@@ -21,15 +21,21 @@ export function SignIn() {
     <ScrollView>
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
         <VStack>
+
+          {/* IMAGEM PET CARE */}
           <View alignItems="center" mt={10}>
             <Image
               alt="Logo pet care"
               source={require('../../assets/img/petCareLogo.png')}
             />
           </View>
+
+          {/* TAG COM CAMPOS EMAIL, PSSWD E RADIO */}
           <VStack w="80%" mx="auto">
+
             <InputData title="E-mail:" />
             <InputData title="Senha:" type="password" />
+
             <Radio.Group
               colorScheme="green"
               onChange={nextValue => {
@@ -57,17 +63,24 @@ export function SignIn() {
                 </Radio>
               </HStack>
             </Radio.Group>
+
             <ServiceButton title="Logar" color="white" />
+
+
             <View borderBottomWidth={1} my={5} borderColor="white" />
             <Text textAlign="center" color="white" fontWeight="black">
               Não tem uma conta?
             </Text>
+
             <ServiceButton
               title="Cadastre-se"
               color="white"
               nextPage={() => navigation.navigate('optionsSignUp')}
             />
           </VStack>
+
+
+          {/* LOGIN COM OUTROS SERVIÇOS */}
           <View alignItems="center">
             <VStack position="absolute" zIndex={1} top={10}>
               <Text
@@ -78,6 +91,7 @@ export function SignIn() {
               >
                 Continuar com
               </Text>
+              
               <HStack mx={4} justifyContent="space-between">
                 <TouchableOpacity>
                   <Image
@@ -101,6 +115,7 @@ export function SignIn() {
               source={require('../../assets/img/whiteVectorBottom.png')}
             />
           </View>
+
         </VStack>
       </LinearGradient>
     </ScrollView>
