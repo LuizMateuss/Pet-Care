@@ -59,8 +59,14 @@ export function ProfileCare({ route }) {
         info="Nome Completo: XXXXXXXX Data de nascimento: XX/XX/XXXX"
         backgroundInfo={mainColor}
       />
+      <ButtonMain
+        title="Alterar senha"
+        color={'transparent'}
+        colorText={mainColor}
+        nextPage={() => navigation.navigate('changePassword', { isCare })}
+      />
 
-      <View mt={20}>
+      <View mt="10%">
         <ButtonMain
           title="Logout"
           color={'transparent'}

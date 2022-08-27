@@ -52,10 +52,9 @@ export function OptionsSignUp() {
             mb={1}
             w="70%"
           >
-            Encontre o cuidado ideal para o seu melhor amigo Disponibilizamos
+            Encontre o cuidado ideal para seu melhor amigo, disponibilizamos
             serviços para que seu animal de estimação esteja sempre ativo e
-            feliz mesmo durante a semana corrida Junte-se a nós agora para fazer
-            parte da família PetCare.
+            feliz
           </Text>
 
           <VStack>
@@ -77,7 +76,11 @@ export function OptionsSignUp() {
               <Text
                 fontWeight="bold"
                 textAlign="center"
-                fontSize={14}
+                fontSize={{
+                  base: 'md',
+                  md: 'lg',
+                  lg: 'xl'
+                }}
                 color="white"
               >
                 Seja um cuidador
@@ -101,7 +104,11 @@ export function OptionsSignUp() {
               <Text
                 fontWeight="bold"
                 textAlign="center"
-                fontSize={14}
+                fontSize={{
+                  base: 'md',
+                  md: 'lg',
+                  lg: 'xl'
+                }}
                 color="white"
               >
                 Sou um tutor

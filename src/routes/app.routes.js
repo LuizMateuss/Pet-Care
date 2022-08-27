@@ -24,6 +24,7 @@ import { TouchableOpacity } from 'react-native'
 import { SearchLocalization } from '../screens/SearchLocalization'
 import { SearchPetCare } from '../screens/SearchPetCare'
 import { ContractService } from '../screens/ContractService'
+import { ChangePassword } from '../screens/ChangePassword'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -53,6 +54,7 @@ export function AppRoutes() {
       <Screen name="createAccount" component={CreateAccount} />
       <Screen name="menuHamburguer" component={MenuHamburguer} />
       <Screen name="profileCare" component={ProfileCare} />
+      <Screen name="changePassword" component={ChangePassword} />
       <Screen name="requests" component={Requests} />
       <Screen name="historyCare" component={HistoryCare} />
       <Screen name="startPetCare" component={StartPetCare} />

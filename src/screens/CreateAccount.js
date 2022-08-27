@@ -19,10 +19,10 @@ export function CreateAccount({ route }) {
   const { isCare } = route.params
 
   return (
-    <ScrollView>
+    <View flex={1}>
       <LinearGradient
         colors={isCare ? ['#00abbc52', '#00abbc'] : ['#511AC752', '#511AC7']}
-        style={{ paddingBottom: 50 }}
+        style={{ paddingBottom: 50, flex: 1, flexDirection: 'column' }}
       >
         <VStack>
           <View alignItems="center">
@@ -44,12 +44,13 @@ export function CreateAccount({ route }) {
               source={require('../../assets/img/whiteVector.png')}
             />
           </View>
-          <VStack w="80%" mx="auto">
+          <VStack w="80%" mx="auto" mt={2}>
             <InputData title="Nome Usuário:" />
             <InputData title="E-mail:" />
             <InputData title="Senha:" type="password" />
             <InputData title="Repetir Senha:" type="password" />
-            <HStack alignItems="center" mx="auto" mb={10} color="white">
+            <InputData title="Telefone:" />
+            <HStack alignItems="center" mx="auto" mb="2%" color="white">
               <Checkbox
                 accessibilityLabel="oi"
                 rounded={50}
@@ -77,7 +78,7 @@ export function CreateAccount({ route }) {
                       })
               }
             />
-            <View borderBottomWidth={1} my={5} borderColor="white" />
+            <View borderBottomWidth={1} my="5%" borderColor="white" />
             <ServiceButton
               title="Login"
               color="white"
@@ -86,6 +87,6 @@ export function CreateAccount({ route }) {
           </VStack>
         </VStack>
       </LinearGradient>
-    </ScrollView>
+    </View>
   )
 }

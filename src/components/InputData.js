@@ -3,8 +3,8 @@ export function InputData(props) {
   return (
     <Input
       variant="rounded"
-      my={4}
       bg="white"
+      my="2%"
       borderWidth={0}
       _focus={{
         bg: 'white'
