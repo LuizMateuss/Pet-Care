@@ -5,7 +5,13 @@ import { InputMessage } from '../components/InputMessage'
 import { Message } from '../components/Message'
 
 import { useNavigation } from '@react-navigation/native'
-
+/*
+  Tela de chat
+  -> Componente message recebe:
+    -> Mensagem a ser enviada (string)
+    -> Reply (bool), se for verdadeira, inverte dando sendo a resposta de quem está conversando.
+    -> isCare (bool), vai validar se é um cuidador de acordo com o que foi passado na rota e passar uma color específica.
+*/
 export function Chat({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params

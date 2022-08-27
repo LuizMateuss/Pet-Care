@@ -4,6 +4,11 @@ import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { ButtonMain } from '../components/ButtonMain'
 
+/*
+  Tela de alterar senha
+  propriedade nextPage responsável por chamar uma função
+  e ir para próxima página.
+*/
 export function ChangePassword({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
@@ -45,7 +50,7 @@ export function ChangePassword({ route }) {
           bg={mainColor}
           w="80%"
           mx="auto"
-          my="30%"
+          mt="30%"
           borderRadius={20}
         >
           <HStack alignItems="center" justifyContent="space-between" mb={5}>
@@ -78,12 +83,18 @@ export function ChangePassword({ route }) {
             />
           </HStack>
         </VStack>
-        <ButtonMain
-          color="transparent"
-          colorText={mainColor}
-          title="Salvar alterações"
-          nextPage={() => navigation.goBack()}
-        />
+        <Text textAlign="center" mt={2} w="80%" m="auto">
+          Lembre-se: a senha precisa possuir mais de 8 caracteres incluindo
+          letras e números
+        </Text>
+        <View mt="30%">
+          <ButtonMain
+            color="transparent"
+            colorText={mainColor}
+            title="Salvar alterações"
+            nextPage={() => navigation.goBack()}
+          />
+        </View>
       </ScrollView>
     </View>
   )

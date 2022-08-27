@@ -50,11 +50,11 @@ export function CustomHamburguer(props) {
         }
       />
       <ButtonMain
-        title="Serviços em andamento"
+        title="Serviços agendados"
         color={colors.primary[700]}
         colorText={colors.white}
         nextPage={() =>
-          navigation.navigate('serviceInProgress', {
+          navigation.navigate('requestedServices', {
             isCare
           })
         }

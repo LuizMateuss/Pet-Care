@@ -13,7 +13,15 @@ import { CheckBox } from 'react-native'
 import { InputData } from '../components/InputData'
 import { ServiceButton } from '../components/ServiceButton'
 import { useNavigation } from '@react-navigation/native'
-
+/*
+  Tela de criação de conta.
+  -> Componente InputData recebe:
+    -> title (string), o que vai ficar como placeholder.
+    -> type (string), o tipo da nossa input (password e etc...).
+  -> Componente CheckBox:
+    -> Recebe cores, label 
+  -> propriedade nextPage é responsável por nos levar até a próxima página.
+*/
 export function CreateAccount({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
@@ -52,7 +60,7 @@ export function CreateAccount({ route }) {
             <InputData title="Telefone:" />
             <HStack alignItems="center" mx="auto" mb="2%" color="white">
               <Checkbox
-                accessibilityLabel="oi"
+                accessibilityLabel="termos"
                 rounded={50}
                 colorScheme="green"
                 borderColor="white"
