@@ -1,11 +1,17 @@
-import { ChatDots, X, Camera, PaperPlaneRight } from 'phosphor-react-native'
-import { StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { ChatDots, X } from 'phosphor-react-native'
+import { Dimensions, TouchableOpacity } from 'react-native'
 import { View, ScrollView } from 'native-base'
 import { InputMessage } from '../components/InputMessage'
 import { Message } from '../components/Message'
 
 import { useNavigation } from '@react-navigation/native'
-
+/*
+  Tela de chat
+  -> Componente message recebe:
+    -> Mensagem a ser enviada (string)
+    -> Reply (bool), se for verdadeira, inverte dando sendo a resposta de quem está conversando.
+    -> isCare (bool), vai validar se é um cuidador de acordo com o que foi passado na rota e passar uma color específica.
+*/
 export function Chat({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params

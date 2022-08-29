@@ -55,16 +55,26 @@ export function StartPetCare({ route }) {
                 nextPage={() => navigation.navigate('requests', { isCare })}
               />
               <ButtonMain
-                title="Históricos"
+                title="Histórico"
                 color={colors.secondary[700]}
                 colorText={colors.white}
                 nextPage={() => navigation.navigate('historyCare', { isCare })}
               />
               <ButtonMain
+                title="Serviços agendados"
+                color={colors.secondary[700]}
+                colorText={colors.white}
+                nextPage={() =>
+                  navigation.navigate('requestedServices', { isCare })
+                }
+              />
+              <ButtonMain
                 title="Trabalhos em andamento"
                 color={colors.secondary[700]}
                 colorText={colors.white}
-                nextPage={() => navigation.navigate('startService', { isCare })}
+                nextPage={() =>
+                  navigation.navigate('serviceInProgress', { isCare })
+                }
               />
             </View>
           ) : (
@@ -81,7 +91,7 @@ export function StartPetCare({ route }) {
           )}
           {isCare ? (
             <View>
-              <HStack w="70%" mx="auto" mt={20} mb={18} alignItems="center">
+              <HStack w="70%" mx="auto" mt="5%" mb={18} alignItems="center">
                 <Switch size="lg" colorScheme="primary" />
                 <Text
                   ml={5}

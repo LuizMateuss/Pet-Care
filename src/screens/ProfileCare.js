@@ -1,11 +1,5 @@
-import { VStack, HStack, View, Text, ScrollView, useTheme } from 'native-base'
-import {
-  Dimensions,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native'
+import { VStack, HStack, View, Text, ScrollView, Image } from 'native-base'
+import { TouchableOpacity } from 'react-native'
 
 import { CaretLeft, MapPin, User } from 'phosphor-react-native'
 
@@ -16,8 +10,6 @@ import { ButtonMain } from '../components/ButtonMain'
 import { useNavigation } from '@react-navigation/native'
 
 export function ProfileCare({ route }) {
-  const { colors } = useTheme()
-
   const navigation = useNavigation()
 
   const { isCare } = route.params
@@ -31,7 +23,10 @@ export function ProfileCare({ route }) {
 
       <HStack alignItems="center" mx="auto" mb={4}>
         <Image
-          style={styles.imageUser}
+          alt="Foto usuário"
+          w={100}
+          h={100}
+          borderRadius={50}
           source={require('../../assets/img/anonymous.png')}
         />
         <VStack ml={5}>
@@ -64,8 +59,14 @@ export function ProfileCare({ route }) {
         info="Nome Completo: XXXXXXXX Data de nascimento: XX/XX/XXXX"
         backgroundInfo={mainColor}
       />
+      <ButtonMain
+        title="Alterar senha"
+        color={'transparent'}
+        colorText={mainColor}
+        nextPage={() => navigation.navigate('changePassword', { isCare })}
+      />
 
-      <View mt={20}>
+      <View mt="10%">
         <ButtonMain
           title="Logout"
           color={'transparent'}
@@ -76,11 +77,3 @@ export function ProfileCare({ route }) {
     </ScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  imageUser: {
-    borderRadius: 80,
-    width: 100,
-    height: 100
-  }
-})

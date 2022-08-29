@@ -1,4 +1,4 @@
-import { HStack, VStack, View, Text, Button } from 'native-base'
+import { HStack, VStack, Text, Button } from 'native-base'
 import { Image, StyleSheet } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'

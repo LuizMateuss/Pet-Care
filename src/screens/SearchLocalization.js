@@ -1,9 +1,12 @@
-import { useState } from 'react'
 import { VStack, ScrollView, View, Image, Text, Input } from 'native-base'
 import { useNavigation } from '@react-navigation/native'
-import { CalendarBlank, MagnifyingGlass } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
+import {
+  CalendarBlank,
+  CaretLeft,
+  MagnifyingGlass
+} from 'phosphor-react-native'
 import { ButtonMain } from '../components/ButtonMain'
+import { TouchableOpacity } from 'react-native'
 
 export function SearchLocalization({ route }) {
   const { isCare } = route.params
@@ -13,6 +16,11 @@ export function SearchLocalization({ route }) {
     <View flex={1} pt={10} bg="white">
       <ScrollView bg="white">
         <VStack>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('menuHamburguer', { isCare })}
+          >
+            <CaretLeft size={20} color="#511AC7" />
+          </TouchableOpacity>
           <View w="70%" mx="auto" p={5} bg="primary.700" borderRadius={20}>
             <Text
               textAlign="center"

@@ -1,12 +1,4 @@
-import {
-  HStack,
-  VStack,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Button
-} from 'native-base'
+import { HStack, VStack, View, Text, ScrollView, Image } from 'native-base'
 import { Info, MapPin } from 'phosphor-react-native'
 
 import { Header } from '../components/Header'
@@ -57,9 +49,9 @@ export function UserProfile({ route }) {
           </Text>
         </HStack>
         <Text py={4} fontSize={12} color="white">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed
-          velit urna. Nam ullamcorper eleifend cursus. Donec in sapien ante. Ut
-          dictum hendrerit justo, ac hendrerit quam volutpat quis.{' '}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sedvelit
+          urna. Nam ullamcorper eleifend cursus. Donec in sapien ante. Utdictum
+          hendrerit justo, ac hendrerit quam volutpat quis.
         </Text>
       </VStack>
       {isCare ? (
@@ -67,7 +59,7 @@ export function UserProfile({ route }) {
           <ServiceButton
             title="Chat"
             color={mainColor}
-            nextPage={() => navigation.navigate('chat', isCare)}
+            nextPage={() => navigation.navigate('chat', { isCare })}
           />
         </View>
       ) : (

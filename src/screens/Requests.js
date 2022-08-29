@@ -1,4 +1,4 @@
-import { ScrollView, VStack, Text } from 'native-base'
+import { ScrollView, VStack } from 'native-base'
 import { Header } from '../components/Header'
 import { Order } from '../components/Order'
 
@@ -7,7 +7,7 @@ export function Requests() {
     <VStack>
       <Header title="Solicitações" color="#00ABBC" />
 
-      <ScrollView>
+      <ScrollView h="80%">
         <Order />
         <Order />
         <Order />
