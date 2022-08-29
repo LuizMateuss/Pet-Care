@@ -18,7 +18,7 @@ export function SignIn() {
   const [value, setValue] = useState('')
   const navigation = useNavigation()
   return (
-    <ScrollView>
+    <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
         <VStack>
           <View alignItems="center" mt={10}>

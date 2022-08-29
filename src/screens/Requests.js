@@ -7,7 +7,7 @@ export function Requests() {
     <VStack>
       <Header title="Solicitações" color="#00ABBC" />
 
-      <ScrollView>
+      <ScrollView h="80%">
         <Order />
         <Order />
         <Order />

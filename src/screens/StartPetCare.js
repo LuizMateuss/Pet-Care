@@ -55,7 +55,7 @@ export function StartPetCare({ route }) {
                 nextPage={() => navigation.navigate('requests', { isCare })}
               />
               <ButtonMain
-                title="Históricos"
+                title="Histórico"
                 color={colors.secondary[700]}
                 colorText={colors.white}
                 nextPage={() => navigation.navigate('historyCare', { isCare })}
