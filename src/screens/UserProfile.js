@@ -49,9 +49,9 @@ export function UserProfile({ route }) {
           </Text>
         </HStack>
         <Text py={4} fontSize={12} color="white">
-          {isCare
-            ? 'Me chamo Carlos. Amo animais e possuo tempo livre para prestar serviços de passeio. Tenho 3 cachorros e 1 gato que vivem em harmonia. Gosto de dias de sol e praia.'
-            : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sedvelit urna. Nam ullamcorper eleifend cursus. Donec in sapien ante. Utdictum hendrerit justo, ac hendrerit quam volutpat quis.'}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sedvelit
+          urna. Nam ullamcorper eleifend cursus. Donec in sapien ante. Utdictum
+          hendrerit justo, ac hendrerit quam volutpat quis.
         </Text>
       </VStack>
       {isCare ? (
@@ -59,7 +59,7 @@ export function UserProfile({ route }) {
           <ServiceButton
             title="Chat"
             color={mainColor}
-            nextPage={() => navigation.navigate('chat', isCare)}
+            nextPage={() => navigation.navigate('chat', { isCare })}
           />
         </View>
       ) : (
