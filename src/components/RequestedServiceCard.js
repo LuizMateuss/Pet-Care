@@ -71,7 +71,7 @@ export function RequestedServiceCard(props) {
         <Button
           bg="transparent"
           _pressed={{ bg: 'transparent' }}
-          onPress={() => navigation.navigate('userProfile', { isCare })}
+          onPress={() => navigation.navigate('startService', { isCare })}
         >
           <Text
             fontWeight="black"

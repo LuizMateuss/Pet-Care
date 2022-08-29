@@ -5,10 +5,11 @@ import {
   Text,
   VStack,
   View,
-  useTheme
+  useTheme,
+  Image
 } from 'native-base'
 
-import { Dimensions, Image, StyleSheet, Modal } from 'react-native'
+import { Dimensions, StyleSheet, Modal } from 'react-native'
 
 import { PawPrint } from 'phosphor-react-native'
 
@@ -26,17 +27,24 @@ const ModalCancel = ({ visible, children, ...props }) => {
   }
   return (
     <Modal transparent visible={showModal}>
-      <View style={styles.modalContainer}>{children}</View>
+      <View
+        flex={1}
+        bg="rgba(217,217,217,0.8)"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {children}
+      </View>
     </Modal>
   )
 }
-
 export function StartService({ route }) {
   const { colors } = useTheme()
   const [visible, setVisible] = useState(false)
+  const { isCare } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   const navigation = useNavigation()
-  const { isCare } = route.params
+
   function cancelService() {
     isCare
       ? navigation.navigate('startPetCare', { isCare })
@@ -44,7 +52,7 @@ export function StartService({ route }) {
     setVisible(false)
   }
   return (
-    <VStack pb={12} bg="white">
+    <VStack bg="white">
       <HStack
         position="absolute"
         zIndex={1}
@@ -52,17 +60,27 @@ export function StartService({ route }) {
         bg="white"
         justifyContent="center"
         pt={8}
-        pb={8}
+        pb={4}
         rounded={20}
       >
-        <Text bg={mainColor} p={8} rounded={20} color="white">
-          Localização do Serviço
-        </Text>
+        <VStack bg={mainColor} w="90%" p={8} rounded={20}>
+          <Text color="white" textAlign="center">
+            Serviço agendado #1
+          </Text>
+          <Text color="white" textAlign="center">
+            Você pode conversar com o {isCare ? 'tutor' : 'cuidador'} para
+            combinar como pegar o pet
+          </Text>
+        </VStack>
       </HStack>
 
       <Image
-        style={styles.ImageMap}
-        source={require('../../assets/img/map_image.png')}
+        alt="Localização"
+        position="relative"
+        zIndex={0}
+        w="100%"
+        h="50%"
+        source={require('../../assets/img/map_image_point.png')}
       />
 
       <VStack
@@ -72,7 +90,8 @@ export function StartService({ route }) {
         w="full"
         bg="white"
         justifyContent="center"
-        py={10}
+        mt="1%"
+        py={5}
         px={5}
         rounded={20}
       >
@@ -84,13 +103,14 @@ export function StartService({ route }) {
           <Text color="white">Hora de início: 20:29</Text>
           <Text color="white">Serviço: Passeio</Text>
           <Text color="white">Cliente: xxx-xxx</Text>
+          <Text color="white">Local: xxxxxxx, xx, xxxxx</Text>
         </VStack>
         <ModalCancel visible={visible}>
-          <View style={styles.modalCard}>
-            <Text style={[styles.textStyle, { fontSize: 20 }]}>
+          <View w="80%" bg="white" p={5}>
+            <Text textAlign="center" fontSize={20}>
               Tem certeza que deseja cancelar?
             </Text>
-            <Text style={[styles.textStyle, { fontSize: 15 }]}>
+            <Text textAlign="center" fontSize={15} my={5}>
               *Punições poderão ser aplicadas segundo os termos de serviço
             </Text>
             <ServiceButton
@@ -121,7 +141,11 @@ export function StartService({ route }) {
               }
             />
           ) : (
-            <></>
+            <ServiceButton
+              title="Ver perfil do cuidador"
+              color={mainColor}
+              nextPage={() => navigation.navigate('userProfile', { isCare })}
+            />
           )}
 
           <ServiceButton
@@ -145,27 +169,3 @@ export function StartService({ route }) {
     </VStack>
   )
 }
-
-const styles = StyleSheet.create({
-  ImageMap: {
-    position: 'relative',
-    zIndex: 0,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.5
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(217,217,217,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalCard: {
-    width: '80%',
-    backgroundColor: 'white',
-    padding: 20
-  },
-  textStyle: {
-    textAlign: 'center',
-    marginVertical: 20
-  }
-})
