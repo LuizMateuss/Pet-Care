@@ -1,4 +1,5 @@
 import { NativeBaseProvider, StatusBar, Text } from 'native-base'
+import 'react-native-gesture-handler'
 
 import { THEME } from './src/styles/theme'
 
@@ -8,8 +9,7 @@ import {
   Roboto_700Bold
 } from '@expo-google-fonts/roboto'
 import { Loading } from './src/components/Loading'
-import { Chat } from './src/screens/Chat'
-import { StartService } from './src/screens/StartService'
+import { Routes } from './src/routes'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
@@ -20,7 +20,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <StartService /> : Loading}
+      {fontsLoaded ? <Routes /> : Loading}
     </NativeBaseProvider>
   )
 }
