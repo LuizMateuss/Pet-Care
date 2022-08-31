@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import { CaretLeft } from 'phosphor-react-native'
 import { useNavigation } from '@react-navigation/native'
 import { PetInfo } from '../components/PetInfo'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 export function PetProfile() {
   const navigation = useNavigation()
   return (
@@ -36,11 +36,11 @@ export function PetProfile() {
         m="auto"
         my={5}
       ></View>
-      <ServiceButton
+      <Button
         title="Adicional animal"
         color="white"
         backgroundColor="#511AC7"
-        marginY={5}
+        my={5}
         width="80%"
         margin="auto"
       />

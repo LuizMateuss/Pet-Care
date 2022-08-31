@@ -2,11 +2,11 @@ import { HStack, Input, ScrollView, Text, View, VStack } from 'native-base'
 import { CaretLeft } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 /*
   Tela de alterar senha
-  propriedade handleFunction responsável por chamar uma função
+  propriedade onPress responsável por chamar uma função
   e ir para próxima página.
 */
 export function ChangePassword({ route }) {
@@ -88,17 +88,14 @@ export function ChangePassword({ route }) {
           letras e números
         </Text>
         <View mt="30%">
-          <ServiceButton
+          <Button
             title="Salvar alterações"
             color={mainColor}
-            weight="bold"
-            backgroundColor="transparent"
             borderWidth={1}
             borderColor={mainColor}
             width="80%"
-            margin="auto"
-            paddingY={4}
-            handleFunction={() => navigation.goBack()}
+            py={4}
+            onPress={() => navigation.goBack()}
           />
         </View>
       </ScrollView>

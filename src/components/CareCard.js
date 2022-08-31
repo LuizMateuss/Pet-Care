@@ -34,7 +34,7 @@ export function CareCard(props) {
           borderRadius={100}
           bg="primary.700"
           p={3}
-          onPress={props.nextPage}
+          onPress={props.onPress}
         >
           <List size={24} color="#FFF" />
         </Button>

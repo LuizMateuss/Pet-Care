@@ -6,7 +6,7 @@ import { CaretLeft, MapPin, User } from 'phosphor-react-native'
 import { ProfileInfo } from '../components/ProfileInfo'
 
 import { useNavigation } from '@react-navigation/native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
@@ -58,31 +58,25 @@ export function ProfileCare({ route }) {
         info="Nome Completo: XXXXXXXX Data de nascimento: XX/XX/XXXX"
         backgroundInfo={mainColor}
       />
-      <ServiceButton
+      <Button
         title="Alterar senha"
         color={mainColor}
-        weight="bold"
-        backgroundColor="transparent"
         borderWidth={1}
         borderColor={mainColor}
         width="80%"
-        margin="auto"
-        paddingY={4}
-        handleFunction={() => navigation.navigate('changePassword', { isCare })}
+        py={4}
+        onPress={() => navigation.navigate('changePassword', { isCare })}
       />
 
       <View mt="10%">
-        <ServiceButton
+        <Button
           title="Logout"
           color={mainColor}
-          weight="bold"
-          backgroundColor="transparent"
           borderWidth={1}
           borderColor={mainColor}
           width="80%"
-          margin="auto"
-          paddingY={4}
-          handleFunction={() => navigation.navigate('signIn', { isCare })}
+          py={4}
+          onPress={() => navigation.navigate('signIn', { isCare })}
         />
       </View>
     </ScrollView>

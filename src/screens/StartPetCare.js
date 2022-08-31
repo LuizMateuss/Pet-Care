@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 export function StartPetCare({ route }) {
   const navigation = useNavigation()
@@ -39,88 +39,74 @@ export function StartPetCare({ route }) {
           </Text>
           {isCare ? (
             <View>
-              <ServiceButton
+              <Button
                 backgroundColor={mainColor}
                 title="Perfil"
-                color="white"
                 margin="auto"
-                marginY={3}
-                paddingY={4}
+                my={3}
+                py={4}
                 width="80%"
-                handleFunction={() =>
-                  navigation.navigate('profileCare', { isCare })
-                }
+                onPress={() => navigation.navigate('profileCare', { isCare })}
               />
-              <ServiceButton
+              <Button
                 backgroundColor={mainColor}
                 title="Solicitações"
                 color="white"
                 margin="auto"
-                marginY={3}
-                paddingY={4}
+                my={3}
+                py={4}
                 width="80%"
-                handleFunction={() =>
-                  navigation.navigate('requests', { isCare })
-                }
+                onPress={() => navigation.navigate('requests', { isCare })}
               />
-              <ServiceButton
+              <Button
                 backgroundColor={mainColor}
                 title="Histórico"
                 color="white"
                 margin="auto"
-                marginY={3}
-                paddingY={4}
+                my={3}
+                py={4}
                 width="80%"
-                handleFunction={() =>
-                  navigation.navigate('historyCare', { isCare })
-                }
+                onPress={() => navigation.navigate('historyCare', { isCare })}
               />
-              <ServiceButton
+              <Button
                 backgroundColor={mainColor}
                 title="Serviços agendados"
                 color="white"
                 margin="auto"
-                marginY={3}
-                paddingY={4}
+                my={3}
+                py={4}
                 width="80%"
-                handleFunction={() =>
+                onPress={() =>
                   navigation.navigate('requestedServices', { isCare })
                 }
               />
-              <ServiceButton
+              <Button
                 backgroundColor={mainColor}
                 title="Trabalhos em andamento"
                 color="white"
                 margin="auto"
-                marginY={3}
-                paddingY={4}
+                my={3}
+                py={4}
                 width="80%"
-                handleFunction={() =>
+                onPress={() =>
                   navigation.navigate('serviceInProgress', { isCare })
                 }
               />
             </View>
           ) : (
             <View mt={40}>
-              <ServiceButton
+              <Button
                 backgroundColor={mainColor}
                 title="Passeio"
                 color="white"
                 margin="auto"
-                marginY={3}
-                paddingY={4}
+                my={3}
+                py={4}
                 width="80%"
-                handleFunction={() =>
+                onPress={() =>
                   navigation.navigate('searchLocalization', { isCare })
                 }
               />
-              {/* <ButtonMain
-                title="Passeio"
-                color={}
-                nextPage={() =>
-                  navigation.navigate('searchLocalization', { isCare })
-                }
-              /> */}
             </View>
           )}
           {isCare ? (
@@ -137,16 +123,15 @@ export function StartPetCare({ route }) {
                 </Text>
               </HStack>
 
-              <ServiceButton
+              <Button
                 title="Logout"
-                borderColor={mainColor}
                 borderWidth={1}
-                backgroundColor="transparent"
+                borderColor={mainColor}
                 color={mainColor}
-                paddingY={4}
+                py={4}
                 width="80%"
                 margin="auto"
-                handleFunction={() => navigation.navigate('signIn')}
+                onPress={() => navigation.navigate('signIn')}
               />
             </View>
           ) : (

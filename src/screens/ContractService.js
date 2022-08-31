@@ -3,7 +3,7 @@ import { Modal, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
 import { RatingBar } from '../components/RatingStar'
 import { CaretLeft, PawPrint } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 
 /*
@@ -71,7 +71,7 @@ export function ContractService({ route }) {
         <Text textAlign="center" fontSize={20}>
           Selecione o método de pagamento
         </Text>
-        <ButtonMain title="Pix" colorText="white" color="#511AC7" />
+        <Button title="Pix" bg="#511AC7" w="80%" />
         <Text textAlign="center" w="80%" mx="auto" my={2}>
           Obs.: O valor será retido pelo aplicativo e será repassado ao cuidador
           após o serviço ser concluído.
@@ -98,30 +98,26 @@ export function ContractService({ route }) {
           <Text color="white">Cuidador: xxx-xxx</Text>
         </View>
       </VStack>
-      <ButtonMain
-        title="Desejar contratar?"
-        colorText="white"
-        color="#511AC7"
-      />
+      <Button title="Desejar contratar?" bg="#511AC7" w="80%" my={5} />
       <HStack mx="auto">
         <View w="40%" mx={2}>
-          <ServiceButton
+          <Button
             title="Sim"
             borderWidth={1}
             borderColor="#511AC7"
             color="#511AC7"
-            backgroundColor="transparent"
-            handleFunction={() => setVisible(true)}
+            w="100%"
+            onPress={() => setVisible(true)}
           />
         </View>
         <View w="40%" mx={2}>
-          <ServiceButton
+          <Button
             title="Não"
             borderWidth={1}
             color="#BC0000"
             borderColor="#BC0000"
-            backgroundColor="transparent"
-            handleFunction={() => navigation.goBack()}
+            w="100%"
+            onPress={() => navigation.goBack()}
           />
         </View>
       </HStack>

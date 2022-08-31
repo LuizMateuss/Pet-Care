@@ -2,7 +2,7 @@ import { HStack, VStack, View, Text, ScrollView, Image } from 'native-base'
 import { Info, MapPin } from 'phosphor-react-native'
 
 import { Header } from '../components/Header'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 import { useNavigation } from '@react-navigation/native'
 import { AvaliationCard } from '../components/AvaliationCard'
@@ -56,13 +56,13 @@ export function UserProfile({ route }) {
       </VStack>
       {isCare ? (
         <View w="40%" m="auto">
-          <ServiceButton
+          <Button
             title="Chat"
             color={mainColor}
             borderWidth={1}
             borderColor={mainColor}
-            backgroundColor="transparent"
-            handleFunction={() => navigation.navigate('chat', { isCare })}
+            w="80%"
+            onPress={() => navigation.navigate('chat', { isCare })}
           />
         </View>
       ) : (

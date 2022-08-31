@@ -1,14 +1,6 @@
-import {
-  HStack,
-  VStack,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Button
-} from 'native-base'
+import { HStack, VStack, View, Text, ScrollView, Image } from 'native-base'
 import { MapPin } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 import { useNavigation } from '@react-navigation/native'
 
@@ -97,32 +89,30 @@ export function OrderInfo() {
           </VStack>
           <VStack mt={10}>
             <HStack mb="20%" justifyContent="space-between">
-              <ServiceButton
+              <Button
                 color="white"
                 title="Aceitar"
                 borderWidth={1}
                 borderColor="white"
-                backgroundColor="transparent"
                 width="40%"
-                handleFunction={() => navigation.goBack()}
+                onPress={() => navigation.goBack()}
               />
-              <ServiceButton
+              <Button
                 color="white"
                 title="Recusar"
                 borderWidth={1}
                 borderColor="white"
-                backgroundColor="transparent"
                 width="40%"
-                handleFunction={() => navigation.goBack()}
+                onPress={() => navigation.goBack()}
               />
             </HStack>
-            <ServiceButton
+            <Button
               color="white"
               title="Voltar"
               borderWidth={1}
               borderColor="white"
-              backgroundColor="transparent"
-              handleFunction={() => navigation.goBack()}
+              width="100%"
+              onPress={() => navigation.goBack()}
             />
           </VStack>
         </VStack>

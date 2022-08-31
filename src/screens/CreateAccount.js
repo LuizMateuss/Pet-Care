@@ -8,8 +8,8 @@ import {
   Checkbox,
   ScrollView
 } from 'native-base'
-import { InputData } from '../components/InputData'
-import { ServiceButton } from '../components/ServiceButton'
+import { Input } from '../components/Input'
+import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 /*
   Tela de criação de conta.
@@ -63,11 +63,11 @@ export function CreateAccount({ route }) {
             />
           </View>
           <VStack w="80%" mx="auto" mt={2}>
-            <InputData title="Nome Usuário:" />
-            <InputData title="E-mail:" />
-            <InputData title="Senha:" type="password" />
-            <InputData title="Repetir Senha:" type="password" />
-            <InputData title="Telefone:" />
+            <Input placeholder="Nome Usuário:" />
+            <Input placeholder="E-mail:" />
+            <Input placeholder="Senha:" type="password" />
+            <Input placeholder="Repetir Senha:" type="password" />
+            <Input placeholder="Telefone:" />
             <HStack alignItems="center" mx="auto" mb="2%" color="white">
               <Checkbox
                 accessibilityLabel="termos"
@@ -80,7 +80,7 @@ export function CreateAccount({ route }) {
                 concordo com os termos de serviço e a política de privacidade
               </Text>
             </HStack>
-            <ServiceButton
+            <Button
               title="Cadastrar"
               color="white"
               my={1}
@@ -88,10 +88,10 @@ export function CreateAccount({ route }) {
               backgroundColor="transparent"
               borderColor="white"
               borderWidth={1}
-              handleFunction={verifyIsCareAndNextPage}
+              onPress={verifyIsCareAndNextPage}
             />
             <View borderBottomWidth={1} my="5%" borderColor="white" />
-            <ServiceButton
+            <Button
               title="Login"
               color="white"
               backgroundColor="transparent"
@@ -99,7 +99,7 @@ export function CreateAccount({ route }) {
               borderWidth={1}
               marginY={1}
               width="100%"
-              handleFunction={() => navigation.navigate('signIn')}
+              onPress={() => navigation.navigate('signIn')}
             />
           </VStack>
         </VStack>

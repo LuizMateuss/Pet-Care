@@ -1,6 +1,6 @@
 import { Image, Text, VStack, View, useTheme } from 'native-base'
 import { PawPrint } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 
@@ -40,13 +40,12 @@ export function ServiceInProgress({ route }) {
             <></>
           ) : (
             <View mb={4}>
-              <ServiceButton
+              <Button
                 title="Chat"
                 color={mainColor}
-                backgroundColor="transparent"
                 borderWidth={1}
                 borderColor={mainColor}
-                handleFunction={() => navigation.navigate('chat', { isCare })}
+                onPress={() => navigation.navigate('chat', { isCare })}
               />
             </View>
           )}
@@ -75,15 +74,12 @@ export function ServiceInProgress({ route }) {
                 >
                   1
                 </Text>
-                <ServiceButton
+                <Button
                   title="Chat"
-                  backgroundColor="transparent"
                   borderWidth={1}
                   borderColor="white"
-                  color="white"
                   width="100%"
-                  margin="auto"
-                  handleFunction={() => navigation.navigate('chat', { isCare })}
+                  onPress={() => navigation.navigate('chat', { isCare })}
                 />
               </View>
             ) : (
@@ -106,17 +102,13 @@ export function ServiceInProgress({ route }) {
           </VStack>
           {isCare ? (
             <VStack mt={4}>
-              <ServiceButton
+              <Button
                 title="Terminar passeio"
                 color={colors.red[700]}
                 borderWidth={1}
                 width="100%"
-                margin="auto"
-                backgroundColor="transparent"
                 borderColor={colors.red[700]}
-                handleFunction={() =>
-                  navigation.navigate('startPetCare', { isCare })
-                }
+                onPress={() => navigation.navigate('startPetCare', { isCare })}
               />
             </VStack>
           ) : (

@@ -1,7 +1,7 @@
 import { VStack, Image, Text, View, ScrollView } from 'native-base'
 import { SliderBox } from 'react-native-image-slider-box'
 import { useNavigation } from '@react-navigation/native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 export function OptionsSignUp() {
   const navigation = useNavigation()
@@ -49,31 +49,25 @@ export function OptionsSignUp() {
           </Text>
 
           <VStack>
-            <ServiceButton
-              backgroundColor="#00ABBC"
+            <Button
+              bg="#00ABBC"
               width="70%"
-              margin="auto"
-              marginY={1}
-              paddingY={4}
-              paddingX={8}
+              py={4}
+              px={8}
               title="Seja um cuidador"
               weight="bold"
-              color="white"
-              handleFunction={() =>
+              onPress={() =>
                 navigation.navigate('createAccount', { isCare: true })
               }
             />
-            <ServiceButton
-              backgroundColor="#511AC7"
+            <Button
+              bg="#511AC7"
               width="70%"
-              margin="auto"
-              marginY={1}
-              paddingY={4}
-              paddingX={8}
+              py={4}
+              px={8}
               title="Sou um tutor"
               weight="bold"
-              color="white"
-              handleFunction={() =>
+              onPress={() =>
                 navigation.navigate('createAccount', { isCare: false })
               }
             />
