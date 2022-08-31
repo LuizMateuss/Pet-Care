@@ -2,91 +2,125 @@ import {
   VStack,
   HStack,
   Text,
-  useTheme,
   Switch,
   ScrollView,
-  View
+  View,
+  Image
 } from 'native-base'
-import { Image, SafeAreaView, StyleSheet } from 'react-native'
-
-import { ButtonMain } from '../components/ButtonMain'
+import { SafeAreaView } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
+import { ServiceButton } from '../components/ServiceButton'
 
 export function StartPetCare({ route }) {
-  const { colors } = useTheme()
-
   const navigation = useNavigation()
 
   const { isCare } = route.params
+  const mainColor = isCare ? `#00ABBC` : `#511AC7`
   return (
     <SafeAreaView>
       <ScrollView>
         <VStack>
-          <View alignItems="center">
+          <View alignItems="center" mt={5}>
             <Image
-              style={styles.imageUser}
+              alt="Imagem do usuário"
+              borderRadius={60}
               source={require('../../assets/img/anonymous.png')}
             />
           </View>
           <Text
             textAlign="center"
-            color={
-              isCare ? `${colors.secondary[700]}` : `${colors.primary[700]}`
-            }
+            color={mainColor}
             fontWeight="bold"
             fontSize={20}
-            my={5}
+            mt={5}
           >
             Seja bem vindo ______ !
           </Text>
           {isCare ? (
             <View>
-              <ButtonMain
+              <ServiceButton
+                backgroundColor={mainColor}
                 title="Perfil"
-                color={colors.secondary[700]}
-                colorText={colors.white}
-                nextPage={() => navigation.navigate('profileCare', { isCare })}
+                color="white"
+                margin="auto"
+                marginY={3}
+                paddingY={4}
+                width="80%"
+                handleFunction={() =>
+                  navigation.navigate('profileCare', { isCare })
+                }
               />
-              <ButtonMain
+              <ServiceButton
+                backgroundColor={mainColor}
                 title="Solicitações"
-                color={colors.secondary[700]}
-                colorText={colors.white}
-                nextPage={() => navigation.navigate('requests', { isCare })}
+                color="white"
+                margin="auto"
+                marginY={3}
+                paddingY={4}
+                width="80%"
+                handleFunction={() =>
+                  navigation.navigate('requests', { isCare })
+                }
               />
-              <ButtonMain
+              <ServiceButton
+                backgroundColor={mainColor}
                 title="Histórico"
-                color={colors.secondary[700]}
-                colorText={colors.white}
-                nextPage={() => navigation.navigate('historyCare', { isCare })}
+                color="white"
+                margin="auto"
+                marginY={3}
+                paddingY={4}
+                width="80%"
+                handleFunction={() =>
+                  navigation.navigate('historyCare', { isCare })
+                }
               />
-              <ButtonMain
+              <ServiceButton
+                backgroundColor={mainColor}
                 title="Serviços agendados"
-                color={colors.secondary[700]}
-                colorText={colors.white}
-                nextPage={() =>
+                color="white"
+                margin="auto"
+                marginY={3}
+                paddingY={4}
+                width="80%"
+                handleFunction={() =>
                   navigation.navigate('requestedServices', { isCare })
                 }
               />
-              <ButtonMain
+              <ServiceButton
+                backgroundColor={mainColor}
                 title="Trabalhos em andamento"
-                color={colors.secondary[700]}
-                colorText={colors.white}
-                nextPage={() =>
+                color="white"
+                margin="auto"
+                marginY={3}
+                paddingY={4}
+                width="80%"
+                handleFunction={() =>
                   navigation.navigate('serviceInProgress', { isCare })
                 }
               />
             </View>
           ) : (
             <View mt={40}>
-              <ButtonMain
+              <ServiceButton
+                backgroundColor={mainColor}
                 title="Passeio"
-                color={colors.primary[700]}
-                colorText={colors.white}
-                nextPage={() =>
+                color="white"
+                margin="auto"
+                marginY={3}
+                paddingY={4}
+                width="80%"
+                handleFunction={() =>
                   navigation.navigate('searchLocalization', { isCare })
                 }
               />
+              {/* <ButtonMain
+                title="Passeio"
+                color={}
+                nextPage={() =>
+                  navigation.navigate('searchLocalization', { isCare })
+                }
+              /> */}
             </View>
           )}
           {isCare ? (
@@ -103,11 +137,16 @@ export function StartPetCare({ route }) {
                 </Text>
               </HStack>
 
-              <ButtonMain
+              <ServiceButton
                 title="Logout"
-                color={'transparent'}
-                colorText={colors.secondary[700]}
-                nextPage={() => navigation.navigate('signIn')}
+                borderColor={mainColor}
+                borderWidth={1}
+                backgroundColor="transparent"
+                color={mainColor}
+                paddingY={4}
+                width="80%"
+                margin="auto"
+                handleFunction={() => navigation.navigate('signIn')}
               />
             </View>
           ) : (
@@ -118,10 +157,3 @@ export function StartPetCare({ route }) {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  imageUser: {
-    borderRadius: 40,
-    marginTop: 25
-  }
-})

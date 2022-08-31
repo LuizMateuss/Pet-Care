@@ -1,16 +1,7 @@
-import {
-  HStack,
-  VStack,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  Button
-} from 'native-base'
-import { ImageBackground, StyleSheet } from 'react-native'
+import { VStack, Image, Text, View, ScrollView } from 'native-base'
 import { SliderBox } from 'react-native-image-slider-box'
-import { ButtonMain } from '../components/ButtonMain'
 import { useNavigation } from '@react-navigation/native'
+import { ServiceButton } from '../components/ServiceButton'
 
 export function OptionsSignUp() {
   const navigation = useNavigation()
@@ -58,62 +49,34 @@ export function OptionsSignUp() {
           </Text>
 
           <VStack>
-            <Button
-              bg="#00ABBC"
-              rounded={60}
-              w="70%"
-              m="auto"
-              my={1}
-              py={4}
-              px={8}
-              _pressed={{ opacity: 1 }}
-              onPress={() =>
-                navigation.navigate('createAccount', {
-                  isCare: true
-                })
+            <ServiceButton
+              backgroundColor="#00ABBC"
+              width="70%"
+              margin="auto"
+              marginY={1}
+              paddingY={4}
+              paddingX={8}
+              title="Seja um cuidador"
+              weight="bold"
+              color="white"
+              handleFunction={() =>
+                navigation.navigate('createAccount', { isCare: true })
               }
-            >
-              <Text
-                fontWeight="bold"
-                textAlign="center"
-                fontSize={{
-                  base: 'md',
-                  md: 'lg',
-                  lg: 'xl'
-                }}
-                color="white"
-              >
-                Seja um cuidador
-              </Text>
-            </Button>
-            <Button
-              bg="#511AC7"
-              rounded={60}
-              w="70%"
-              m="auto"
-              my={1}
-              py={4}
-              px={8}
-              _pressed={{ opacity: 1 }}
-              onPress={() =>
-                navigation.navigate('createAccount', {
-                  isCare: false
-                })
+            />
+            <ServiceButton
+              backgroundColor="#511AC7"
+              width="70%"
+              margin="auto"
+              marginY={1}
+              paddingY={4}
+              paddingX={8}
+              title="Sou um tutor"
+              weight="bold"
+              color="white"
+              handleFunction={() =>
+                navigation.navigate('createAccount', { isCare: false })
               }
-            >
-              <Text
-                fontWeight="bold"
-                textAlign="center"
-                fontSize={{
-                  base: 'md',
-                  md: 'lg',
-                  lg: 'xl'
-                }}
-                color="white"
-              >
-                Sou um tutor
-              </Text>
-            </Button>
+            />
           </VStack>
           <Image
             position="absolute"

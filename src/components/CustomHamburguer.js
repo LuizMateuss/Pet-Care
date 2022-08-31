@@ -1,6 +1,6 @@
 import { Image, VStack, useTheme, View } from 'native-base'
-import { ButtonMain } from './ButtonMain'
 import { useNavigation } from '@react-navigation/native'
+import { ServiceButton } from './ServiceButton'
 
 export function CustomHamburguer(props) {
   const { colors } = useTheme()
@@ -19,52 +19,68 @@ export function CustomHamburguer(props) {
           source={require('../../assets/img/anonymous.png')}
         />
       </View>
-      <ButtonMain
+      <ServiceButton
         title="Perfil"
-        color={colors.primary[700]}
-        colorText={colors.white}
-        nextPage={() =>
+        color="white"
+        backgroundColor="#511AC7"
+        width="80%"
+        margin="auto"
+        marginY={2}
+        handleFunction={() =>
           navigation.navigate('profileCare', {
             isCare
           })
         }
       />
-      <ButtonMain
+      <ServiceButton
         title="Perfil do animal"
-        color={colors.primary[700]}
-        colorText={colors.white}
-        nextPage={() =>
+        color="white"
+        backgroundColor="#511AC7"
+        width="80%"
+        margin="auto"
+        marginY={2}
+        handleFunction={() =>
           navigation.navigate('petProfile', {
             isCare
           })
         }
       />
-      <ButtonMain
+      <ServiceButton
         title="Histórico de serviços"
-        color={colors.primary[700]}
-        colorText={colors.white}
-        nextPage={() =>
+        color="white"
+        backgroundColor="#511AC7"
+        width="80%"
+        margin="auto"
+        marginY={2}
+        handleFunction={() =>
           navigation.navigate('historyCare', {
             isCare
           })
         }
       />
-      <ButtonMain
+      <ServiceButton
         title="Serviços agendados"
-        color={colors.primary[700]}
-        colorText={colors.white}
-        nextPage={() =>
+        color="white"
+        backgroundColor="#511AC7"
+        width="80%"
+        margin="auto"
+        marginY={2}
+        handleFunction={() =>
           navigation.navigate('requestedServices', {
             isCare
           })
         }
       />
       <View mt={10}>
-        <ButtonMain
+        <ServiceButton
           title="Logout"
-          color={'transparent'}
-          colorText={colors.primary[700]}
-          nextPage={() => navigation.navigate('signIn')}
+          color="#511AC7"
+          backgroundColor="transparent"
+          borderWidth={1}
+          borderColor="#511AC7"
+          width="80%"
+          margin="auto"
+          handleFunction={() => navigation.navigate('signIn')}
         />
       </View>
     </VStack>

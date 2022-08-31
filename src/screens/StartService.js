@@ -9,7 +9,7 @@ import {
   Image
 } from 'native-base'
 
-import { Dimensions, StyleSheet, Modal } from 'react-native'
+import { Modal } from 'react-native'
 
 import { PawPrint } from 'phosphor-react-native'
 
@@ -48,7 +48,7 @@ export function StartService({ route }) {
   function cancelService() {
     isCare
       ? navigation.navigate('startPetCare', { isCare })
-      : navigation.navigate('searchLocalization', { isCare })
+      : navigation.navigate('menuHamburguer', { isCare })
     setVisible(false)
   }
   return (
@@ -113,30 +113,37 @@ export function StartService({ route }) {
             <Text textAlign="center" fontSize={15} my={5}>
               *Punições poderão ser aplicadas segundo os termos de serviço
             </Text>
+
             <ServiceButton
               title="Sim"
               color={colors.cyan[700]}
-              nextPage={cancelService}
+              borderWidth={1}
+              borderColor={colors.cyan[700]}
+              backgroundColor="transparent"
+              marginY={1}
+              handleFunction={cancelService}
             />
-            <ButtonNativeBase
+            <ServiceButton
+              title="Cancelar"
+              color={colors.red[700]}
               borderWidth={1}
               borderColor={colors.red[700]}
-              bg="transparent"
-              my={1}
-              rounded={20}
-              _pressed={{ bg: 'gray.100' }}
-              onPress={() => setVisible(false)}
-            >
-              <Text color={colors.red[700]}>Cancelar</Text>
-            </ButtonNativeBase>
+              backgroundColor="transparent"
+              marginY={1}
+              handleFunction={() => setVisible(false)}
+            />
           </View>
         </ModalCancel>
-        <VStack mt={4}>
+        <VStack>
           {isCare ? (
             <ServiceButton
               title="Começar serviço"
               color={colors.cyan[700]}
-              nextPage={() =>
+              backgroundColor="transparent"
+              borderWidth={1}
+              borderColor={colors.cyan[700]}
+              marginY={1}
+              handleFunction={() =>
                 navigation.navigate('serviceInProgress', { isCare })
               }
             />
@@ -144,26 +151,34 @@ export function StartService({ route }) {
             <ServiceButton
               title="Ver perfil do cuidador"
               color={mainColor}
-              nextPage={() => navigation.navigate('userProfile', { isCare })}
+              backgroundColor="transparent"
+              borderWidth={1}
+              borderColor={mainColor}
+              marginY={1}
+              handleFunction={() =>
+                navigation.navigate('userProfile', { isCare })
+              }
             />
           )}
 
           <ServiceButton
             title="Chat"
             color={mainColor}
-            nextPage={() => navigation.navigate('chat', { isCare })}
+            backgroundColor="transparent"
+            borderWidth={1}
+            borderColor={mainColor}
+            marginY={1}
+            handleFunction={() => navigation.navigate('chat', { isCare })}
           />
-          <ButtonNativeBase
+          <ServiceButton
+            title="Cancelar"
+            color={colors.red[700]}
+            backgroundColor="transparent"
             borderWidth={1}
             borderColor={colors.red[700]}
-            bg="transparent"
-            my={1}
-            rounded={20}
-            _pressed={{ bg: 'gray.100' }}
-            onPress={() => setVisible(true)}
-          >
-            <Text color={colors.red[700]}>Cancelar</Text>
-          </ButtonNativeBase>
+            marginY={1}
+            handleFunction={() => setVisible(true)}
+          />
         </VStack>
       </VStack>
     </VStack>

@@ -55,7 +55,7 @@ export function OrderInfo() {
               Solicitação para: 01/06 - 14h
             </Text>
           </VStack>
-          <VStack mt={20}>
+          <VStack mt="20%">
             <Text
               textAlign="center"
               fontSize={20}
@@ -96,34 +96,33 @@ export function OrderInfo() {
             </HStack>
           </VStack>
           <VStack mt={10}>
-            <HStack mb={20} justifyContent="space-between">
-              <Button
+            <HStack mb="20%" justifyContent="space-between">
+              <ServiceButton
+                color="white"
+                title="Aceitar"
                 borderWidth={1}
                 borderColor="white"
-                bg="transparent"
-                rounded={20}
-                w="40%"
-                mr={5}
-                _pressed={{ bg: 'gray.100' }}
-              >
-                <Text color="white">Aceitar</Text>
-              </Button>
-              <Button
+                backgroundColor="transparent"
+                width="40%"
+                handleFunction={() => navigation.goBack()}
+              />
+              <ServiceButton
+                color="white"
+                title="Recusar"
                 borderWidth={1}
                 borderColor="white"
-                bg="transparent"
-                rounded={20}
-                w="40%"
-                ml={5}
-                _pressed={{ bg: 'gray.100' }}
-              >
-                <Text color="white">Recusar</Text>
-              </Button>
+                backgroundColor="transparent"
+                width="40%"
+                handleFunction={() => navigation.goBack()}
+              />
             </HStack>
             <ServiceButton
               color="white"
               title="Voltar"
-              nextPage={() => navigation.goBack()}
+              borderWidth={1}
+              borderColor="white"
+              backgroundColor="transparent"
+              handleFunction={() => navigation.goBack()}
             />
           </VStack>
         </VStack>

@@ -5,11 +5,9 @@ import {
   Image,
   Text,
   View,
-  Radio,
   Checkbox,
   ScrollView
 } from 'native-base'
-import { CheckBox } from 'react-native'
 import { InputData } from '../components/InputData'
 import { ServiceButton } from '../components/ServiceButton'
 import { useNavigation } from '@react-navigation/native'
@@ -25,6 +23,18 @@ import { useNavigation } from '@react-navigation/native'
 export function CreateAccount({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('startPetCare', {
+        isCare
+      })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare }
+      })
+    }
+  }
 
   return (
     <View flex={1}>
@@ -73,24 +83,23 @@ export function CreateAccount({ route }) {
             <ServiceButton
               title="Cadastrar"
               color="white"
-              nextPage={
-                isCare
-                  ? () =>
-                      navigation.navigate('startPetCare', {
-                        isCare
-                      })
-                  : () =>
-                      navigation.navigate('menuHamburguer', {
-                        screen: 'startPetCare',
-                        params: { isCare }
-                      })
-              }
+              my={1}
+              w="100%"
+              backgroundColor="transparent"
+              borderColor="white"
+              borderWidth={1}
+              handleFunction={verifyIsCareAndNextPage}
             />
             <View borderBottomWidth={1} my="5%" borderColor="white" />
             <ServiceButton
               title="Login"
               color="white"
-              nextPage={() => navigation.navigate('signIn')}
+              backgroundColor="transparent"
+              borderColor="white"
+              borderWidth={1}
+              marginY={1}
+              width="100%"
+              handleFunction={() => navigation.navigate('signIn')}
             />
           </VStack>
         </VStack>

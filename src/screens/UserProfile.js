@@ -59,7 +59,10 @@ export function UserProfile({ route }) {
           <ServiceButton
             title="Chat"
             color={mainColor}
-            nextPage={() => navigation.navigate('chat', { isCare })}
+            borderWidth={1}
+            borderColor={mainColor}
+            backgroundColor="transparent"
+            handleFunction={() => navigation.navigate('chat', { isCare })}
           />
         </View>
       ) : (

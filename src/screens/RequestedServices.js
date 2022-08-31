@@ -1,6 +1,5 @@
 import { ScrollView, VStack } from 'native-base'
 import { Header } from '../components/Header'
-import { Order } from '../components/Order'
 import { useNavigation } from '@react-navigation/native'
 import { RequestedServiceCard } from '../components/RequestedServiceCard'
 

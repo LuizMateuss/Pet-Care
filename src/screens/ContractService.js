@@ -1,7 +1,6 @@
 import { HStack, VStack, View, Text, Image } from 'native-base'
 import { Modal, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
-import { ButtonMain } from '../components/ButtonMain'
 import { RatingBar } from '../components/RatingStar'
 import { CaretLeft, PawPrint } from 'phosphor-react-native'
 import { ServiceButton } from '../components/ServiceButton'
@@ -108,15 +107,21 @@ export function ContractService({ route }) {
         <View w="40%" mx={2}>
           <ServiceButton
             title="Sim"
+            borderWidth={1}
+            borderColor="#511AC7"
             color="#511AC7"
-            nextPage={() => setVisible(true)}
+            backgroundColor="transparent"
+            handleFunction={() => setVisible(true)}
           />
         </View>
         <View w="40%" mx={2}>
           <ServiceButton
             title="Não"
-            nextPage={() => navigation.goBack()}
+            borderWidth={1}
             color="#BC0000"
+            borderColor="#BC0000"
+            backgroundColor="transparent"
+            handleFunction={() => navigation.goBack()}
           />
         </View>
       </HStack>

@@ -57,7 +57,15 @@ export function SignIn() {
                 </Radio>
               </HStack>
             </Radio.Group>
-            <ServiceButton title="Logar" color="white" />
+            <ServiceButton
+              title="Logar"
+              color="white"
+              borderWidth={1}
+              borderColor="white"
+              backgroundColor="transparent"
+              marginY={1}
+              width="100%"
+            />
             <View borderBottomWidth={1} my={5} borderColor="white" />
             <Text textAlign="center" color="white" fontWeight="black">
               Não tem uma conta?
@@ -65,7 +73,12 @@ export function SignIn() {
             <ServiceButton
               title="Cadastre-se"
               color="white"
-              nextPage={() => navigation.navigate('optionsSignUp')}
+              borderWidth={1}
+              borderColor="white"
+              backgroundColor="transparent"
+              marginY={1}
+              width="100%"
+              handleFunction={() => navigation.navigate('optionsSignUp')}
             />
           </VStack>
           <View alignItems="center">

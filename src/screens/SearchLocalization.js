@@ -5,8 +5,8 @@ import {
   CaretLeft,
   MagnifyingGlass
 } from 'phosphor-react-native'
-import { ButtonMain } from '../components/ButtonMain'
 import { TouchableOpacity } from 'react-native'
+import { ServiceButton } from '../components/ServiceButton'
 
 export function SearchLocalization({ route }) {
   const { isCare } = route.params
@@ -77,7 +77,7 @@ export function SearchLocalization({ route }) {
             placeholder="Insira uma data"
             InputLeftElement={<CalendarBlank size={24} color="#511AC7" />}
           />
-          <ButtonMain
+          <ServiceButton
             title="Achar um cuidador"
             color="#511AC7"
             colorText="white"
