@@ -1,7 +1,7 @@
-import { Input } from 'native-base'
-export function InputData(props) {
+import { Input as InputNativeBase } from 'native-base'
+export function Input({ ...rest }) {
   return (
-    <Input
+    <InputNativeBase
       variant="rounded"
       bg="white"
       my="2%"
@@ -9,8 +9,7 @@ export function InputData(props) {
       _focus={{
         bg: 'white'
       }}
-      type={props.type}
-      placeholder={`${props.title}`}
+      {...rest}
     />
   )
 }

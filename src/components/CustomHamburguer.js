@@ -1,6 +1,6 @@
 import { Image, VStack, useTheme, View } from 'native-base'
 import { useNavigation } from '@react-navigation/native'
-import { ServiceButton } from './ServiceButton'
+import { Button } from './Button'
 
 export function CustomHamburguer(props) {
   const { colors } = useTheme()
@@ -19,68 +19,64 @@ export function CustomHamburguer(props) {
           source={require('../../assets/img/anonymous.png')}
         />
       </View>
-      <ServiceButton
+      <Button
         title="Perfil"
-        color="white"
         backgroundColor="#511AC7"
         width="80%"
-        margin="auto"
-        marginY={2}
-        handleFunction={() =>
+        my={2}
+        py={4}
+        onPress={() =>
           navigation.navigate('profileCare', {
             isCare
           })
         }
       />
-      <ServiceButton
+      <Button
         title="Perfil do animal"
-        color="white"
         backgroundColor="#511AC7"
         width="80%"
-        margin="auto"
-        marginY={2}
-        handleFunction={() =>
+        my={2}
+        py={4}
+        onPress={() =>
           navigation.navigate('petProfile', {
             isCare
           })
         }
       />
-      <ServiceButton
+      <Button
         title="Histórico de serviços"
-        color="white"
         backgroundColor="#511AC7"
         width="80%"
-        margin="auto"
-        marginY={2}
-        handleFunction={() =>
+        my={2}
+        py={4}
+        onPress={() =>
           navigation.navigate('historyCare', {
             isCare
           })
         }
       />
-      <ServiceButton
+      <Button
         title="Serviços agendados"
-        color="white"
         backgroundColor="#511AC7"
         width="80%"
-        margin="auto"
-        marginY={2}
-        handleFunction={() =>
+        my={2}
+        py={4}
+        onPress={() =>
           navigation.navigate('requestedServices', {
             isCare
           })
         }
       />
       <View mt={10}>
-        <ServiceButton
+        <Button
           title="Logout"
           color="#511AC7"
           backgroundColor="transparent"
           borderWidth={1}
           borderColor="#511AC7"
           width="80%"
-          margin="auto"
-          handleFunction={() => navigation.navigate('signIn')}
+          py={4}
+          onPress={() => navigation.navigate('signIn')}
         />
       </View>
     </VStack>
