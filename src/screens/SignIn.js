@@ -17,6 +17,21 @@ import { useNavigation } from '@react-navigation/native'
 export function SignIn() {
   const [value, setValue] = useState('')
   const navigation = useNavigation()
+
+  //Conecta com o banco
+  async function verifyUser() {
+    let req = await fetch('http://localhost/Pet-Care/API/db/'+'cuidador/3',{
+      method: 'POST',
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    })
+    //resposta
+    let ress = await req.json()
+    console.log(ress)
+  }
+
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
@@ -64,7 +79,9 @@ export function SignIn() {
               </HStack>
             </Radio.Group>
 
-            <ServiceButton title="Logar" color="white" />
+            <ServiceButton title="Logar" color="white" 
+              nextPage={verifyUser}
+            />
 
 
             <View borderBottomWidth={1} my={5} borderColor="white" />
