@@ -9,14 +9,24 @@ import {
   ScrollView
 } from 'native-base'
 import { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { InputData } from '../components/InputData'
-import { ServiceButton } from '../components/ServiceButton'
+import { Alert, TouchableOpacity } from 'react-native'
+import { Input } from '../components/Input'
+import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 
 export function SignIn() {
+  const [isCare, setIsCare] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [value, setValue] = useState('')
   const navigation = useNavigation()
+  function handleSignIn() {
+    if (!email || !password) {
+      return Alert.alert('Tente novamente', 'Informe seu e-mail e senha!')
+    }
+    // setIsLoading(true)
+  }
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
@@ -28,12 +38,16 @@ export function SignIn() {
             />
           </View>
           <VStack w="80%" mx="auto">
-            <InputData title="E-mail:" />
-            <InputData title="Senha:" type="password" />
+            <Input placeholder="E-mail:" onChangeText={setEmail} />
+            <Input
+              placeholder="Senha:"
+              type="password"
+              onChangeText={setPassword}
+            />
             <Radio.Group
               colorScheme="green"
-              onChange={nextValue => {
-                setValue(nextValue)
+              onChange={value => {
+                setIsCare(value)
               }}
             >
               <HStack w="80%" mx="auto" mb={5} justifyContent="space-between">
@@ -41,7 +55,7 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value="cuidador"
+                  value={true}
                   my="1"
                 >
                   <Text color="white">Sou cuidador</Text>
@@ -50,35 +64,33 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value="tutor"
+                  value={false}
                   my="1"
                 >
                   <Text color="white">Sou tutor</Text>
                 </Radio>
               </HStack>
             </Radio.Group>
-            <ServiceButton
+            <Button
               title="Logar"
-              color="white"
               borderWidth={1}
               borderColor="white"
-              backgroundColor="transparent"
               marginY={1}
               width="100%"
+              onPress={handleSignIn}
+              isLoading={isLoading}
             />
             <View borderBottomWidth={1} my={5} borderColor="white" />
             <Text textAlign="center" color="white" fontWeight="black">
               Não tem uma conta?
             </Text>
-            <ServiceButton
+            <Button
               title="Cadastre-se"
-              color="white"
               borderWidth={1}
               borderColor="white"
-              backgroundColor="transparent"
               marginY={1}
               width="100%"
-              handleFunction={() => navigation.navigate('optionsSignUp')}
+              onPress={() => navigation.navigate('optionsSignUp')}
             />
           </VStack>
           <View alignItems="center">
