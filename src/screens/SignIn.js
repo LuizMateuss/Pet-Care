@@ -15,17 +15,55 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 
 export function SignIn() {
-  const [isCare, setIsCare] = useState(false)
+  const [isCare, setIsCare] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [value, setValue] = useState('')
   const navigation = useNavigation()
-  function handleSignIn() {
-    if (!email || !password) {
-      return Alert.alert('Tente novamente', 'Informe seu e-mail e senha!')
+  const adminEmail = 'felipe@petcare.com'
+  const adminPassword = 'octocat123'
+
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('startPetCare', {
+        isCare
+      })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare }
+      })
     }
-    // setIsLoading(true)
+  }
+  function validationInput() {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+    setIsLoading(false)
+    if (reg.test(email) == false) {
+      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+    } else {
+      if (email === adminEmail) {
+        if (password === adminPassword) {
+          console.log('Usuário valido!')
+          verifyIsCareAndNextPage()
+        } else {
+          console.log('Senha inválida!')
+        }
+      } else {
+        console.log('E-mail inválido!')
+      }
+    }
+  }
+
+  function handleSignIn() {
+    if (!email || !password || isCare === '') {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, informe todos os campos.'
+      )
+    }
+    setIsLoading(true)
+    setTimeout(validationInput, 2000)
   }
   return (
     <ScrollView bg="white">
