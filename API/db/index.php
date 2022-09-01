@@ -1,28 +1,33 @@
 <?php
+    require 'vendor/autoload.php';
     use \Psr\Http\Message\ServerRequestInterface as Request;
     use \Psr\Http\Message\ResponseInterface as Response;
-    
-    require 'vendor/autoload.php';
+    use \Sct\Common\Environment;
+    Environment::load(__DIR__);
     
     $app = new \Slim\App;
-
+    
     $app->get('/', function(Request $request, Response $response, array $args){
         $response->getBody()->write("Teste API - HOME");
         return $response;
     });
-
-    //conectando com o banco
+    
+    // rotas
     $app->map(['get', 'post'], '/cuidadores', 'getCuidadores');
     $app->map(['get', 'post'], '/cuidador/{id}', 'getCuidador');
-
-
+    
+    
+    //conectando com o banco
     function getConn(){
-        return new PDO('mysql:host=localhost:3306;dbname=mydb',
-        'root',
-        '',
-        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
-    );
+        return new PDO('mysql:host='.getenv('HOST').':'.getenv('PORT').';dbname='.getenv('DATABASE'),
+            getenv('USER'),
+            getenv('PASSWD'),
+            array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+        );
     }
+
+    //FUNÇÕES DE CONCÇÃO
+    
     function getCuidadores(Request $request, Response $response, array $args){
         $sql = "SELECT * FROM Cuidador";
         $stmt = getConn()->query($sql);
