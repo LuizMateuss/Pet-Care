@@ -1,16 +1,7 @@
-import {
-  HStack,
-  VStack,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  Button
-} from 'native-base'
-import { ImageBackground, StyleSheet } from 'react-native'
+import { VStack, Image, Text, View, ScrollView } from 'native-base'
 import { SliderBox } from 'react-native-image-slider-box'
-import { ButtonMain } from '../components/ButtonMain'
 import { useNavigation } from '@react-navigation/native'
+import { Button } from '../components/Button'
 
 export function OptionsSignUp() {
   const navigation = useNavigation()
@@ -60,60 +51,26 @@ export function OptionsSignUp() {
           <VStack>
             <Button
               bg="#00ABBC"
-              rounded={60}
-              w="70%"
-              m="auto"
-              my={1}
+              width="70%"
               py={4}
               px={8}
-              _pressed={{ opacity: 1 }}
+              title="Seja um cuidador"
+              weight="bold"
               onPress={() =>
-                navigation.navigate('createAccount', {
-                  isCare: true
-                })
+                navigation.navigate('createAccount', { isCare: true })
               }
-            >
-              <Text
-                fontWeight="bold"
-                textAlign="center"
-                fontSize={{
-                  base: 'md',
-                  md: 'lg',
-                  lg: 'xl'
-                }}
-                color="white"
-              >
-                Seja um cuidador
-              </Text>
-            </Button>
+            />
             <Button
               bg="#511AC7"
-              rounded={60}
-              w="70%"
-              m="auto"
-              my={1}
+              width="70%"
               py={4}
               px={8}
-              _pressed={{ opacity: 1 }}
+              title="Sou um tutor"
+              weight="bold"
               onPress={() =>
-                navigation.navigate('createAccount', {
-                  isCare: false
-                })
+                navigation.navigate('createAccount', { isCare: false })
               }
-            >
-              <Text
-                fontWeight="bold"
-                textAlign="center"
-                fontSize={{
-                  base: 'md',
-                  md: 'lg',
-                  lg: 'xl'
-                }}
-                color="white"
-              >
-                Sou um tutor
-              </Text>
-            </Button>
+            />
           </VStack>
           <Image
             position="absolute"

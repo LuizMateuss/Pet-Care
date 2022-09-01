@@ -1,6 +1,6 @@
 import { Image, Text, VStack, View, useTheme } from 'native-base'
 import { PawPrint } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 
@@ -40,10 +40,12 @@ export function ServiceInProgress({ route }) {
             <></>
           ) : (
             <View mb={4}>
-              <ServiceButton
+              <Button
                 title="Chat"
-                color="primary.700"
-                nextPage={() => navigation.navigate('chat', { isCare })}
+                color={mainColor}
+                borderWidth={1}
+                borderColor={mainColor}
+                onPress={() => navigation.navigate('chat', { isCare })}
               />
             </View>
           )}
@@ -72,28 +74,41 @@ export function ServiceInProgress({ route }) {
                 >
                   1
                 </Text>
-                <ServiceButton
+                <Button
                   title="Chat"
-                  color="white"
-                  nextPage={() => navigation.navigate('chat', { isCare })}
+                  borderWidth={1}
+                  borderColor="white"
+                  width="100%"
+                  onPress={() => navigation.navigate('chat', { isCare })}
                 />
               </View>
             ) : (
               <></>
             )}
             <View mt={2}>
-              <Text color="white">Data: 14/06/2022</Text>
-              <Text color="white">Hora de início: 20:29</Text>
-              <Text color="white">Serviço: Passeio</Text>
-              <Text color="white">Cliente: xxx-xxx</Text>
+              <Text textAlign="center" color="white">
+                Data: 14/06/2022
+              </Text>
+              <Text textAlign="center" color="white">
+                Hora de início: 20:29
+              </Text>
+              <Text textAlign="center" color="white">
+                Serviço: Passeio
+              </Text>
+              <Text textAlign="center" color="white">
+                Cliente: xxx-xxx
+              </Text>
             </View>
           </VStack>
           {isCare ? (
             <VStack mt={4}>
-              <ServiceButton
+              <Button
                 title="Terminar passeio"
                 color={colors.red[700]}
-                nextPage={() => navigation.navigate('startPetCare', { isCare })}
+                borderWidth={1}
+                width="100%"
+                borderColor={colors.red[700]}
+                onPress={() => navigation.navigate('startPetCare', { isCare })}
               />
             </VStack>
           ) : (
