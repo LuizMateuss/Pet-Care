@@ -13,6 +13,7 @@ import { TouchableOpacity } from 'react-native'
 import { InputData } from '../components/InputData'
 import { ServiceButton } from '../components/ServiceButton'
 import { useNavigation } from '@react-navigation/native'
+import {SERVER_LINK, SERVER_METHOD} from '@env'
 
 export function SignIn() {
   const [value, setValue] = useState('')
@@ -20,8 +21,8 @@ export function SignIn() {
 
   //Conecta com o banco
   async function verifyUser() {
-    let req = await fetch('http://localhost/Pet-Care/API/db/'+'cuidador/3',{
-      method: 'POST',
+    let req = await fetch(SERVER_LINK+'cuidador/1',{
+      method: SERVER_METHOD,
       headers:{
         'Accept':'application/json',
         'Content-Type':'application/json'
