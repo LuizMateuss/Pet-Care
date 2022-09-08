@@ -1,39 +1,39 @@
 import { VStack, Image, Text, View, ScrollView } from 'native-base'
-import { SliderBox } from 'react-native-image-slider-box'
+import AppIntroSlider from 'react-native-app-intro-slider'
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
+import { useState } from 'react'
 
 export function OptionsSignUp() {
   const navigation = useNavigation()
-  const images = [
-    require('../../assets/img/husky-bg.png'),
-    require('../../assets/img/cat-dog-bg.png'),
-    require('../../assets/img/dog-bg.png')
+  const [showHome, setShowHome] = useState(false)
+  const slides = [
+    {
+      key: 1,
+      image: require('../../assets/img/husky-bg.png')
+    },
+    {
+      key: 2,
+      image: require('../../assets/img/cat-dog-bg.png')
+    },
+    {
+      key: 3,
+      image: require('../../assets/img/dog-bg.png')
+    }
   ]
-  return (
-    <View flex={1} bg="white">
-      <ScrollView>
-        <View position="relative" zIndex={-2}>
-          <SliderBox
-            disableOnPress
-            images={images}
-            sliderBoxHeight={500}
-            autoplayInterval={8000}
-            autoplay
-            circleLoop
-            dotColor="#FFF"
-            inactiveDotColor="transparent"
-            dotStyle={{
-              width: 8,
-              height: 8,
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'white',
-              marginBottom: 60
-            }}
-          />
-        </View>
-        <VStack>
+  function renderSlides({ item }) {
+    return (
+      <View flex={1} bg="white">
+        <Image
+          alt="Imagem Pet"
+          source={item.image}
+          w="100%"
+          h="65%"
+          position="relative"
+          zIndex={-2}
+          borderBottomRadius={50}
+        />
+        <VStack position="relative" zIndex={1} bg="white" pt={4}>
           <Text
             fontSize={14}
             fontWeight="bold"
@@ -72,17 +72,29 @@ export function OptionsSignUp() {
               }
             />
           </VStack>
-          <Image
-            position="absolute"
-            zIndex={-1}
-            top={-60}
-            alt="Fundo branco"
-            w="100%"
-            h={308}
-            source={require('../../assets/img/whiteVectorBottom.png')}
-          />
         </VStack>
-      </ScrollView>
-    </View>
+      </View>
+    )
+  }
+  return (
+    <AppIntroSlider
+      renderItem={renderSlides}
+      data={slides}
+      activeDotStyle={{
+        backgroundColor: 'white',
+        width: 30,
+        position: 'relative',
+        top: '-80%'
+      }}
+      dotStyle={{
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: 'white',
+        position: 'relative',
+        top: '-80%'
+      }}
+      renderDoneButton={() => <></>}
+      renderNextButton={() => <></>}
+    />
   )
 }
