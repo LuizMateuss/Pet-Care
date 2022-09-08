@@ -31,7 +31,6 @@ export function OptionsSignUp() {
           h="65%"
           position="relative"
           zIndex={-2}
-          borderBottomRadius={50}
         />
         <VStack position="relative" zIndex={1} bg="white" pt={4}>
           <Text
