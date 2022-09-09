@@ -32,29 +32,19 @@ export function SearchPetCare({ route }) {
         <View h="80%">
           <ScrollView>
             <CareCard
-              nextPage={() =>
-                navigation.navigate('contractService', { isCare })
-              }
+              onPress={() => navigation.navigate('contractService', { isCare })}
             />
             <CareCard
-              nextPage={() =>
-                navigation.navigate('contractService', { isCare })
-              }
+              onPress={() => navigation.navigate('contractService', { isCare })}
             />
             <CareCard
-              nextPage={() =>
-                navigation.navigate('contractService', { isCare })
-              }
+              onPress={() => navigation.navigate('contractService', { isCare })}
             />
             <CareCard
-              nextPage={() =>
-                navigation.navigate('contractService', { isCare })
-              }
+              onPress={() => navigation.navigate('contractService', { isCare })}
             />
             <CareCard
-              nextPage={() =>
-                navigation.navigate('contractService', { isCare })
-              }
+              onPress={() => navigation.navigate('contractService', { isCare })}
             />
           </ScrollView>
         </View>

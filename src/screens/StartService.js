@@ -9,11 +9,11 @@ import {
   Image
 } from 'native-base'
 
-import { Dimensions, StyleSheet, Modal } from 'react-native'
+import { Modal } from 'react-native'
 
 import { PawPrint } from 'phosphor-react-native'
 
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 import { useNavigation } from '@react-navigation/native'
 
@@ -48,7 +48,7 @@ export function StartService({ route }) {
   function cancelService() {
     isCare
       ? navigation.navigate('startPetCare', { isCare })
-      : navigation.navigate('searchLocalization', { isCare })
+      : navigation.navigate('menuHamburguer', { isCare })
     setVisible(false)
   }
   return (
@@ -113,57 +113,70 @@ export function StartService({ route }) {
             <Text textAlign="center" fontSize={15} my={5}>
               *Punições poderão ser aplicadas segundo os termos de serviço
             </Text>
-            <ServiceButton
+
+            <Button
               title="Sim"
               color={colors.cyan[700]}
-              nextPage={cancelService}
+              borderWidth={1}
+              borderColor={colors.cyan[700]}
+              my={1}
+              w="100%"
+              onPress={cancelService}
             />
-            <ButtonNativeBase
+            <Button
+              title="Cancelar"
+              color={colors.red[700]}
               borderWidth={1}
               borderColor={colors.red[700]}
-              bg="transparent"
               my={1}
-              rounded={20}
-              _pressed={{ bg: 'gray.100' }}
+              w="100%"
               onPress={() => setVisible(false)}
-            >
-              <Text color={colors.red[700]}>Cancelar</Text>
-            </ButtonNativeBase>
+            />
           </View>
         </ModalCancel>
-        <VStack mt={4}>
+        <VStack>
           {isCare ? (
-            <ServiceButton
+            <Button
               title="Começar serviço"
               color={colors.cyan[700]}
-              nextPage={() =>
+              borderWidth={1}
+              borderColor={colors.cyan[700]}
+              my={1}
+              w="100%"
+              onPress={() =>
                 navigation.navigate('serviceInProgress', { isCare })
               }
             />
           ) : (
-            <ServiceButton
+            <Button
               title="Ver perfil do cuidador"
               color={mainColor}
-              nextPage={() => navigation.navigate('userProfile', { isCare })}
+              borderWidth={1}
+              borderColor={mainColor}
+              my={1}
+              w="100%"
+              onPress={() => navigation.navigate('userProfile', { isCare })}
             />
           )}
 
-          <ServiceButton
+          <Button
             title="Chat"
             color={mainColor}
-            nextPage={() => navigation.navigate('chat', { isCare })}
+            borderWidth={1}
+            borderColor={mainColor}
+            my={1}
+            w="100%"
+            onPress={() => navigation.navigate('chat', { isCare })}
           />
-          <ButtonNativeBase
+          <Button
+            title="Cancelar"
+            color={colors.red[700]}
             borderWidth={1}
             borderColor={colors.red[700]}
-            bg="transparent"
             my={1}
-            rounded={20}
-            _pressed={{ bg: 'gray.100' }}
+            w="100%"
             onPress={() => setVisible(true)}
-          >
-            <Text color={colors.red[700]}>Cancelar</Text>
-          </ButtonNativeBase>
+          />
         </VStack>
       </VStack>
     </VStack>

@@ -1,9 +1,9 @@
 import { ScrollView, View, Text } from 'native-base'
 import { TouchableOpacity } from 'react-native'
 import { CaretLeft } from 'phosphor-react-native'
-import { ButtonMain } from '../components/ButtonMain'
 import { useNavigation } from '@react-navigation/native'
 import { PetInfo } from '../components/PetInfo'
+import { Button } from '../components/Button'
 export function PetProfile() {
   const navigation = useNavigation()
   return (
@@ -36,10 +36,13 @@ export function PetProfile() {
         m="auto"
         my={5}
       ></View>
-      <ButtonMain
+      <Button
         title="Adicional animal"
-        color="primary.700"
-        colorText="white"
+        color="white"
+        backgroundColor="#511AC7"
+        my={5}
+        width="80%"
+        margin="auto"
       />
     </View>
   )

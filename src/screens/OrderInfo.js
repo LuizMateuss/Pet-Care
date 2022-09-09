@@ -1,14 +1,6 @@
-import {
-  HStack,
-  VStack,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Button
-} from 'native-base'
+import { HStack, VStack, View, Text, ScrollView, Image } from 'native-base'
 import { MapPin } from 'phosphor-react-native'
-import { ServiceButton } from '../components/ServiceButton'
+import { Button } from '../components/Button'
 
 import { useNavigation } from '@react-navigation/native'
 
@@ -55,7 +47,7 @@ export function OrderInfo() {
               Solicitação para: 01/06 - 14h
             </Text>
           </VStack>
-          <VStack mt={20}>
+          <VStack mt="20%">
             <Text
               textAlign="center"
               fontSize={20}
@@ -96,34 +88,31 @@ export function OrderInfo() {
             </HStack>
           </VStack>
           <VStack mt={10}>
-            <HStack mb={20} justifyContent="space-between">
+            <HStack mb="20%" justifyContent="space-between">
               <Button
+                color="white"
+                title="Aceitar"
                 borderWidth={1}
                 borderColor="white"
-                bg="transparent"
-                rounded={20}
-                w="40%"
-                mr={5}
-                _pressed={{ bg: 'gray.100' }}
-              >
-                <Text color="white">Aceitar</Text>
-              </Button>
+                width="40%"
+                onPress={() => navigation.goBack()}
+              />
               <Button
+                color="white"
+                title="Recusar"
                 borderWidth={1}
                 borderColor="white"
-                bg="transparent"
-                rounded={20}
-                w="40%"
-                ml={5}
-                _pressed={{ bg: 'gray.100' }}
-              >
-                <Text color="white">Recusar</Text>
-              </Button>
+                width="40%"
+                onPress={() => navigation.goBack()}
+              />
             </HStack>
-            <ServiceButton
+            <Button
               color="white"
               title="Voltar"
-              nextPage={() => navigation.goBack()}
+              borderWidth={1}
+              borderColor="white"
+              width="100%"
+              onPress={() => navigation.goBack()}
             />
           </VStack>
         </VStack>

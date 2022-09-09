@@ -1,48 +1,38 @@
-import {
-  HStack,
-  VStack,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  Button
-} from 'native-base'
-import { ImageBackground, StyleSheet } from 'react-native'
-import { SliderBox } from 'react-native-image-slider-box'
-import { ButtonMain } from '../components/ButtonMain'
+import { VStack, Image, Text, View, ScrollView } from 'native-base'
+import AppIntroSlider from 'react-native-app-intro-slider'
 import { useNavigation } from '@react-navigation/native'
+import { Button } from '../components/Button'
+import { useState } from 'react'
 
 export function OptionsSignUp() {
   const navigation = useNavigation()
-  const images = [
-    require('../../assets/img/husky-bg.png'),
-    require('../../assets/img/cat-dog-bg.png'),
-    require('../../assets/img/dog-bg.png')
+  const [showHome, setShowHome] = useState(false)
+  const slides = [
+    {
+      key: 1,
+      image: require('../../assets/img/husky-bg.png')
+    },
+    {
+      key: 2,
+      image: require('../../assets/img/cat-dog-bg.png')
+    },
+    {
+      key: 3,
+      image: require('../../assets/img/dog-bg.png')
+    }
   ]
-  return (
-    <View flex={1} bg="white">
-      <ScrollView>
-        <View position="relative" zIndex={-2}>
-          <SliderBox
-            disableOnPress
-            images={images}
-            sliderBoxHeight={500}
-            autoplayInterval={8000}
-            autoplay
-            circleLoop
-            dotColor="#FFF"
-            inactiveDotColor="transparent"
-            dotStyle={{
-              width: 8,
-              height: 8,
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'white',
-              marginBottom: 60
-            }}
-          />
-        </View>
-        <VStack>
+  function renderSlides({ item }) {
+    return (
+      <View flex={1} bg="white">
+        <Image
+          alt="Imagem Pet"
+          source={item.image}
+          w="100%"
+          h="65%"
+          position="relative"
+          zIndex={-2}
+        />
+        <VStack position="relative" zIndex={1} bg="white" pt={4}>
           <Text
             fontSize={14}
             fontWeight="bold"
@@ -60,72 +50,50 @@ export function OptionsSignUp() {
           <VStack>
             <Button
               bg="#00ABBC"
-              rounded={60}
-              w="70%"
-              m="auto"
-              my={1}
+              width="70%"
               py={4}
               px={8}
-              _pressed={{ opacity: 1 }}
+              title="Seja um cuidador"
+              weight="bold"
               onPress={() =>
-                navigation.navigate('createAccount', {
-                  isCare: true
-                })
+                navigation.navigate('createAccount', { isCare: true })
               }
-            >
-              <Text
-                fontWeight="bold"
-                textAlign="center"
-                fontSize={{
-                  base: 'md',
-                  md: 'lg',
-                  lg: 'xl'
-                }}
-                color="white"
-              >
-                Seja um cuidador
-              </Text>
-            </Button>
+            />
             <Button
               bg="#511AC7"
-              rounded={60}
-              w="70%"
-              m="auto"
-              my={1}
+              width="70%"
               py={4}
               px={8}
-              _pressed={{ opacity: 1 }}
+              title="Sou um tutor"
+              weight="bold"
               onPress={() =>
-                navigation.navigate('createAccount', {
-                  isCare: false
-                })
+                navigation.navigate('createAccount', { isCare: false })
               }
-            >
-              <Text
-                fontWeight="bold"
-                textAlign="center"
-                fontSize={{
-                  base: 'md',
-                  md: 'lg',
-                  lg: 'xl'
-                }}
-                color="white"
-              >
-                Sou um tutor
-              </Text>
-            </Button>
+            />
           </VStack>
-          <Image
-            position="absolute"
-            zIndex={-1}
-            top={-60}
-            alt="Fundo branco"
-            w="100%"
-            h={308}
-            source={require('../../assets/img/whiteVectorBottom.png')}
-          />
         </VStack>
-      </ScrollView>
-    </View>
+      </View>
+    )
+  }
+  return (
+    <AppIntroSlider
+      renderItem={renderSlides}
+      data={slides}
+      activeDotStyle={{
+        backgroundColor: 'white',
+        width: 30,
+        position: 'relative',
+        top: '-80%'
+      }}
+      dotStyle={{
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: 'white',
+        position: 'relative',
+        top: '-80%'
+      }}
+      renderDoneButton={() => <></>}
+      renderNextButton={() => <></>}
+    />
   )
 }

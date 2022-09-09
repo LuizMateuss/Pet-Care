@@ -5,8 +5,8 @@ import {
   CaretLeft,
   MagnifyingGlass
 } from 'phosphor-react-native'
-import { ButtonMain } from '../components/ButtonMain'
 import { TouchableOpacity } from 'react-native'
+import { Button } from '../components/Button'
 
 export function SearchLocalization({ route }) {
   const { isCare } = route.params
@@ -77,11 +77,12 @@ export function SearchLocalization({ route }) {
             placeholder="Insira uma data"
             InputLeftElement={<CalendarBlank size={24} color="#511AC7" />}
           />
-          <ButtonMain
+          <Button
             title="Achar um cuidador"
-            color="#511AC7"
-            colorText="white"
-            nextPage={() => navigation.navigate('searchPetCare', { isCare })}
+            bg="#511AC7"
+            w="70%"
+            py={4}
+            onPress={() => navigation.navigate('searchPetCare', { isCare })}
           />
         </VStack>
       </ScrollView>

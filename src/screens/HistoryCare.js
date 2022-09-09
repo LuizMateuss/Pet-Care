@@ -1,4 +1,4 @@
-import { HStack, VStack, View, Text, ScrollView } from 'native-base'
+import { VStack, View, ScrollView } from 'native-base'
 import { Header } from '../components/Header'
 import { HistoryCard } from '../components/HistoryCard'
 

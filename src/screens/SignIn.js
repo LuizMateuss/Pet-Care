@@ -9,30 +9,78 @@ import {
   ScrollView
 } from 'native-base'
 import { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { InputData } from '../components/InputData'
-import { ServiceButton } from '../components/ServiceButton'
+import { Alert, TouchableOpacity } from 'react-native'
+import { Input } from '../components/Input'
+import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import {SERVER_LINK, SERVER_METHOD} from '@env'
 
 export function SignIn() {
+  const [isCare, setIsCare] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [value, setValue] = useState('')
   const navigation = useNavigation()
 
-  //Conecta com o banco
-  async function verifyUser() {
-    let req = await fetch(SERVER_LINK+'cuidador/1',{
-      method: SERVER_METHOD,
-      headers:{
-        'Accept':'application/json',
-        'Content-Type':'application/json'
+  // //Conecta com o banco
+  // async function verifyUser() {
+  //   let req = await fetch(SERVER_LINK+'cuidador/1',{
+  //     method: SERVER_METHOD,
+  //     headers:{
+  //       'Accept':'application/json',
+  //       'Content-Type':'application/json'
+  //     }
+  //   })
+  //   //resposta
+  //   let ress = await req.json()
+  //   console.log(ress)
+  // }
+
+  const adminEmail = 'felipe@petcare.com'
+  const adminPassword = 'octocat123'
+
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('startPetCare', {
+        isCare
+      })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare }
+      })
+    }
+  }
+  function validationInput() {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+    setIsLoading(false)
+    if (reg.test(email) == false) {
+      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+    } else {
+      if (email === adminEmail) {
+        if (password === adminPassword) {
+          console.log('Usuário valido!')
+          verifyIsCareAndNextPage()
+        } else {
+          console.log('Senha inválida!')
+        }
+      } else {
+        console.log('E-mail inválido!')
       }
-    })
-    //resposta
-    let ress = await req.json()
-    console.log(ress)
+    }
   }
 
+  function handleSignIn() {
+    if (!email || !password || isCare === '') {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, informe todos os campos.'
+      )
+    }
+    setIsLoading(true)
+    setTimeout(validationInput, 2000)
+  }
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
@@ -49,13 +97,17 @@ export function SignIn() {
           {/* TAG COM CAMPOS EMAIL, PSSWD E RADIO */}
           <VStack w="80%" mx="auto">
 
-            <InputData title="E-mail:" />
-            <InputData title="Senha:" type="password" />
+            <Input placeholder="E-mail:" onChangeText={setEmail} />
+            <Input
+              placeholder="Senha:"
+              type="password"
+              onChangeText={setPassword}
+            />
 
             <Radio.Group
               colorScheme="green"
-              onChange={nextValue => {
-                setValue(nextValue)
+              onChange={value => {
+                setIsCare(value)
               }}
             >
               <HStack w="80%" mx="auto" mb={5} justifyContent="space-between">
@@ -63,7 +115,7 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value="cuidador"
+                  value={true}
                   my="1"
                 >
                   <Text color="white">Sou cuidador</Text>
@@ -72,28 +124,34 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value="tutor"
+                  value={false}
                   my="1"
                 >
                   <Text color="white">Sou tutor</Text>
                 </Radio>
               </HStack>
             </Radio.Group>
-
-            <ServiceButton title="Logar" color="white" 
-              nextPage={verifyUser}
+            <Button
+              title="Logar"
+              borderWidth={1}
+              borderColor="white"
+              marginY={1}
+              width="100%"
+              onPress={handleSignIn}
+              isLoading={isLoading}
             />
-
 
             <View borderBottomWidth={1} my={5} borderColor="white" />
             <Text textAlign="center" color="white" fontWeight="black">
               Não tem uma conta?
             </Text>
-
-            <ServiceButton
+            <Button
               title="Cadastre-se"
-              color="white"
-              nextPage={() => navigation.navigate('optionsSignUp')}
+              borderWidth={1}
+              borderColor="white"
+              marginY={1}
+              width="100%"
+              onPress={() => navigation.navigate('optionsSignUp')}
             />
           </VStack>
 
