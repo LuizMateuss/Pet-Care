@@ -13,7 +13,7 @@
     });
     
     // rotas
-    $app->map(['get', 'post'], '/cuidadores', 'getCuidadores');
+    $app->map(['get', 'post'], '/nome-tutor-animal', 'getNomeTutorAnimal');
     $app->map(['get', 'post'], '/cuidador/{id}', 'getCuidador');
     
     
@@ -28,8 +28,8 @@
 
     //FUNÇÕES DE CONCÇÃO
     
-    function getCuidadores(Request $request, Response $response, array $args){
-        $sql = "SELECT * FROM Cuidador";
+    function getNomeTutorAnimal(Request $request, Response $response, array $args){
+        $sql = "SELECT * FROM nomeTutorAnimal";
         $stmt = getConn()->query($sql);
         $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($cuidadores));
@@ -40,13 +40,13 @@
     function getCuidador(Request $request, Response $response, array $args){
         $id = $args['id'];
         $conn = getConn();
-        $sql ="SELECT * FROM Cuidador WHERE cd_cuidador=:cd_cuidador";
+        $sql ="SELECT * FROM usuario WHERE cd_usuario=:cd_usuario";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam("cd_cuidador", $id);
+        $stmt->bindParam("cd_usuario", $id);
         $stmt->execute();
-        $cuidador=$stmt->fetchObject();
+        $usuario=$stmt->fetchObject();
 
-        $response->getBody()->write(json_encode($cuidador));
+        $response->getBody()->write(json_encode($usuario));
         return $response;
     }
 

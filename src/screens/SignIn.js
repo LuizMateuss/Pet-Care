@@ -23,64 +23,65 @@ export function SignIn() {
   const [value, setValue] = useState('')
   const navigation = useNavigation()
 
-  // //Conecta com o banco
-  // async function verifyUser() {
-  //   let req = await fetch(SERVER_LINK+'cuidador/1',{
-  //     method: SERVER_METHOD,
-  //     headers:{
-  //       'Accept':'application/json',
-  //       'Content-Type':'application/json'
+  //Conecta com o banco
+  async function verifyUser() {
+    let req = await fetch(SERVER_LINK+'nome-tutor-animal',{
+      method: SERVER_METHOD,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    })
+    //resposta
+    let ress = await req.json()
+    console.log(ress)
+    console.warn(ress)
+  }
+
+  // const adminEmail = 'felipe@petcare.com'
+  // const adminPassword = 'octocat123'
+
+  // function verifyIsCareAndNextPage() {
+  //   if (isCare) {
+  //     navigation.navigate('startPetCare', {
+  //       isCare
+  //     })
+  //   } else {
+  //     navigation.navigate('menuHamburguer', {
+  //       screen: 'startPetCare',
+  //       params: { isCare }
+  //     })
+  //   }
+  // }
+  // function validationInput() {
+  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+  //   setIsLoading(false)
+  //   if (reg.test(email) == false) {
+  //     return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+  //   } else {
+  //     if (email === adminEmail) {
+  //       if (password === adminPassword) {
+  //         console.log('Usuário valido!')
+  //         verifyIsCareAndNextPage()
+  //       } else {
+  //         console.log('Senha inválida!')
+  //       }
+  //     } else {
+  //       console.log('E-mail inválido!')
   //     }
-  //   })
-  //   //resposta
-  //   let ress = await req.json()
-  //   console.log(ress)
+  //   }
   // }
 
-  const adminEmail = 'felipe@petcare.com'
-  const adminPassword = 'octocat123'
-
-  function verifyIsCareAndNextPage() {
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare }
-      })
-    }
-  }
-  function validationInput() {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    setIsLoading(false)
-    if (reg.test(email) == false) {
-      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
-    } else {
-      if (email === adminEmail) {
-        if (password === adminPassword) {
-          console.log('Usuário valido!')
-          verifyIsCareAndNextPage()
-        } else {
-          console.log('Senha inválida!')
-        }
-      } else {
-        console.log('E-mail inválido!')
-      }
-    }
-  }
-
-  function handleSignIn() {
-    if (!email || !password || isCare === '') {
-      return Alert.alert(
-        'Tente novamente',
-        'Por favor, informe todos os campos.'
-      )
-    }
-    setIsLoading(true)
-    setTimeout(validationInput, 2000)
-  }
+  // function handleSignIn() {
+  //   if (!email || !password || isCare === '') {
+  //     return Alert.alert(
+  //       'Tente novamente',
+  //       'Por favor, informe todos os campos.'
+  //     )
+  //   }
+  //   setIsLoading(true)
+  //   setTimeout(validationInput, 2000)
+  // }
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
@@ -137,7 +138,7 @@ export function SignIn() {
               borderColor="white"
               marginY={1}
               width="100%"
-              onPress={handleSignIn}
+              onPress={verifyUser}
               isLoading={isLoading}
             />
 
