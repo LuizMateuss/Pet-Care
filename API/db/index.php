@@ -102,7 +102,10 @@
                 $response->getBody()->write(json_encode($cuidadores));
                 return $response;
                 break;
-                default: echo "Selecione uma view de 1 a 10"; break;
+            default: 
+                $response->getBody()->write(json_encode("Selecione uma view de 1 a 10"));
+                return $response;
+                break;
         }
     }
 

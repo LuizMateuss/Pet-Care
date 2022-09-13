@@ -23,65 +23,45 @@ export function SignIn() {
   const [value, setValue] = useState('')
   const navigation = useNavigation()
 
+
   //Conecta com o banco
   async function verifyUser() {
-    let req = await fetch(SERVER_LINK+'nome-tutor-animal',{
+    let num
+    //define qualquer valor para não dar erro na api, caindo no default do switch
+    if(!email){
+      num='oi'
+    }else{
+      num=email
+    }
+    //chama a função na api
+    let req = await fetch(SERVER_LINK+`view/${num}`,{
       method: SERVER_METHOD,
       headers:{
         'Accept':'application/json',
         'Content-Type':'application/json'
       }
     })
+
     //resposta
     let ress = await req.json()
-    console.log(ress)
-    console.warn(ress)
+
+    //retorna um erro da api
+    if(!password || num=='oi' || num>10)
+      console.warn(ress)
+    //retorna o numero do objeto da view especificado na senha
+    else if(password.match(/[0-9]/) && password < ress.length)
+      console.warn(ress[password])
+    else
+    //informa a possibilidade máxima de objetos
+      console.warn(`Insira um número menor ou igual a ${ress.length-1} em senha`)
+
+    //apenas um informativo
+    setTimeout(() => {
+      console.log("Numero da view: "+num)
+      console.log("Numeros de objetos: "+ress.length)
+    }, 500);
   }
 
-  // const adminEmail = 'felipe@petcare.com'
-  // const adminPassword = 'octocat123'
-
-  // function verifyIsCareAndNextPage() {
-  //   if (isCare) {
-  //     navigation.navigate('startPetCare', {
-  //       isCare
-  //     })
-  //   } else {
-  //     navigation.navigate('menuHamburguer', {
-  //       screen: 'startPetCare',
-  //       params: { isCare }
-  //     })
-  //   }
-  // }
-  // function validationInput() {
-  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-  //   setIsLoading(false)
-  //   if (reg.test(email) == false) {
-  //     return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
-  //   } else {
-  //     if (email === adminEmail) {
-  //       if (password === adminPassword) {
-  //         console.log('Usuário valido!')
-  //         verifyIsCareAndNextPage()
-  //       } else {
-  //         console.log('Senha inválida!')
-  //       }
-  //     } else {
-  //       console.log('E-mail inválido!')
-  //     }
-  //   }
-  // }
-
-  // function handleSignIn() {
-  //   if (!email || !password || isCare === '') {
-  //     return Alert.alert(
-  //       'Tente novamente',
-  //       'Por favor, informe todos os campos.'
-  //     )
-  //   }
-  //   setIsLoading(true)
-  //   setTimeout(validationInput, 2000)
-  // }
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
