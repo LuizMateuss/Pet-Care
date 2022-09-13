@@ -24,21 +24,18 @@ export function SignIn() {
   const navigation = useNavigation()
 
   // //Conecta com o banco
-  // async function verifyUser() {
-  //   let req = await fetch(SERVER_LINK+'cuidador/1',{
-  //     method: SERVER_METHOD,
-  //     headers:{
-  //       'Accept':'application/json',
-  //       'Content-Type':'application/json'
-  //     }
-  //   })
-  //   //resposta
-  //   let ress = await req.json()
-  //   console.log(ress)
-  // }
-
-  const adminEmail = 'felipe@petcare.com'
-  const adminPassword = 'octocat123'
+  async function verifyUser() {
+    let req = await fetch(SERVER_LINK+`login/${email}/${password}/${isCare}`,{
+      method: SERVER_METHOD,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    })
+    //resposta
+    let resLogin = await req.json()
+    console.log(resLogin)
+  }
 
   function verifyIsCareAndNextPage() {
     if (isCare) {
@@ -58,6 +55,9 @@ export function SignIn() {
     if (reg.test(email) == false) {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
+      verifyUser()
+      const adminEmail = 'felipe@petcare.com'
+      const adminPassword = '123'
       if (email === adminEmail) {
         if (password === adminPassword) {
           console.log('Usuário valido!')

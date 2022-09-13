@@ -6,17 +6,7 @@
     Environment::load(__DIR__);
     
     $app = new \Slim\App;
-    
-    $app->get('/', function(Request $request, Response $response, array $args){
-        $response->getBody()->write("Teste API - HOME");
-        return $response;
-    });
-    
-    // rotas
-    $app->map(['get', 'post'], '/cuidadores', 'getCuidadores');
-    $app->map(['get', 'post'], '/cuidador/{id}', 'getCuidador');
-    
-    
+
     //conectando com o banco
     function getConn(){
         return new PDO('mysql:host='.getenv('HOST').':'.getenv('PORT').';dbname='.getenv('DATABASE'),
@@ -25,28 +15,46 @@
             array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
         );
     }
+    
+    // rotas
+    $app->map(['get', 'post'], '/login/{email}/{password}/{isCare}', 'getLogin');
 
     //FUNÇÕES DE CONCÇÃO
     
-    function getCuidadores(Request $request, Response $response, array $args){
-        $sql = "SELECT * FROM Cuidador";
-        $stmt = getConn()->query($sql);
-        $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
-        $response->getBody()->write(json_encode($cuidadores));
-        // $response->json_encode($cuidadores);
+    $app->get('/', function(Request $request, Response $response, array $args){
+        $response->getBody()->write("Teste API - HOME");
         return $response;
-    }
+    });
 
-    function getCuidador(Request $request, Response $response, array $args){
-        $id = $args['id'];
+    // function getCuidadores(Request $request, Response $response, array $args){
+    //     $sql = "SELECT * FROM Cuidador";
+    //     $stmt = getConn()->query($sql);
+    //     $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+    //     $response->getBody()->write(json_encode($cuidadores));
+    //     // $response->json_encode($cuidadores);
+    //     return $response;
+    // }
+
+    function getLogin(Request $request, Response $response, array $args){
+        $email = $args['email'];
+        $password = $args['password'];
+        $isCare = $args['isCare'];
+        //### SOLUÇÃO PROVIÓRIA PARA PROBLEMA DE BOOLEANO NO BANCO COM cd_isCare
+        if($isCare=="true")
+            $isCare=1;
+        if($isCare=="false")
+            $isCare=0;
+        //##############
         $conn = getConn();
-        $sql ="SELECT * FROM Cuidador WHERE cd_cuidador=:cd_cuidador";
+        $sql ="SELECT nm_email, nm_senha, cd_isCare FROM usuario WHERE nm_email=:nm_email AND nm_senha=:nm_senha AND cd_isCare=:cd_isCare";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam("cd_cuidador", $id);
+        $stmt->bindParam("nm_email", $email);
+        $stmt->bindParam("nm_senha", $password);
+        $stmt->bindParam("cd_isCare", $isCare);
         $stmt->execute();
-        $cuidador=$stmt->fetchObject();
+        $informations=$stmt->fetchObject();
 
-        $response->getBody()->write(json_encode($cuidador));
+        $response->getBody()->write(json_encode($informations));
         return $response;
     }
 
