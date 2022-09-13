@@ -15,3 +15,12 @@ web-build/
 
 vendor/
 .env
+
+#android studio
+.gradle
+.idea
+gradle
+build.gradle
+gradlew
+gradlew.bat
+local.properties
