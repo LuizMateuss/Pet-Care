@@ -13,7 +13,7 @@
     });
     
     // rotas
-    $app->map(['get', 'post'], '/nome-tutor-animal', 'getNomeTutorAnimal');
+    $app->map(['get', 'post'], '/view/{id}', 'getViews');
     $app->map(['get', 'post'], '/cuidador/{id}', 'getCuidador');
     
     
@@ -28,26 +28,83 @@
 
     //FUNÇÕES DE CONCÇÃO
     
-    function getNomeTutorAnimal(Request $request, Response $response, array $args){
-        $sql = "SELECT * FROM nomeTutorAnimal";
-        $stmt = getConn()->query($sql);
-        $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
-        $response->getBody()->write(json_encode($cuidadores));
-        // $response->json_encode($cuidadores);
-        return $response;
-    }
-
-    function getCuidador(Request $request, Response $response, array $args){
-        $id = $args['id'];
-        $conn = getConn();
-        $sql ="SELECT * FROM usuario WHERE cd_usuario=:cd_usuario";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam("cd_usuario", $id);
-        $stmt->execute();
-        $usuario=$stmt->fetchObject();
-
-        $response->getBody()->write(json_encode($usuario));
-        return $response;
+    function getViews(Request $request, Response $response, array $args){   
+        $view = $args['id']; 
+        switch ($view) {
+            case 1:
+                $sql = "SELECT * FROM nomeTutorAnimal";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 2:
+                $sql = "SELECT * FROM cepUsuario";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 3:
+                $sql = "SELECT * FROM nomeAnimalServico";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 4:
+                $sql = "SELECT * FROM portePesoAnimal";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+            
+                return $response;
+                break;
+            case 5:
+                $sql = "SELECT * FROM servicoPagamento";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 6:
+                $sql = "SELECT * FROM tiposPagamentos";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 7:
+                $sql = "SELECT * FROM generoRacaAnimal";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 8:
+                $sql = "SELECT * FROM dadosDoServico";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break; 
+            case 9:
+                $sql = "SELECT * FROM servicoTotalAnimal";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+            case 10:
+                $sql = "SELECT * FROM codigosUsuarioAnimalServicoPagamento";
+                $stmt = getConn()->query($sql);
+                $cuidadores = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $response->getBody()->write(json_encode($cuidadores));
+                return $response;
+                break;
+                default: echo "Selecione uma view de 1 a 10"; break;
+        }
     }
 
     $app->run();
+
