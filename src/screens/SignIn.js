@@ -51,17 +51,15 @@ export function SignIn() {
       //resposta
       let resLogin = await req.json()
       
-      const adminEmail = resLogin.nm_email
-      const adminPassword = resLogin.nm_senha
-      if (email === adminEmail) {
-        if (password === adminPassword) {
-          console.log('Usuário valido!')
-          verifyIsCareAndNextPage()
-        } else {
-          console.log('Senha inválida!')
-        }
+      const bdEmail = resLogin.nm_email
+      const bdPassword = resLogin.nm_senha
+      const bdIsCare = resLogin.cd_isCare
+      console.log(bdIsCare)
+      if ((email === bdEmail) && (password === bdPassword) && (isCare === bdIsCare)) {
+        console.log('Usuário valido!')
+        verifyIsCareAndNextPage()
       } else {
-        console.log('E-mail inválido!')
+        console.log('E-mail, senha ou tipo de conta inválido!')
       }
     }
   }
@@ -113,16 +111,17 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value={true}
+                  value={"C"}
                   my="1"
                 >
                   <Text color="white">Sou cuidador</Text>
                 </Radio>
+
                 <Radio
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value={false}
+                  value={"T"}
                   my="1"
                 >
                   <Text color="white">Sou tutor</Text>

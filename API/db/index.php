@@ -39,12 +39,6 @@
         $email = $args['email'];
         $password = $args['password'];
         $isCare = $args['isCare'];
-        //### SOLUÇÃO PROVIÓRIA PARA PROBLEMA DE BOOLEANO NO BANCO COM cd_isCare
-        if($isCare=="true")
-            $isCare=1;
-        if($isCare=="false")
-            $isCare=0;
-        //##############
         $conn = getConn();
         $sql ="SELECT nm_email, nm_senha, cd_isCare FROM usuario WHERE nm_email=:nm_email AND nm_senha=:nm_senha AND cd_isCare=:cd_isCare";
         $stmt = $conn->prepare($sql);
