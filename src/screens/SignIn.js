@@ -20,21 +20,50 @@ export function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [value, setValue] = useState('')
   const navigation = useNavigation()
 
-  // //Conecta com o banco
+  //valida campos vázios
+  function handleSignIn() {
+    if (!email || !password || isCare === '') {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, informe todos os campos.'
+      )
+    }
+    setIsLoading(true)
+    setTimeout(verifyUser, 2000)
+  }
+
   async function verifyUser() {
-    let req = await fetch(SERVER_LINK+`login/${email}/${password}/${isCare}`,{
-      method: SERVER_METHOD,
-      headers:{
-        'Accept':'application/json',
-        'Content-Type':'application/json'
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+    setIsLoading(false)
+    if (reg.test(email) == false) {
+      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+    } else {
+      //Conecta com o banco
+      let req = await fetch(SERVER_LINK+`login/${email}/${password}/${isCare}`,{
+        method: SERVER_METHOD,
+        headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+        }
+      })
+      //resposta
+      let resLogin = await req.json()
+      
+      const adminEmail = resLogin.nm_email
+      const adminPassword = resLogin.nm_senha
+      if (email === adminEmail) {
+        if (password === adminPassword) {
+          console.log('Usuário valido!')
+          verifyIsCareAndNextPage()
+        } else {
+          console.log('Senha inválida!')
+        }
+      } else {
+        console.log('E-mail inválido!')
       }
-    })
-    //resposta
-    let resLogin = await req.json()
-    console.log(resLogin)
+    }
   }
 
   function verifyIsCareAndNextPage() {
@@ -49,38 +78,7 @@ export function SignIn() {
       })
     }
   }
-  function validationInput() {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    setIsLoading(false)
-    if (reg.test(email) == false) {
-      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
-    } else {
-      verifyUser()
-      const adminEmail = 'felipe@petcare.com'
-      const adminPassword = '123'
-      if (email === adminEmail) {
-        if (password === adminPassword) {
-          console.log('Usuário valido!')
-          verifyIsCareAndNextPage()
-        } else {
-          console.log('Senha inválida!')
-        }
-      } else {
-        console.log('E-mail inválido!')
-      }
-    }
-  }
 
-  function handleSignIn() {
-    if (!email || !password || isCare === '') {
-      return Alert.alert(
-        'Tente novamente',
-        'Por favor, informe todos os campos.'
-      )
-    }
-    setIsLoading(true)
-    setTimeout(validationInput, 2000)
-  }
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
