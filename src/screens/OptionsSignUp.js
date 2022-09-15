@@ -24,76 +24,79 @@ export function OptionsSignUp() {
   function renderSlides({ item }) {
     return (
       <View flex={1} bg="white">
-        <Image
-          alt="Imagem Pet"
-          source={item.image}
-          w="100%"
-          h="65%"
-          position="relative"
-          zIndex={-2}
-        />
-        <VStack position="relative" zIndex={1} bg="white" pt={4}>
-          <Text
-            fontSize={14}
-            fontWeight="bold"
-            color="secondary.700"
-            textAlign="center"
-            mx="auto"
-            mb={1}
-            w="70%"
-          >
-            Encontre o cuidado ideal para seu melhor amigo, disponibilizamos
-            serviços para que seu animal de estimação esteja sempre ativo e
-            feliz
-          </Text>
-
-          <VStack>
-            <Button
-              bg="#00ABBC"
-              width="70%"
-              py={4}
-              px={8}
-              title="Seja um cuidador"
-              weight="bold"
-              onPress={() =>
-                navigation.navigate('createAccount', { isCare: true })
-              }
-            />
-            <Button
-              bg="#511AC7"
-              width="70%"
-              py={4}
-              px={8}
-              title="Sou um tutor"
-              weight="bold"
-              onPress={() =>
-                navigation.navigate('createAccount', { isCare: false })
-              }
-            />
-          </VStack>
-        </VStack>
+        <Image alt="Imagem Pet" source={item.image} w="100%" />
       </View>
     )
   }
   return (
-    <AppIntroSlider
-      renderItem={renderSlides}
-      data={slides}
-      activeDotStyle={{
-        backgroundColor: 'white',
-        width: 30,
-        position: 'relative',
-        top: '-80%'
-      }}
-      dotStyle={{
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: 'white',
-        position: 'relative',
-        top: '-80%'
-      }}
-      renderDoneButton={() => <></>}
-      renderNextButton={() => <></>}
-    />
+    <View flex={1} bg="white">
+      <AppIntroSlider
+        renderItem={renderSlides}
+        data={slides}
+        activeDotStyle={{
+          backgroundColor: 'white',
+          width: 30,
+          position: 'relative',
+          top: -50
+        }}
+        dotStyle={{
+          backgroundColor: 'transparent',
+          borderWidth: 1,
+          borderColor: 'white',
+          position: 'relative',
+          top: -50
+        }}
+        renderDoneButton={() => <></>}
+        renderNextButton={() => <></>}
+      />
+      <VStack bg="white" pt={4} mb={30}>
+        <Text
+          fontSize={14}
+          fontWeight="bold"
+          color="secondary.700"
+          textAlign="center"
+          mx="auto"
+          mb={1}
+          w="70%"
+        >
+          Encontre o cuidado ideal para seu melhor amigo, disponibilizamos
+          serviços para que seu animal de estimação esteja sempre ativo e feliz
+        </Text>
+
+        <VStack>
+          <Button
+            bg="#00ABBC"
+            width="70%"
+            py={4}
+            px={8}
+            title="Seja um cuidador"
+            weight="bold"
+            onPress={() =>
+              navigation.navigate('createAccount', { isCare: true })
+            }
+          />
+          <Button
+            bg="#511AC7"
+            width="70%"
+            py={4}
+            px={8}
+            title="Sou um tutor"
+            weight="bold"
+            onPress={() =>
+              navigation.navigate('createAccount', { isCare: false })
+            }
+          />
+        </VStack>
+        <Image
+          alt="Fundo branco"
+          position="absolute"
+          top={-60}
+          w="100%"
+          h={300}
+          zIndex={-1}
+          source={require('../../assets/img/whiteVectorBottom.png')}
+        />
+      </VStack>
+    </View>
   )
 }
