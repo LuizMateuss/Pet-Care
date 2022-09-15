@@ -12,3 +12,15 @@ web-build/
 
 # macOS
 .DS_Store
+
+vendor/
+.env
+
+#android studio
+.gradle
+.idea
+gradle
+build.gradle
+gradlew
+gradlew.bat
+local.properties
