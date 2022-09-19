@@ -35,18 +35,25 @@ export function CreateAccount({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
 
-  function verifyIsCareAndNextPage() {
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare }
-      })
+  function handleSignUp() {
+    if (!email || !password || !confirmPassword || !phone || !dateBirth) {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, informe todos os campos.'
+      )
     }
+    setIsLoading(true)
+    setTimeout(validationInput, 2000)
   }
+
+  function validationInput() {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+    const regexDate =
+      /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+    setIsLoading(false)
+    validationRegex(reg, regexDate)
+  }
+
   function validationRegex(reg, regexDate) {
     if (reg.test(email) == false) {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
@@ -74,23 +81,18 @@ export function CreateAccount({ route }) {
       }
     }
   }
-  function validationInput() {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    const regexDate =
-      /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-    setIsLoading(false)
-    validationRegex(reg, regexDate)
-  }
 
-  function handleSignUp() {
-    if (!email || !password || isCare === '') {
-      return Alert.alert(
-        'Tente novamente',
-        'Por favor, informe todos os campos.'
-      )
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('startPetCare', {
+        isCare
+      })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare }
+      })
     }
-    setIsLoading(true)
-    setTimeout(validationInput, 2000)
   }
 
   return (
