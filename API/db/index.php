@@ -20,6 +20,7 @@
     $app->get( '/usuario', 'getUsuario');
     $app->map(['get', 'post'], '/login/{email}/{password}/{isCare}', 'getLogin');
     $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}', 'getRegistration');
+    $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
 
     //FUNÇÕES DE CONCÇÃO
     
@@ -77,6 +78,23 @@
         $stmt->execute();
         
         $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getChangePasswd(Request $request, Response $response, array $args){
+        $id = $args['id'];
+        $cpass = $args['currentpasswd'];
+        $npass = $args['newpasswd'];
+        $sql = "UPDATE usuario 
+                     SET nm_senha=:nm_novaSenha WHERE cd_usuario=:cd_usuario AND nm_senha=:nm_senha";
+        $stmt = getConn()->prepare($sql);
+        $stmt->bindParam("cd_usuario", $id);
+        $stmt->bindParam("nm_senha", $cpass);
+        $stmt->bindParam("nm_novaSenha", $npass);
+        $stmt->execute();
+
+        $message = "Atualizado";
         $response->getBody()->write(json_encode($message));
         return $response;
     }
