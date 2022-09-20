@@ -13,6 +13,7 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { Alert } from 'react-native'
+import {SERVER_LINK, SERVER_METHOD} from '@env'
 /*
   Tela de criação de conta.
   -> Componente InputData recebe:
@@ -61,6 +62,7 @@ export function CreateAccount({ route }) {
       if (regexDate.test(dateBirth) == false) {
         return Alert.alert('Data inválida', 'Insira uma data válida!')
       } else {
+        registerUser()
         if (check) {
           setUser({
             name,
@@ -80,6 +82,24 @@ export function CreateAccount({ route }) {
         }
       }
     }
+  }
+
+  async function registerUser(){
+    let sendIsCare
+    if(isCare)
+      sendIsCare = 'C'
+    else
+      sendIsCare = 'T'
+    let birthday = dateBirth.split('/')
+    birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+
+    fetch(SERVER_LINK+`/registration/${name}/${email}/${password}/${birthday}/${phone}/${sendIsCare}`,{
+      method: SERVER_METHOD,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    })
   }
 
   function verifyIsCareAndNextPage() {
