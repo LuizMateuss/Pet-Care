@@ -37,14 +37,15 @@ export function CreateAccount({ route }) {
 
   function verifyIsCareAndNextPage() {
     if (isCare) {
-      navigation.navigate('startPetCare', {
+      navigation.navigate('registerAddress', {
         isCare
       })
     } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare }
-      })
+      // navigation.navigate('menuHamburguer', {
+      //   screen: 'startPetCare',
+      //   params: { isCare }
+      // })
+      navigation.navigate('registerAddress', { isCare })
     }
   }
   function validationRegex(reg, regexDate) {

@@ -26,6 +26,7 @@ import { SearchPetCare } from '../screens/SearchPetCare'
 import { ContractService } from '../screens/ContractService'
 import { ChangePassword } from '../screens/ChangePassword'
 import { RequestedServices } from '../screens/RequestedServices'
+import { RegisterAddress } from '../screens/RegisterAddress'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -53,6 +54,7 @@ export function AppRoutes() {
       <Screen name="signIn" component={SignIn} />
       <Screen name="optionsSignUp" component={OptionsSignUp} />
       <Screen name="createAccount" component={CreateAccount} />
+      <Screen name="registerAddress" component={RegisterAddress} />
       <Screen name="menuHamburguer" component={MenuHamburguer} />
       <Screen name="profileCare" component={ProfileCare} />
       <Screen name="changePassword" component={ChangePassword} />

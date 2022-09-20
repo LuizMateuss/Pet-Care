@@ -1,4 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
+import { RegisterAddress } from '../screens/RegisterAddress'
 
 import { AppRoutes } from './app.routes'
 
