@@ -41,7 +41,12 @@ export function SignIn() {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
       //Conecta com o banco
-      let req = await fetch(SERVER_LINK+`login/${email}/${password}/${isCare}`,{
+      let sendIsCare
+      if(isCare)
+        sendIsCare = 'C'
+      else
+        sendIsCare = 'T'
+      let req = await fetch(SERVER_LINK+`login/${email}/${password}/${sendIsCare}`,{
         method: SERVER_METHOD,
         headers:{
           'Accept':'application/json',
@@ -56,7 +61,7 @@ export function SignIn() {
       const bdIsCare = resLogin.cd_isCare
       const userId = resLogin.cd_usuario
       const userName = resLogin.nm_usuario
-      if ((email === bdEmail) && (password === bdPassword) && (isCare === bdIsCare)) {
+      if ((email === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
         console.log('Usuário valido!')
         verifyIsCareAndNextPage(userId, userName)
       } else {
@@ -115,7 +120,7 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value={"C"}
+                  value={true}
                   my="1"
                 >
                   <Text color="white">Sou cuidador</Text>
@@ -125,7 +130,7 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value={"T"}
+                  value={false}
                   my="1"
                 >
                   <Text color="white">Sou tutor</Text>
