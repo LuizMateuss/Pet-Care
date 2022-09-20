@@ -54,25 +54,29 @@ export function SignIn() {
       const bdEmail = resLogin.nm_email
       const bdPassword = resLogin.nm_senha
       const bdIsCare = resLogin.cd_isCare
-      console.log(bdIsCare)
+      const userId = resLogin.cd_usuario
+      const userName = resLogin.nm_usuario
       if ((email === bdEmail) && (password === bdPassword) && (isCare === bdIsCare)) {
         console.log('Usuário valido!')
-        verifyIsCareAndNextPage()
+        verifyIsCareAndNextPage(userId, userName)
       } else {
-        console.log('E-mail, senha ou tipo de conta inválido!')
+        Alert.alert(
+          'E-mail, senha ou tipo de conta inválido!',
+          'Verifique suas informações ou faça cadastro, caso ainda não tenha.'
+          )
       }
     }
   }
 
-  function verifyIsCareAndNextPage() {
+  function verifyIsCareAndNextPage(userId, userName) {
     if (isCare) {
       navigation.navigate('startPetCare', {
-        isCare
+        isCare, userId, userName
       })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare }
+        params: { isCare, userId, userName }
       })
     }
   }

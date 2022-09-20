@@ -15,8 +15,9 @@ import { Button } from '../components/Button'
 export function StartPetCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare } = route.params
+  const { isCare, userName } = route.params
   const mainColor = isCare ? `#00ABBC` : `#511AC7`
+  
   return (
     <SafeAreaView>
       <ScrollView>
@@ -35,7 +36,7 @@ export function StartPetCare({ route }) {
             fontSize={20}
             mt={5}
           >
-            Seja bem vindo ______ !
+            Seja bem vindo {userName}!
           </Text>
           {isCare ? (
             <View>
@@ -46,7 +47,7 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() => navigation.navigate('profileCare', { isCare })}
+                onPress={() => navigation.navigate('profileCare', { isCare, userName })}
               />
               <Button
                 backgroundColor={mainColor}

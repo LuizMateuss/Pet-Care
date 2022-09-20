@@ -44,7 +44,7 @@
         $isCare = $args['isCare'];
 
         $conn = getConn();
-        $sql ="SELECT nm_email, nm_senha, cd_isCare FROM usuario WHERE nm_email=:nm_email AND nm_senha=:nm_senha AND cd_isCare=:cd_isCare";
+        $sql ="SELECT cd_usuario, nm_usuario, nm_email, nm_senha, cd_isCare FROM usuario WHERE nm_email=:nm_email AND nm_senha=:nm_senha AND cd_isCare=:cd_isCare";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("nm_email", $email);
         $stmt->bindParam("nm_senha", $password);

@@ -11,7 +11,7 @@ import { Button } from '../components/Button'
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare } = route.params
+  const { isCare, userName } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
@@ -30,7 +30,7 @@ export function ProfileCare({ route }) {
         />
         <VStack ml={5}>
           <Text fontWeight="black" fontSize={20} color={mainColor}>
-            Nome Usuário
+            {userName}
           </Text>
           <Text fontWeight="black" fontSize={15} color={mainColor}>
             Editar perfil
