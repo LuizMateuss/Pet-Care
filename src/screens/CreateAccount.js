@@ -43,6 +43,12 @@ export function CreateAccount({ route }) {
         'Por favor, informe todos os campos.'
       )
     }
+    else if(password != confirmPassword){
+      return Alert.alert(
+        'Tente novamente',
+        'As senhas não conferem.'
+      )
+    }
     setIsLoading(true)
     setTimeout(validationInput, 2000)
   }
