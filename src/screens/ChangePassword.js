@@ -3,6 +3,8 @@ import { CaretLeft } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
+import { useState } from 'react'
+import { Alert } from 'react-native'
 
 /*
   Tela de alterar senha
@@ -11,8 +13,24 @@ import { Button } from '../components/Button'
 */
 export function ChangePassword({ route }) {
   const navigation = useNavigation()
-  const { isCare } = route.params
+  const { isCare, userId } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
+
+  const [currentPasswd, setCurrentPasswd] = useState('')
+
+  function handlePasswd() {
+    if (!currentPasswd/* || !newPasswd || !confirmPasswd*/) {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, informe todos os campos.'
+      )
+    }
+    console.log(currentPasswd)
+    console.log(userId)
+    // setIsLoading(true)
+    // setTimeout(verifyUser, 2000)
+  }
+
   return (
     <View bg="white" flex={1} mt={8}>
       <ScrollView bg="white">
@@ -34,6 +52,7 @@ export function ChangePassword({ route }) {
             Senha atual:
           </Text>
           <Input
+            onChangeText={setCurrentPasswd}
             type="password"
             variant="rounded"
             w="55%"
@@ -95,7 +114,8 @@ export function ChangePassword({ route }) {
             borderColor={mainColor}
             width="80%"
             py={4}
-            onPress={() => navigation.goBack()}
+            onPress={handlePasswd}
+            // onPress={() => navigation.goBack()}
           />
         </View>
       </ScrollView>

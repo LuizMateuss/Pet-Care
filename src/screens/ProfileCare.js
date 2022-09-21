@@ -11,7 +11,7 @@ import { Button } from '../components/Button'
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare, userName } = route.params
+  const { isCare, userName, userId } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
@@ -65,7 +65,7 @@ export function ProfileCare({ route }) {
         borderColor={mainColor}
         width="80%"
         py={4}
-        onPress={() => navigation.navigate('changePassword', { isCare })}
+        onPress={() => navigation.navigate('changePassword', { isCare, userId })}
       />
 
       <View mt="10%">

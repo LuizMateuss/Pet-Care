@@ -15,7 +15,7 @@ import { Button } from '../components/Button'
 export function StartPetCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare, userName } = route.params
+  const { isCare, userId, userName } = route.params
   const mainColor = isCare ? `#00ABBC` : `#511AC7`
   
   return (
@@ -47,7 +47,7 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() => navigation.navigate('profileCare', { isCare, userName })}
+                onPress={() => navigation.navigate('profileCare', { isCare, userId, userName })}
               />
               <Button
                 backgroundColor={mainColor}
