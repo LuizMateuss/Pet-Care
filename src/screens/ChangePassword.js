@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
 import { useState } from 'react'
 import { Alert } from 'react-native'
+import {SERVER_LINK, SERVER_METHOD} from '@env'
 
 /*
   Tela de alterar senha
@@ -17,18 +18,45 @@ export function ChangePassword({ route }) {
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   const [currentPasswd, setCurrentPasswd] = useState('')
+  const [newPasswd, setNewPasswd] = useState('')
+  const [confirmPasswd, setConfirmPasswd] = useState('')
+
 
   function handlePasswd() {
-    if (!currentPasswd/* || !newPasswd || !confirmPasswd*/) {
+    if (!currentPasswd || !newPasswd || !confirmPasswd) {
       return Alert.alert(
         'Tente novamente',
         'Por favor, informe todos os campos.'
       )
     }
-    console.log(currentPasswd)
-    console.log(user.id)
-    // setIsLoading(true)
-    // setTimeout(verifyUser, 2000)
+    if (newPasswd != confirmPasswd) {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, verifique se a senha repetida é diferente da nova senha.'
+      )
+    }
+    if (newPasswd == currentPasswd) {
+      return Alert.alert(
+        'Tente novamente',
+        'Senha atual é identica à nova senha.'
+      )
+    }
+    // console.log(currentPasswd)
+    // console.log(newPasswd)
+    // console.log(confirmPasswd)
+    updatePasswd()
+  }
+
+  async function updatePasswd() {
+      const req = await fetch(SERVER_LINK+`changepasswd/${user.id}/${currentPasswd}/${newPasswd}`,{
+        method: SERVER_METHOD,
+        headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+        }
+      })
+      console.log("foi")
+
   }
 
   return (
@@ -77,6 +105,7 @@ export function ChangePassword({ route }) {
               Nova senha:
             </Text>
             <Input
+              onChangeText={setNewPasswd}
               type="password"
               variant="rounded"
               w="55%"
@@ -91,6 +120,7 @@ export function ChangePassword({ route }) {
               Repita a senha:
             </Text>
             <Input
+              onChangeText={setConfirmPasswd}
               type="password"
               variant="rounded"
               w="55%"
