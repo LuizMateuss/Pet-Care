@@ -31,13 +31,13 @@ export function SignIn() {
       )
     }
     setIsLoading(true)
-    setTimeout(verifyUser, 2000)
+    verifyUser()
   }
 
   async function verifyUser() {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    setIsLoading(false)
     if (reg.test(email) == false) {
+      setIsLoading(false)
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
       //Conecta com o banco
@@ -46,7 +46,7 @@ export function SignIn() {
         sendIsCare = 'C'
       else
         sendIsCare = 'T'
-      let req = await fetch(SERVER_LINK+`login/${email}/${password}/${sendIsCare}`,{
+      const req = await fetch(SERVER_LINK+`login/${email}/${password}/${sendIsCare}`,{
         method: SERVER_METHOD,
         headers:{
           'Accept':'application/json',
@@ -54,16 +54,16 @@ export function SignIn() {
         }
       })
       //resposta
-      let resLogin = await req.json()
+      const resLogin = await req.json()
       
       const bdEmail = resLogin.nm_email
       const bdPassword = resLogin.nm_senha
       const bdIsCare = resLogin.cd_isCare
-      const userId = resLogin.cd_usuario
-      const userName = resLogin.nm_usuario
+      const user = {name: resLogin.nm_usuario, id: resLogin.cd_usuario}
+
+      setIsLoading(false)
       if ((email === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
-        console.log('Usuário valido!')
-        verifyIsCareAndNextPage(userId, userName)
+        verifyIsCareAndNextPage(user)
       } else {
         Alert.alert(
           'E-mail, senha ou tipo de conta inválido!',
@@ -73,15 +73,15 @@ export function SignIn() {
     }
   }
 
-  function verifyIsCareAndNextPage(userId, userName) {
+  function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('startPetCare', {
-        isCare, userId, userName
+        isCare, user
       })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare, userId, userName }
+        params: { isCare, user }
       })
     }
   }

@@ -7,8 +7,7 @@ export function CustomHamburguer(props) {
   const navigation = useNavigation()
 
   const isCare = props.routes[0].params.isCare
-  const userName = props.routes[0].params.userName
-  const userId = props.routes[0].params.userId
+  const user = props.routes[0].params.user
 
   return (
     <VStack mt={20}>
@@ -29,7 +28,7 @@ export function CustomHamburguer(props) {
         py={4}
         onPress={() =>
           navigation.navigate('profileCare', {
-            isCare, userName, userId
+            isCare, user
           })
         }
       />

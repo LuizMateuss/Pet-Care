@@ -13,7 +13,7 @@ import { Alert } from 'react-native'
 */
 export function ChangePassword({ route }) {
   const navigation = useNavigation()
-  const { isCare, userId } = route.params
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   const [currentPasswd, setCurrentPasswd] = useState('')
@@ -26,7 +26,7 @@ export function ChangePassword({ route }) {
       )
     }
     console.log(currentPasswd)
-    console.log(userId)
+    console.log(user.id)
     // setIsLoading(true)
     // setTimeout(verifyUser, 2000)
   }
