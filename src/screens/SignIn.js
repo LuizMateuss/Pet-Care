@@ -31,17 +31,22 @@ export function SignIn() {
       )
     }
     setIsLoading(true)
-    setTimeout(verifyUser, 2000)
+    verifyUser()
   }
 
   async function verifyUser() {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    setIsLoading(false)
     if (reg.test(email) == false) {
+      setIsLoading(false)
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
       //Conecta com o banco
-      let req = await fetch(SERVER_LINK+`login/${email}/${password}/${isCare}`,{
+      let sendIsCare
+      if(isCare)
+        sendIsCare = 'C'
+      else
+        sendIsCare = 'T'
+      const req = await fetch(SERVER_LINK+`login/${email}/${password}/${sendIsCare}`,{
         method: SERVER_METHOD,
         headers:{
           'Accept':'application/json',
@@ -49,30 +54,34 @@ export function SignIn() {
         }
       })
       //resposta
-      let resLogin = await req.json()
+      const resLogin = await req.json()
       
       const bdEmail = resLogin.nm_email
       const bdPassword = resLogin.nm_senha
       const bdIsCare = resLogin.cd_isCare
-      console.log(bdIsCare)
-      if ((email === bdEmail) && (password === bdPassword) && (isCare === bdIsCare)) {
-        console.log('Usuário valido!')
-        verifyIsCareAndNextPage()
+      const user = {name: resLogin.nm_usuario, id: resLogin.cd_usuario}
+
+      setIsLoading(false)
+      if ((email === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
+        verifyIsCareAndNextPage(user)
       } else {
-        console.log('E-mail, senha ou tipo de conta inválido!')
+        Alert.alert(
+          'E-mail, senha ou tipo de conta inválido!',
+          'Verifique suas informações ou faça cadastro, caso ainda não tenha.'
+          )
       }
     }
   }
 
-  function verifyIsCareAndNextPage() {
+  function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('startPetCare', {
-        isCare
+        isCare, user
       })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare }
+        params: { isCare, user }
       })
     }
   }
@@ -111,7 +120,7 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value={"C"}
+                  value={true}
                   my="1"
                 >
                   <Text color="white">Sou cuidador</Text>
@@ -121,7 +130,7 @@ export function SignIn() {
                   borderWidth={1}
                   borderColor="white"
                   bg="transparent"
-                  value={"T"}
+                  value={false}
                   my="1"
                 >
                   <Text color="white">Sou tutor</Text>

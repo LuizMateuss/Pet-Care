@@ -13,6 +13,7 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { Alert } from 'react-native'
+import {SERVER_LINK, SERVER_METHOD} from '@env'
 /*
   Tela de criação de conta.
   -> Componente InputData recebe:
@@ -35,18 +36,31 @@ export function CreateAccount({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
 
-  function verifyIsCareAndNextPage() {
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare }
-      })
+  function handleSignUp() {
+    if (!email || !password || !confirmPassword || !phone || !dateBirth) {
+      return Alert.alert(
+        'Tente novamente',
+        'Por favor, informe todos os campos.'
+      )
     }
+    else if(password != confirmPassword){
+      return Alert.alert(
+        'Tente novamente',
+        'As senhas não conferem.'
+      )
+    }
+    setIsLoading(true)
+    setTimeout(validationInput, 2000)
   }
+
+  function validationInput() {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+    const regexDate =
+      /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+    setIsLoading(false)
+    validationRegex(reg, regexDate)
+  }
+
   function validationRegex(reg, regexDate) {
     if (reg.test(email) == false) {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
@@ -54,6 +68,7 @@ export function CreateAccount({ route }) {
       if (regexDate.test(dateBirth) == false) {
         return Alert.alert('Data inválida', 'Insira uma data válida!')
       } else {
+        registerUser()
         if (check) {
           setUser({
             name,
@@ -74,23 +89,36 @@ export function CreateAccount({ route }) {
       }
     }
   }
-  function validationInput() {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    const regexDate =
-      /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-    setIsLoading(false)
-    validationRegex(reg, regexDate)
+
+  async function registerUser(){
+    let sendIsCare
+    if(isCare)
+      sendIsCare = 'C'
+    else
+      sendIsCare = 'T'
+    let birthday = dateBirth.split('/')
+    birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+
+    fetch(SERVER_LINK+`/registration/${name}/${email}/${password}/${birthday}/${phone}/${sendIsCare}`,{
+      method: SERVER_METHOD,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    })
   }
 
-  function handleSignUp() {
-    if (!email || !password || isCare === '') {
-      return Alert.alert(
-        'Tente novamente',
-        'Por favor, informe todos os campos.'
-      )
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('startPetCare', {
+        isCare
+      })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare }
+      })
     }
-    setIsLoading(true)
-    setTimeout(validationInput, 2000)
   }
 
   return (
