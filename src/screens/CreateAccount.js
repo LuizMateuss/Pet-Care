@@ -41,10 +41,6 @@ export function CreateAccount({ route }) {
         isCare
       })
     } else {
-      // navigation.navigate('menuHamburguer', {
-      //   screen: 'startPetCare',
-      //   params: { isCare }
-      // })
       navigation.navigate('registerAddress', { isCare })
     }
   }

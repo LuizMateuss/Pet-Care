@@ -7,7 +7,7 @@ import { AppRoutes } from './app.routes'
 export function Routes() {
   return (
     <NavigationContainer>
-      <AddPet />
+      <AppRoutes />
     </NavigationContainer>
   )
 }

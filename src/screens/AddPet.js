@@ -21,7 +21,7 @@ import { Input } from '../components/Input'
 
 import { useNavigation } from '@react-navigation/native'
 
-export function AddPet() {
+export function AddPet({ route }) {
   const [showModal, setShowModal] = useState(false)
   const [showAnimalSizeInfo, setShowAnimalSizeInfo] = useState(false)
   const [species, setSpecies] = useState('')
@@ -29,6 +29,7 @@ export function AddPet() {
   const [size, setSize] = useState('')
   const [gender, setGender] = useState('')
   const navigation = useNavigation()
+  const { isCare } = route.params
   return (
     <VStack>
       <Header color="#511AC7" title="Adicionar animal" />
@@ -298,7 +299,13 @@ export function AddPet() {
             color="white"
             borderWidth={1}
             borderColor="white"
-            onPress={() => setShowModal(false)}
+            onPress={() => {
+              setShowModal(false)
+              navigation.navigate('menuHamburguer', {
+                screen: 'startPetCare',
+                params: { isCare }
+              })
+            }}
           />
         </Modal.Content>
       </Modal>

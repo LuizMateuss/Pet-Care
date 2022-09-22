@@ -162,7 +162,12 @@ export function RegisterAddress({ route }) {
         borderWidth={1}
         borderColor={mainColor}
         color={mainColor}
-        onPress={() => navigation.navigate('')}
+        onPress={() =>
+          navigation.navigate('menuHamburguer', {
+            screen: 'startPetCare',
+            params: { isCare }
+          })
+        }
       />
     </VStack>
   )
