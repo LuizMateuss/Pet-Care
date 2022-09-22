@@ -65,21 +65,31 @@
         $phone = $args['phone'];
         $isCare = $args['isCare'];
         $conn = getConn();
-
-        $sql = "INSERT INTO usuario 
-                     SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_data=:dt_data, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam("nm_usuario", $name);
-        $stmt->bindParam("nm_email", $email);
-        $stmt->bindParam("nm_senha", $password);
-        $stmt->bindParam("dt_data", $birthday);
-        $stmt->bindParam("cd_telefone", $phone);
-        $stmt->bindParam("cd_isCare", $isCare);
-        $stmt->execute();
         
-        $message = "Cadastrado";
-        $response->getBody()->write(json_encode($message));
-        return $response;
+        $sql = "SELECT nm_email FROM usuario WHERE nm_email=:nm_email";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("nm_email", $email);
+        $stmt->execute();
+        $verifyEmail=$stmt->fetchObject();
+
+        if($verifyEmail){
+            $message = false;
+            $response->getBody()->write(json_encode($message));
+            return $response;
+        }else{
+            // $sql = "INSERT INTO usuario 
+            //              SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_data=:dt_data, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
+            // $stmt->bindParam("nm_usuario", $name);
+            // $stmt->bindParam("nm_email", $email);
+            // $stmt->bindParam("nm_senha", $password);
+            // $stmt->bindParam("dt_data", $birthday);
+            // $stmt->bindParam("cd_telefone", $phone);
+            // $stmt->bindParam("cd_isCare", $isCare);
+            // $stmt->execute();
+            $message = "Cadastrado";
+            $response->getBody()->write(json_encode($message));
+            return $response;
+        }
     }
 
     function getChangePasswd(Request $request, Response $response, array $args){

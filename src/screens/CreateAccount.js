@@ -35,6 +35,7 @@ export function CreateAccount({ route }) {
   const [user, setUser] = useState({})
   const navigation = useNavigation()
   const { isCare } = route.params
+  let configEmail
 
   function handleSignUp() {
     if (!email || !password || !confirmPassword || !phone || !dateBirth) {
@@ -54,6 +55,7 @@ export function CreateAccount({ route }) {
   }
 
   function validationInput() {
+    configEmail = email.toLowerCase().trim()
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
     const regexDate =
       /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
@@ -62,24 +64,19 @@ export function CreateAccount({ route }) {
   }
 
   function validationRegex(reg, regexDate) {
-    if (reg.test(email) == false) {
+    if (reg.test(configEmail) == false) {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
       if (regexDate.test(dateBirth) == false) {
         return Alert.alert('Data inválida', 'Insira uma data válida!')
       } else {
-        registerUser()
         if (check) {
+          registerUser()
           setUser({
             name,
-            email,
-            password,
-            confirmPassword,
-            phone,
-            dateBirth,
-            check
+            id,
           })
-          verifyIsCareAndNextPage()
+          // verifyIsCareAndNextPage()
         } else {
           return Alert.alert(
             'Termos e condições',
@@ -99,13 +96,20 @@ export function CreateAccount({ route }) {
     let birthday = dateBirth.split('/')
     birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
 
-    fetch(SERVER_LINK+`/registration/${name}/${email}/${password}/${birthday}/${phone}/${sendIsCare}`,{
+    const req = await fetch(SERVER_LINK+`/registration/${name}/${configEmail}/${password}/${birthday}/${phone}/${sendIsCare}`,{
       method: SERVER_METHOD,
       headers:{
         'Accept':'application/json',
         'Content-Type':'application/json'
       }
     })
+    const res = await req.json()
+    console.log(res)
+    if(res){
+      console.log("Cadastrado")
+    }else{
+      console.log("Email já Cadastrado")
+    }
   }
 
   function verifyIsCareAndNextPage() {
