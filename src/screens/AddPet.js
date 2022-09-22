@@ -9,10 +9,11 @@ import {
   ScrollView,
   View
 } from 'native-base'
+import { TouchableOpacity } from 'react-native'
 import { CaretDown } from 'phosphor-react-native'
 import LottieView from 'lottie-react-native'
 
-import { useEffect, useState, TouchableOpacity } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '../components/Button'
 import { Header } from '../components/Header'
@@ -21,7 +22,8 @@ import { Input } from '../components/Input'
 import { useNavigation } from '@react-navigation/native'
 
 export function AddPet() {
-  const [visible, setVisible] = useState(true)
+  const [showModal, setShowModal] = useState(false)
+  const [showAnimalSizeInfo, setShowAnimalSizeInfo] = useState(false)
   const [species, setSpecies] = useState('')
   const [race, setRace] = useState('')
   const [size, setSize] = useState('')
@@ -86,6 +88,7 @@ export function AddPet() {
                 setSpecies(itemValue)
               }}
               bg="white"
+              borderRadius={40}
             >
               <Select.Item label="Cachorro" value="cachorro" />
               <Select.Item label="Gato" value="gato" />
@@ -111,6 +114,7 @@ export function AddPet() {
                     setRace(itemValue)
                   }}
                   bg="white"
+                  borderRadius={40}
                 >
                   <Select.Item label="Husky" value="husky" />
                   <Select.Item label="Labrador" value="labrador" />
@@ -126,6 +130,7 @@ export function AddPet() {
                     setRace(itemValue)
                   }}
                   bg="white"
+                  borderRadius={40}
                 >
                   <Select.Item label="Siamês" value="siames" />
                   <Select.Item label="Persa" value="persa" />
@@ -159,6 +164,19 @@ export function AddPet() {
             >
               Porte do animal:
             </Text>
+            <TouchableOpacity>
+              <Text
+                color="primary.700"
+                fontWeight="black"
+                fontSize={15}
+                bg="#C4C4C4"
+                px={2}
+                borderRadius={40}
+                onPress={() => setShowAnimalSizeInfo(!showAnimalSizeInfo)}
+              >
+                ?
+              </Text>
+            </TouchableOpacity>
             <Select
               placeholder="Selecione"
               accessibilityLabel="Selecione"
@@ -168,6 +186,7 @@ export function AddPet() {
                 setSize(itemValue)
               }}
               bg="white"
+              borderRadius={40}
             >
               <Select.Item label="Pequeno" value="pequeno" />
               <Select.Item label="Médio" value="medio" />
@@ -221,22 +240,26 @@ export function AddPet() {
             <Input w="40%" placeholder="DD/MM/YYYY" />
           </HStack>
         </VStack>
-        <Text
-          textAlign="center"
-          color="primary.700"
-          fontWeight="black"
-          fontSize={12}
-          bg="#D6D6D6"
-          w="90%"
-          mx="auto"
-          my={2}
-          borderRadius={10}
-        >
-          Porte pequeno pode medir até 40 cm – sendo esse tamanho calculado
-          desde as patas até os ombros do cão. Geralmente esses animais pesam
-          até 10 kg. Médio porte possuem tamanho aproximado de 60 cm, pesando
-          entre 15 e 25 kg. A partir dos 25kg, considera-se porte grande.
-        </Text>
+        {showAnimalSizeInfo ? (
+          <Text
+            textAlign="center"
+            color="primary.700"
+            fontWeight="black"
+            fontSize={12}
+            bg="#D6D6D6"
+            w="90%"
+            mx="auto"
+            my={2}
+            borderRadius={10}
+          >
+            Porte pequeno pode medir até 40 cm – sendo esse tamanho calculado
+            desde as patas até os ombros do cão. Geralmente esses animais pesam
+            até 10 kg. Médio porte possuem tamanho aproximado de 60 cm, pesando
+            entre 15 e 25 kg. A partir dos 25kg, considera-se porte grande.
+          </Text>
+        ) : (
+          <></>
+        )}
       </ScrollView>
       <Button
         mt={4}
@@ -244,9 +267,16 @@ export function AddPet() {
         color="primary.700"
         borderWidth={1}
         borderColor="primary.700"
+        onPress={() => setShowModal(true)}
       />
-      <Modal isOpen={visible}>
-        <View bg="primary.700" w="80%" p={4} borderRadius={20}>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content
+          bg="primary.700"
+          w="80%"
+          p={4}
+          borderRadius={20}
+          alignItems="center"
+        >
           <LottieView
             source={require('../../assets/img/success.json')}
             autoPlay={true}
@@ -255,12 +285,22 @@ export function AddPet() {
               height: 200
             }}
             resizeMode="cover"
+            loop={false}
           />
           <Text color="white" textAlign="center" my={5}>
             Animal adicionado com sucesso! Você pode agora procurar por
             cuidadores!
           </Text>
-        </View>
+          <Button
+            mt={4}
+            title="Entendido!"
+            w="100%"
+            color="white"
+            borderWidth={1}
+            borderColor="white"
+            onPress={() => setShowModal(false)}
+          />
+        </Modal.Content>
       </Modal>
     </VStack>
   )
