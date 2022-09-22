@@ -64,9 +64,7 @@ export function SignIn() {
 
       setIsLoading(false)
       if ((configEmail === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
-        //verifyIsCareAndNextPage(user)
-        console.log(configEmail)
-        console.log(user)
+        verifyIsCareAndNextPage(user)
       } else {
         Alert.alert(
           'E-mail, senha ou tipo de conta inválido!',
