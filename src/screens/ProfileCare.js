@@ -32,7 +32,9 @@ export function ProfileCare({ route }) {
           <Text fontWeight="black" fontSize={20} color={mainColor}>
             Nome Usuário
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('editProfile', { isCare })}
+          >
             <Text
               borderWidth={1}
               borderColor={mainColor}
