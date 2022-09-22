@@ -35,8 +35,9 @@ export function SignIn() {
   }
 
   async function verifyUser() {
+    let configEmail = email.toLowerCase().trim()
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    if (reg.test(email) == false) {
+    if (reg.test(configEmail) == false) {
       setIsLoading(false)
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
@@ -46,7 +47,7 @@ export function SignIn() {
         sendIsCare = 'C'
       else
         sendIsCare = 'T'
-      const req = await fetch(SERVER_LINK+`login/${email}/${password}/${sendIsCare}`,{
+      const req = await fetch(SERVER_LINK+`login/${configEmail}/${password}/${sendIsCare}`,{
         method: SERVER_METHOD,
         headers:{
           'Accept':'application/json',
@@ -62,8 +63,10 @@ export function SignIn() {
       const user = {name: resLogin.nm_usuario, id: resLogin.cd_usuario}
 
       setIsLoading(false)
-      if ((email === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
-        verifyIsCareAndNextPage(user)
+      if ((configEmail === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
+        //verifyIsCareAndNextPage(user)
+        console.log(configEmail)
+        console.log(user)
       } else {
         Alert.alert(
           'E-mail, senha ou tipo de conta inválido!',
