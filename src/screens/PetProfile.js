@@ -20,6 +20,7 @@ export function PetProfile({ route }) {
           petAge={2}
           petRace="Pastor alemão"
           petGender="Masculino"
+          onPress={() => navigation.navigate('editPet', { isCare })}
         />
         <PetInfo
           petName="Thor"
@@ -27,6 +28,7 @@ export function PetProfile({ route }) {
           petAge={3}
           petRace="Husky siberiano"
           petGender="Feminino"
+          onPress={() => navigation.navigate('editPet', { isCare })}
         />
       </ScrollView>
 

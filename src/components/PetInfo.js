@@ -17,19 +17,11 @@ export function PetInfo(props) {
         <Text fontWeight="black" fontSize={24} color="primary.700">
           {props.petName}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
           <HStack mb={2}>
             <Pencil size={20} color="#511AC7" />
             <Text ml={2} fontWeight="medium" fontSize={14} color="primary.700">
               Editar perfil
-            </Text>
-          </HStack>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <HStack mb={2}>
-            <ImageIcon size={20} color="#511AC7" />
-            <Text ml={2} fontWeight="medium" fontSize={14} color="primary.700">
-              Escolher imagem
             </Text>
           </HStack>
         </TouchableOpacity>
