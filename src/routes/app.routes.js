@@ -21,8 +21,8 @@ import {
   DrawerToggleButton
 } from '@react-navigation/drawer'
 import { TouchableOpacity } from 'react-native'
-import { SearchLocalization } from '../screens/SearchLocalization'
 import { SearchPetCare } from '../screens/SearchPetCare'
+import { SelectPetCare } from '../screens/SelectPetCare'
 import { ContractService } from '../screens/ContractService'
 import { ChangePassword } from '../screens/ChangePassword'
 import { RequestedServices } from '../screens/RequestedServices'
@@ -70,8 +70,8 @@ export function AppRoutes() {
       <Screen name="startService" component={StartService} />
       <Screen name="userProfile" component={UserProfile} />
       <Screen name="petProfile" component={PetProfile} />
-      <Screen name="searchLocalization" component={SearchLocalization} />
       <Screen name="searchPetCare" component={SearchPetCare} />
+      <Screen name="selectPetCare" component={SelectPetCare} />
       <Screen name="contractService" component={ContractService} />
       <Screen name="requestedServices" component={RequestedServices} />
       <Screen name="addPet" component={AddPet} />
