@@ -59,6 +59,17 @@ export function RegisterAddress({ route }) {
     }
   }
 
+  function handleNextPage() {
+    if (isCare) {
+      navigation.navigate('startPetCare', { isCare })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare }
+      })
+    }
+  }
+
   const navigation = useNavigation()
   return (
     <VStack mt={8} bg="white" h="100%">
@@ -162,12 +173,7 @@ export function RegisterAddress({ route }) {
         borderWidth={1}
         borderColor={mainColor}
         color={mainColor}
-        onPress={() =>
-          navigation.navigate('menuHamburguer', {
-            screen: 'startPetCare',
-            params: { isCare }
-          })
-        }
+        onPress={handleNextPage}
       />
     </VStack>
   )
