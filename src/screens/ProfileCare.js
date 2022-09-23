@@ -11,7 +11,7 @@ import { Button } from '../components/Button'
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare } = route.params
+  const { isCare, user } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
@@ -30,7 +30,7 @@ export function ProfileCare({ route }) {
         />
         <VStack ml={5}>
           <Text fontWeight="black" fontSize={20} color={mainColor}>
-            Nome Usuário
+            {user.name}
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('editProfile', { isCare })}
@@ -83,7 +83,7 @@ export function ProfileCare({ route }) {
         borderColor={mainColor}
         width="80%"
         py={4}
-        onPress={() => navigation.navigate('changePassword', { isCare })}
+        onPress={() => navigation.navigate('changePassword', { isCare, user })}
       />
 
       <View mt="5%">

@@ -13,48 +13,16 @@ import { Alert, TouchableOpacity } from 'react-native'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
+import {SERVER_LINK, SERVER_METHOD} from '@env'
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [value, setValue] = useState('')
   const navigation = useNavigation()
-  const adminEmail = 'felipe@petcare.com'
-  const adminPassword = 'octocat123'
 
-  function verifyIsCareAndNextPage() {
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare }
-      })
-    }
-  }
-  function validationInput() {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    setIsLoading(false)
-    if (reg.test(email) == false) {
-      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
-    } else {
-      if (email === adminEmail) {
-        if (password === adminPassword) {
-          console.log('Usuário valido!')
-          verifyIsCareAndNextPage()
-        } else {
-          console.log('Senha inválida!')
-        }
-      } else {
-        console.log('E-mail inválido!')
-      }
-    }
-  }
-
+  //valida campos vázios
   function handleSignIn() {
     if (!email || !password || isCare === '') {
       return Alert.alert(
@@ -63,8 +31,61 @@ export function SignIn() {
       )
     }
     setIsLoading(true)
-    setTimeout(validationInput, 2000)
+    verifyUser()
   }
+
+  async function verifyUser() {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+    if (reg.test(email) == false) {
+      setIsLoading(false)
+      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+    } else {
+      //Conecta com o banco
+      let sendIsCare
+      if(isCare)
+        sendIsCare = 'C'
+      else
+        sendIsCare = 'T'
+      const req = await fetch(SERVER_LINK+`login/${email}/${password}/${sendIsCare}`,{
+        method: SERVER_METHOD,
+        headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+        }
+      })
+      //resposta
+      const resLogin = await req.json()
+      
+      const bdEmail = resLogin.nm_email
+      const bdPassword = resLogin.nm_senha
+      const bdIsCare = resLogin.cd_isCare
+      const user = {name: resLogin.nm_usuario, id: resLogin.cd_usuario}
+
+      setIsLoading(false)
+      if ((email === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
+        verifyIsCareAndNextPage(user)
+      } else {
+        Alert.alert(
+          'E-mail, senha ou tipo de conta inválido!',
+          'Verifique suas informações ou faça cadastro, caso ainda não tenha.'
+          )
+      }
+    }
+  }
+
+  function verifyIsCareAndNextPage(user) {
+    if (isCare) {
+      navigation.navigate('startPetCare', {
+        isCare, user
+      })
+    } else {
+      navigation.navigate('menuHamburguer', {
+        screen: 'startPetCare',
+        params: { isCare, user }
+      })
+    }
+  }
+
   return (
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
@@ -104,6 +125,7 @@ export function SignIn() {
                 >
                   <Text color="white">Sou cuidador</Text>
                 </Radio>
+
                 <Radio
                   borderWidth={1}
                   borderColor="white"
