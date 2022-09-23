@@ -36,6 +36,15 @@ export function CreateAccount({ route }) {
   const navigation = useNavigation()
   const { isCare } = route.params
 
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('registerAddress', {
+        isCare
+      })
+    } else {
+      navigation.navigate('registerAddress', { isCare })
+    }
+  }
   function handleSignUp() {
     if (!email || !password || !confirmPassword || !phone || !dateBirth) {
       return Alert.alert(
@@ -106,19 +115,6 @@ export function CreateAccount({ route }) {
         'Content-Type':'application/json'
       }
     })
-  }
-
-  function verifyIsCareAndNextPage() {
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare }
-      })
-    }
   }
 
   return (
