@@ -13,7 +13,7 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { Alert } from 'react-native'
-import {SERVER_LINK, SERVER_METHOD} from '@env'
+
 /*
   Tela de criação de conta.
   -> Componente InputData recebe:
@@ -42,12 +42,8 @@ export function CreateAccount({ route }) {
         'Tente novamente',
         'Por favor, informe todos os campos.'
       )
-    }
-    else if(password != confirmPassword){
-      return Alert.alert(
-        'Tente novamente',
-        'As senhas não conferem.'
-      )
+    } else if (password != confirmPassword) {
+      return Alert.alert('Tente novamente', 'As senhas não conferem.')
     }
     setIsLoading(true)
     setTimeout(validationInput, 2000)
@@ -81,35 +77,38 @@ export function CreateAccount({ route }) {
     }
   }
 
-  async function registerUser(){
+  async function registerUser() {
     let sendIsCare
-    if(isCare)
-      sendIsCare = 'C'
-    else
-      sendIsCare = 'T'
+    if (isCare) sendIsCare = 'C'
+    else sendIsCare = 'T'
     let birthday = dateBirth.split('/')
     birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
 
-    const req = await fetch(SERVER_LINK+`/registration/${name}/${configEmail}/${password}/${birthday}/${phone}/${sendIsCare}`,{
-      method: SERVER_METHOD,
-      headers:{
-        'Accept':'application/json',
-        'Content-Type':'application/json'
+    const req = await fetch(
+      process.env.SERVER_LINK +
+        `/registration/${name}/${configEmail}/${password}/${birthday}/${phone}/${sendIsCare}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
     const res = await req.json()
-    if(res){
-      const user = {name: res.nm_usuario, id: res.cd_usuario}
+    if (res) {
+      const user = { name: res.nm_usuario, id: res.cd_usuario }
       verifyIsCareAndNextPage(user)
-    }else{
-      Alert.alert("Email já Cadastrado","Por favor, informe outro email")
+    } else {
+      Alert.alert('Email já Cadastrado', 'Por favor, informe outro email')
     }
   }
 
   function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('startPetCare', {
-        isCare, user
+        isCare,
+        user
       })
     } else {
       navigation.navigate('menuHamburguer', {

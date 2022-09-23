@@ -13,7 +13,6 @@ import { Alert, TouchableOpacity } from 'react-native'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
-import {SERVER_LINK, SERVER_METHOD} from '@env'
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
@@ -30,7 +29,7 @@ export function SignIn() {
         'Por favor, informe todos os campos.'
       )
     }
-    setIsLoading(true)
+    // setIsLoading(true)
     verifyUser()
   }
 
@@ -43,33 +42,40 @@ export function SignIn() {
     } else {
       //Conecta com o banco
       let sendIsCare
-      if(isCare)
-        sendIsCare = 'C'
-      else
-        sendIsCare = 'T'
-      const req = await fetch(SERVER_LINK+`login/${configEmail}/${password}/${sendIsCare}`,{
-        method: SERVER_METHOD,
-        headers:{
-          'Accept':'application/json',
-          'Content-Type':'application/json'
+      if (isCare) sendIsCare = 'C'
+      else sendIsCare = 'T'
+      const req = await fetch(
+        process.env.SERVER_LINK +
+          `login/${configEmail}/${password}/${sendIsCare}`,
+        {
+          method: process.env.SERVER_METHOD,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
+
       //resposta
       const resLogin = await req.json()
-      
+
       const bdEmail = resLogin.nm_email
       const bdPassword = resLogin.nm_senha
       const bdIsCare = resLogin.cd_isCare
-      const user = {name: resLogin.nm_usuario, id: resLogin.cd_usuario}
+      const user = { name: resLogin.nm_usuario, id: resLogin.cd_usuario }
 
       setIsLoading(false)
-      if ((configEmail === bdEmail) && (password === bdPassword) && (sendIsCare === bdIsCare)) {
+      if (
+        configEmail === bdEmail &&
+        password === bdPassword &&
+        sendIsCare === bdIsCare
+      ) {
         verifyIsCareAndNextPage(user)
       } else {
         Alert.alert(
           'E-mail, senha ou tipo de conta inválido!',
           'Verifique suas informações ou faça cadastro, caso ainda não tenha.'
-          )
+        )
       }
     }
   }
@@ -77,7 +83,8 @@ export function SignIn() {
   function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('startPetCare', {
-        isCare, user
+        isCare,
+        user
       })
     } else {
       navigation.navigate('menuHamburguer', {
@@ -91,7 +98,6 @@ export function SignIn() {
     <ScrollView bg="white">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
         <VStack>
-
           {/* IMAGEM PET CARE */}
           <View alignItems="center" mt={10}>
             <Image
@@ -102,7 +108,6 @@ export function SignIn() {
 
           {/* TAG COM CAMPOS EMAIL, PSSWD E RADIO */}
           <VStack w="80%" mx="auto">
-
             <Input placeholder="E-mail:" onChangeText={setEmail} />
             <Input
               placeholder="Senha:"
@@ -162,7 +167,6 @@ export function SignIn() {
             />
           </VStack>
 
-
           {/* LOGIN COM OUTROS SERVIÇOS */}
           <View alignItems="center">
             <VStack position="absolute" zIndex={1} top={10}>
@@ -174,7 +178,7 @@ export function SignIn() {
               >
                 Continuar com
               </Text>
-              
+
               <HStack mx={4} justifyContent="space-between">
                 <TouchableOpacity>
                   <Image
@@ -198,7 +202,6 @@ export function SignIn() {
               source={require('../../assets/img/whiteVectorBottom.png')}
             />
           </View>
-
         </VStack>
       </LinearGradient>
     </ScrollView>
