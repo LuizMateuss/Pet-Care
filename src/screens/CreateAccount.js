@@ -32,7 +32,6 @@ export function CreateAccount({ route }) {
   const [phone, setPhone] = useState('')
   const [dateBirth, setDateBirth] = useState('')
   const [check, setCheck] = useState(false)
-  const [user, setUser] = useState({})
   const navigation = useNavigation()
   const { isCare } = route.params
   let configEmail
@@ -72,11 +71,6 @@ export function CreateAccount({ route }) {
       } else {
         if (check) {
           registerUser()
-          setUser({
-            name,
-            id,
-          })
-          // verifyIsCareAndNextPage()
         } else {
           return Alert.alert(
             'Termos e condições',
@@ -104,23 +98,23 @@ export function CreateAccount({ route }) {
       }
     })
     const res = await req.json()
-    console.log(res)
     if(res){
-      console.log("Cadastrado")
+      const user = {name: res.nm_usuario, id: res.cd_usuario}
+      verifyIsCareAndNextPage(user)
     }else{
-      console.log("Email já Cadastrado")
+      Alert.alert("Email já Cadastrado","Por favor, informe outro email")
     }
   }
 
-  function verifyIsCareAndNextPage() {
+  function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('startPetCare', {
-        isCare
+        isCare, user
       })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare }
+        params: { isCare, user }
       })
     }
   }
