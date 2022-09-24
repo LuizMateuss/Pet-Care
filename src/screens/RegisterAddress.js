@@ -15,7 +15,7 @@ export function RegisterAddress({ route }) {
   const [addressNumber, setAddressNumber] = useState('')
   const [addressComplement, setAddressComplement] = useState('')
 
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   /**
@@ -61,11 +61,11 @@ export function RegisterAddress({ route }) {
 
   function handleNextPage() {
     if (isCare) {
-      navigation.navigate('startPetCare', { isCare })
+      navigation.navigate('startPetCare', { isCare, user })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare }
+        params: { isCare, user }
       })
     }
   }
