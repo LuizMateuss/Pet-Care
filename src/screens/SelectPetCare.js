@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 
 export function SelectPetCare({ route }) {
   const navigation = useNavigation()
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   return (
     <View flex={1} pt={10} bg="white">
       <VStack>
@@ -32,19 +32,29 @@ export function SelectPetCare({ route }) {
         <View h="80%">
           <ScrollView>
             <CareCard
-              onPress={() => navigation.navigate('contractService', { isCare })}
+              onPress={() =>
+                navigation.navigate('contractService', { isCare, user })
+              }
             />
             <CareCard
-              onPress={() => navigation.navigate('contractService', { isCare })}
+              onPress={() =>
+                navigation.navigate('contractService', { isCare, user })
+              }
             />
             <CareCard
-              onPress={() => navigation.navigate('contractService', { isCare })}
+              onPress={() =>
+                navigation.navigate('contractService', { isCare, user })
+              }
             />
             <CareCard
-              onPress={() => navigation.navigate('contractService', { isCare })}
+              onPress={() =>
+                navigation.navigate('contractService', { isCare, user })
+              }
             />
             <CareCard
-              onPress={() => navigation.navigate('contractService', { isCare })}
+              onPress={() =>
+                navigation.navigate('contractService', { isCare, user })
+              }
             />
           </ScrollView>
         </View>
