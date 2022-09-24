@@ -82,7 +82,14 @@ export function SearchPetCare({ route }) {
               Bob
             </Text>
           </VStack>
-          <Button my={4} title="Selecionar local" bg="#511AC7" w="70%" py={4} />
+          <Button
+            my={4}
+            title="Selecionar local"
+            bg="#511AC7"
+            w="70%"
+            py={4}
+            onPress={() => navigation.navigate('selectLocal')}
+          />
           <VStack bg="#f4f4f4" py={2}>
             <Text
               textAlign="center"
