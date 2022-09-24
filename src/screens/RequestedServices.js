@@ -20,6 +20,7 @@ export function RequestedServices({ route }) {
           dateService="14/06/2022"
           valueService={35}
           isCare={isCare}
+          user={user}
         />
       </ScrollView>
     </VStack>
