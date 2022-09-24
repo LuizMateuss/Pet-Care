@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
 import { useState } from 'react'
 import { Alert } from 'react-native'
-import {SERVER_LINK, SERVER_METHOD} from '@env'
 
 /*
   Tela de alterar senha
@@ -20,7 +19,6 @@ export function ChangePassword({ route }) {
   const [currentPasswd, setCurrentPasswd] = useState('')
   const [newPasswd, setNewPasswd] = useState('')
   const [confirmPasswd, setConfirmPasswd] = useState('')
-
 
   function handlePasswd() {
     if (!currentPasswd || !newPasswd || !confirmPasswd) {
@@ -48,15 +46,18 @@ export function ChangePassword({ route }) {
   }
 
   async function updatePasswd() {
-      const req = await fetch(SERVER_LINK+`changepasswd/${user.id}/${currentPasswd}/${newPasswd}`,{
-        method: SERVER_METHOD,
-        headers:{
-          'Accept':'application/json',
-          'Content-Type':'application/json'
+    const req = await fetch(
+      process.env.SERVER_LINK +
+        `changepasswd/${user.id}/${currentPasswd}/${newPasswd}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
         }
-      })
-      console.log("foi")
-
+      }
+    )
+    console.log('foi')
   }
 
   return (
