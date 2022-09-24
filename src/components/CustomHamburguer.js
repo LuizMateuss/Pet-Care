@@ -28,7 +28,8 @@ export function CustomHamburguer(props) {
         py={4}
         onPress={() =>
           navigation.navigate('profileCare', {
-            isCare, user
+            isCare,
+            user
           })
         }
       />
@@ -40,7 +41,8 @@ export function CustomHamburguer(props) {
         py={4}
         onPress={() =>
           navigation.navigate('petProfile', {
-            isCare
+            isCare,
+            user
           })
         }
       />
@@ -52,7 +54,8 @@ export function CustomHamburguer(props) {
         py={4}
         onPress={() =>
           navigation.navigate('historyCare', {
-            isCare
+            isCare,
+            user
           })
         }
       />
@@ -64,7 +67,8 @@ export function CustomHamburguer(props) {
         py={4}
         onPress={() =>
           navigation.navigate('requestedServices', {
-            isCare
+            isCare,
+            user
           })
         }
       />

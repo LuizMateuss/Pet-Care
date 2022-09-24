@@ -6,7 +6,7 @@ import { PetInfo } from '../components/PetInfo'
 import { Button } from '../components/Button'
 export function PetProfile({ route }) {
   const navigation = useNavigation()
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   return (
     <View flex={1} bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -20,7 +20,7 @@ export function PetProfile({ route }) {
           petAge={2}
           petRace="Pastor alemão"
           petGender="Masculino"
-          onPress={() => navigation.navigate('editPet', { isCare })}
+          onPress={() => navigation.navigate('editPet', { isCare, user })}
         />
         <PetInfo
           petName="Thor"
@@ -28,7 +28,7 @@ export function PetProfile({ route }) {
           petAge={3}
           petRace="Husky siberiano"
           petGender="Feminino"
-          onPress={() => navigation.navigate('editPet', { isCare })}
+          onPress={() => navigation.navigate('editPet', { isCare, user })}
         />
       </ScrollView>
 
@@ -46,7 +46,7 @@ export function PetProfile({ route }) {
         my={5}
         width="80%"
         margin="auto"
-        onPress={() => navigation.navigate('addPet', { isCare })}
+        onPress={() => navigation.navigate('addPet', { isCare, user })}
       />
     </View>
   )

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 
 export function EditProfile({ route }) {
   const navigation = useNavigation()
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   return (
@@ -121,7 +121,7 @@ export function EditProfile({ route }) {
           width="60%"
           py={4}
           mt={4}
-          onPress={() => navigation.navigate('profileCare', { isCare })}
+          onPress={() => navigation.navigate('profileCare', { isCare, user })}
         />
       </ScrollView>
     </VStack>

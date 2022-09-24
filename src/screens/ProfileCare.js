@@ -33,7 +33,7 @@ export function ProfileCare({ route }) {
             {user.name}
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('editProfile', { isCare })}
+            onPress={() => navigation.navigate('editProfile', { isCare, user })}
           >
             <Text
               borderWidth={1}
