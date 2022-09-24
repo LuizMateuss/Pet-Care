@@ -14,9 +14,10 @@ import { CaretLeft, PawPrint } from 'phosphor-react-native'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { Header } from '../components/Header'
+import LottieView from 'lottie-react-native'
 
 export function ContractService({ route }) {
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
   const { isCare, user } = route.params
 
@@ -25,6 +26,13 @@ export function ContractService({ route }) {
     navigation.navigate('menuHamburguer', {
       screen: 'startPetCare',
       params: { isCare, user }
+    })
+  }
+  function closeModalAndGoToRequestedServices() {
+    setShowModal(false)
+    navigation.navigate('requestedServices', {
+      isCare,
+      user
     })
   }
   return (
@@ -150,12 +158,36 @@ export function ContractService({ route }) {
           />
         </HStack>
         <Modal isOpen={showModal} onClose={onCloseModal}>
-          <View bg="primary.700" w="80%" p={4} borderRadius={20}>
-            <Text color="white" textAlign="center" my={5}>
+          <View
+            bg="primary.700"
+            w="80%"
+            p={4}
+            borderRadius={20}
+            alignItems="center"
+          >
+            <LottieView
+              source={require('../../assets/img/dogWalking.json')}
+              autoPlay={true}
+              style={{
+                width: 200,
+                height: 200
+              }}
+              resizeMode="cover"
+              loop={true}
+            />
+            <Text color="white" textAlign="center" my={5} fontWeight="black">
               Serviço agendado com sucesso! Verifique com detalhes em “Serviços
               agendados”. Lembre-se de conversar com o cuidador para combinar
               como entregar o animal.
             </Text>
+            <Button
+              title="Serviços agendados"
+              color="white"
+              borderColor="white"
+              borderWidth={1}
+              w="100%"
+              onPress={closeModalAndGoToRequestedServices}
+            />
           </View>
         </Modal>
       </ScrollView>
