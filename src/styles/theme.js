@@ -16,9 +16,22 @@ export const THEME = extendTheme({
     },
     white: '#FFFFFF'
   },
+  fontConfig: {
+    Roboto: {
+      400: {
+        normal: 'Roboto_400Regular'
+      },
+      700: {
+        normal: 'Roboto_700Bold'
+      },
+      900: {
+        normal: 'Roboto_900Black'
+      }
+    }
+  },
   fonts: {
-    heading: 'Roboto_700Bold',
-    body: 'Roboto_400Regular'
+    heading: 'Roboto',
+    body: 'Roboto'
   },
   fontSizes: {
     xs: 12,

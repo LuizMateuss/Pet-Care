@@ -18,6 +18,12 @@ export function ProfileInfo(props) {
       <Text fontWeight="black" fontSize={16} color="white">
         {props.info}
       </Text>
+      <Text fontWeight="black" fontSize={16} color="white">
+        {props.email}
+      </Text>
+      <Text fontWeight="black" fontSize={16} color="white">
+        {props.phone}
+      </Text>
     </VStack>
   )
 }

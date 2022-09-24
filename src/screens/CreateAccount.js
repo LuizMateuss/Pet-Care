@@ -36,6 +36,15 @@ export function CreateAccount({ route }) {
   const { isCare } = route.params
   let configEmail
 
+  function verifyIsCareAndNextPage() {
+    if (isCare) {
+      navigation.navigate('registerAddress', {
+        isCare
+      })
+    } else {
+      navigation.navigate('registerAddress', { isCare })
+    }
+  }
   function handleSignUp() {
     if (!email || !password || !confirmPassword || !phone || !dateBirth) {
       return Alert.alert(
@@ -104,6 +113,8 @@ export function CreateAccount({ route }) {
     }
   }
 
+<<<<<<< HEAD
+=======
   function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('startPetCare', {
@@ -118,6 +129,7 @@ export function CreateAccount({ route }) {
     }
   }
 
+>>>>>>> back-banco
   return (
     <View flex={1}>
       <ScrollView>

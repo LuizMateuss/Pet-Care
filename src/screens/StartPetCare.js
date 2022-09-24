@@ -104,9 +104,7 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() =>
-                  navigation.navigate('searchLocalization', { isCare })
-                }
+                onPress={() => navigation.navigate('searchPetCare', { isCare })}
               />
             </View>
           )}
