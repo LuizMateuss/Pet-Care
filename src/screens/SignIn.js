@@ -13,7 +13,10 @@ import { Alert, TouchableOpacity } from 'react-native'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
+<<<<<<< HEAD
 import { SERVER_LINK, SERVER_METHOD } from '@env'
+=======
+>>>>>>> back-banco
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
@@ -30,13 +33,14 @@ export function SignIn() {
         'Por favor, informe todos os campos.'
       )
     }
-    setIsLoading(true)
+    // setIsLoading(true)
     verifyUser()
   }
 
   async function verifyUser() {
+    let configEmail = email.toLowerCase().trim()
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
-    if (reg.test(email) == false) {
+    if (reg.test(configEmail) == false) {
       setIsLoading(false)
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
@@ -45,15 +49,26 @@ export function SignIn() {
       if (isCare) sendIsCare = 'C'
       else sendIsCare = 'T'
       const req = await fetch(
+<<<<<<< HEAD
         SERVER_LINK + `login/${email}/${password}/${sendIsCare}`,
         {
           method: SERVER_METHOD,
+=======
+        process.env.SERVER_LINK +
+          `login/${configEmail}/${password}/${sendIsCare}`,
+        {
+          method: process.env.SERVER_METHOD,
+>>>>>>> back-banco
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
           }
         }
       )
+<<<<<<< HEAD
+=======
+
+>>>>>>> back-banco
       //resposta
       const resLogin = await req.json()
 
@@ -64,7 +79,11 @@ export function SignIn() {
 
       setIsLoading(false)
       if (
+<<<<<<< HEAD
         email === bdEmail &&
+=======
+        configEmail === bdEmail &&
+>>>>>>> back-banco
         password === bdPassword &&
         sendIsCare === bdIsCare
       ) {
