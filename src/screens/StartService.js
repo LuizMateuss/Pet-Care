@@ -41,7 +41,7 @@ export function StartService({ route }) {
           mt={5}
           borderRadius={20}
         >
-          <VStack w="60%" mx="auto" bg="primary.700" p={2} borderRadius={20}>
+          <VStack w="60%" mx="auto" bg={mainColor} p={2} borderRadius={20}>
             <Text
               textAlign="center"
               color="white"
@@ -83,7 +83,7 @@ export function StartService({ route }) {
           rounded={20}
         >
           <VStack
-            bg="#511AC7"
+            bg={mainColor}
             py={5}
             rounded={20}
             alignItems="center"
