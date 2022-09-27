@@ -29,7 +29,7 @@ export function AddPet({ route }) {
   const [size, setSize] = useState('')
   const [gender, setGender] = useState('')
   const navigation = useNavigation()
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   return (
     <VStack>
       <Header color="#511AC7" title="Adicionar animal" />
@@ -303,7 +303,7 @@ export function AddPet({ route }) {
               setShowModal(false)
               navigation.navigate('menuHamburguer', {
                 screen: 'startPetCare',
-                params: { isCare }
+                params: { isCare, user }
               })
             }}
           />

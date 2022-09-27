@@ -29,7 +29,7 @@ export function SignIn() {
         'Por favor, informe todos os campos.'
       )
     }
-    // setIsLoading(true)
+    setIsLoading(true)
     verifyUser()
   }
 

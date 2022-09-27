@@ -36,13 +36,14 @@ export function CreateAccount({ route }) {
   const { isCare } = route.params
   let configEmail
 
-  function verifyIsCareAndNextPage() {
+  function verifyIsCareAndNextPage(user) {
     if (isCare) {
       navigation.navigate('registerAddress', {
-        isCare
+        isCare,
+        user
       })
     } else {
-      navigation.navigate('registerAddress', { isCare })
+      navigation.navigate('registerAddress', { isCare, user })
     }
   }
   function handleSignUp() {
@@ -113,23 +114,6 @@ export function CreateAccount({ route }) {
     }
   }
 
-<<<<<<< HEAD
-=======
-  function verifyIsCareAndNextPage(user) {
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare,
-        user
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare, user }
-      })
-    }
-  }
-
->>>>>>> back-banco
   return (
     <View flex={1}>
       <ScrollView>

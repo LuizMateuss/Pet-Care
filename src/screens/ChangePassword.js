@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
 import { useState } from 'react'
 import { Alert } from 'react-native'
+import { Header } from '../components/Header'
 
 /*
   Tela de alterar senha
@@ -61,18 +62,16 @@ export function ChangePassword({ route }) {
   }
 
   return (
-    <View bg="white" flex={1} mt={8}>
-      <ScrollView bg="white">
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <CaretLeft size={26} color={mainColor} />
-        </TouchableOpacity>
-
+    <View bg="white" flex={1}>
+      <Header title="Alterar senha" color="#511AC7" />
+      <ScrollView bg="white" h="70%">
         <HStack
           px={3}
           py={10}
           bg={mainColor}
           w="80%"
           mx="auto"
+          mt={10}
           borderRadius={20}
           alignItems="center"
           justifyContent="space-between"
@@ -137,7 +136,7 @@ export function ChangePassword({ route }) {
           Lembre-se: a senha precisa possuir mais de 8 caracteres incluindo
           letras e números
         </Text>
-        <View mt="30%">
+        <View mt="10%">
           <Button
             title="Salvar alterações"
             color={mainColor}

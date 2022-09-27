@@ -17,7 +17,7 @@ import { TouchableOpacity } from 'react-native'
 import { Button } from '../components/Button'
 
 export function SearchPetCare({ route }) {
-  const { isCare } = route.params
+  const { isCare, user } = route.params
 
   const navigation = useNavigation()
   return (
@@ -82,7 +82,14 @@ export function SearchPetCare({ route }) {
               Bob
             </Text>
           </VStack>
-          <Button my={4} title="Selecionar local" bg="#511AC7" w="70%" py={4} />
+          <Button
+            my={4}
+            title="Selecionar local"
+            bg="#511AC7"
+            w="70%"
+            py={4}
+            onPress={() => navigation.navigate('selectLocal')}
+          />
           <VStack bg="#f4f4f4" py={2}>
             <Text
               textAlign="center"
@@ -114,7 +121,9 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectPetCare', { isCare })}
+            onPress={() =>
+              navigation.navigate('selectPetCare', { isCare, user })
+            }
           />
         </VStack>
       </ScrollView>

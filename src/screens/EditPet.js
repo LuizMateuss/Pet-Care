@@ -1,11 +1,15 @@
-import { VStack, Text, Image, HStack } from 'native-base'
+import { VStack, Text, Image, HStack, Modal, View } from 'native-base'
 import { TouchableOpacity } from 'react-native'
+import { useState } from 'react'
 import { Button } from '../components/Button'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
+import { useNavigation } from '@react-navigation/native'
 
 export function EditPet({ route }) {
+  const [showModal, setShowModal] = useState(false)
   const { isCare } = route.params
+  const navigation = useNavigation()
   return (
     <VStack>
       <Header title="Editar animal" color="#511AC7" />
@@ -69,6 +73,7 @@ export function EditPet({ route }) {
         color="red.700"
         borderWidth={1}
         borderColor="red.700"
+        onPress={() => setShowModal(true)}
       />
       <Button
         mt={4}
@@ -78,6 +83,35 @@ export function EditPet({ route }) {
         borderWidth={1}
         borderColor="primary.700"
       />
+      <Modal isOpen={showModal} onClose={() => setShowModal(!showModal)}>
+        <View w="80%" bg="white" p={5}>
+          <Text textAlign="center" fontSize={20}>
+            Tem certeza que deseja excluir este animal?
+          </Text>
+          <Text textAlign="center" fontSize={15} my={5}>
+            Não será possível desfazer essa ação.
+          </Text>
+
+          <Button
+            title="Sim"
+            color="cyan.700"
+            borderWidth={1}
+            borderColor="cyan.700"
+            my={1}
+            w="100%"
+            onPress={() => navigation.goBack()}
+          />
+          <Button
+            title="Não"
+            color="red.700"
+            borderWidth={1}
+            borderColor="red.700"
+            my={1}
+            w="100%"
+            onPress={() => setShowModal(false)}
+          />
+        </View>
+      </Modal>
     </VStack>
   )
 }

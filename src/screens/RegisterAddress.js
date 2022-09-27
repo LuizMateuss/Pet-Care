@@ -10,12 +10,12 @@ import { useEffect, useState } from 'react'
 
 export function RegisterAddress({ route }) {
   const [cep, setCep] = useState()
+  const [address, setAddress] = useState()
+  const [addressNumber, setAddressNumber] = useState()
+  const [addressComplement, setAddressComplement] = useState()
+  const [userAddress, setUserAddress] = useState()
 
-  const [address, setAddress] = useState('')
-  const [addressNumber, setAddressNumber] = useState('')
-  const [addressComplement, setAddressComplement] = useState('')
-
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   /**
@@ -25,7 +25,7 @@ export function RegisterAddress({ route }) {
    * -> Armazena o parâmetro dentro de uma variável.
    * -> Verifica se dentro do CEP contém traço, caso tenha substitua por "nada".
    * -> Testa se o CEP é valido com a máscara do Regex, se for válido, seta o CEP ao estado.
-   * -> Se meu CEP o tamanho dele for igual a zero, limpa o estado dele.
+   * -> Se a minha validação for false o meu CEP permanece limpo.
    */
   function handleZipCode(cep) {
     const zipCodeRegex = /^[0-9]{8}$/
@@ -36,49 +36,60 @@ export function RegisterAddress({ route }) {
 
     if (zipCodeRegex.test(zipCode)) {
       setCep(zipCode)
+      fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
+        .then(response => response.json())
+        .then(data => {
+          setAddress(data)
+        })
+        .catch(err => {
+          return Alert.alert('Endereço inválido')
+        })
     } else {
-      setCep('')
+      setAddress('')
     }
   }
 
-  function handleNumber(number) {
-    let addressNumber = number
-    if (addressNumber.length > 0 && Number(addressNumber)) {
+  function handleAddressNumber(number) {
+    let addressNumber = number.trim()
+    if (!isNaN(addressNumber)) {
       setAddressNumber(addressNumber)
-    } else {
-      setAddressNumber('')
     }
   }
 
-  function handleComplement(complement) {
+  function handleAddressComplement(complement) {
     let addressComplement = complement
-    if (addressComplement.trim().length >= 0) {
-      setAddressComplement(addressComplement)
-    } else {
-      setAddressComplement('')
-    }
+
+    setAddressComplement(addressComplement)
   }
 
   function handleNextPage() {
     if (isCare) {
-      navigation.navigate('startPetCare', { isCare })
+      navigation.navigate('startPetCare', {
+        isCare,
+        user,
+        userAddress
+      })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare }
+        params: { isCare, user, userAddress }
       })
     }
   }
 
+  function verfiyFieldsAndAddAddressToObject() {
+    if (address == '' || addressNumber == '' || addressComplement == '') {
+      return Alert.alert(
+        'Endereço inválido!',
+        'Porfavor, preencha os campos e verifique os valores.'
+      )
+    }
+    let userAddress = { address, addressNumber, addressComplement }
+    setUserAddress(userAddress)
+  }
   const navigation = useNavigation()
   return (
     <VStack mt={8} bg="white" h="100%">
-      <View mx={4} mt={4}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <CaretLeft color={mainColor} size={20} />
-        </TouchableOpacity>
-      </View>
-
       <Image
         alt="Imagem usuário"
         source={require('../../assets/img/anonymous.png')}
@@ -95,7 +106,7 @@ export function RegisterAddress({ route }) {
         fontWeight="black"
         my={2}
       >
-        Bem vindo !
+        Bem vindo {user.name}!
       </Text>
 
       <View
@@ -135,7 +146,11 @@ export function RegisterAddress({ route }) {
             Número:
           </Text>
 
-          <Input ml={4} w="60%" onChangeText={number => handleNumber(number)} />
+          <Input
+            ml={4}
+            w="60%"
+            onChangeText={number => handleAddressNumber(number)}
+          />
         </HStack>
         <HStack alignItems="center" justifyContent="space-between" w="100%">
           <Text color="white" fontSize={15} fontWeight="black">
@@ -144,7 +159,7 @@ export function RegisterAddress({ route }) {
           <Input
             ml={4}
             w="60%"
-            onChangeText={complement => handleComplement(complement)}
+            onChangeText={complement => handleAddressComplement(complement)}
           />
         </HStack>
 
@@ -152,9 +167,32 @@ export function RegisterAddress({ route }) {
           Endereço selecionado:
         </Text>
 
-        <Text textAlign="center" color="white" fontSize={16} fontWeight="black">
-          Nenhum endereço encontrado
-        </Text>
+        {address == undefined ||
+        addressNumber == undefined ||
+        addressComplement == undefined ||
+        address == '' ||
+        addressNumber == '' ||
+        addressComplement == '' ? (
+          <Text
+            textAlign="center"
+            color="white"
+            fontSize={18}
+            fontWeight="black"
+          >
+            Não foi possível encontrar o endereço.
+          </Text>
+        ) : (
+          <Text
+            textAlign="center"
+            color="white"
+            fontSize={18}
+            fontWeight="black"
+          >
+            {address.logradouro}, Nº {addressNumber} - {addressComplement}.
+            {address.bairro}. CEP: {address.cep}, {address.localidade}/
+            {address.uf}
+          </Text>
+        )}
       </VStack>
 
       <Button
@@ -163,18 +201,28 @@ export function RegisterAddress({ route }) {
         weight="black"
         py={4}
         px={8}
-        mt={20}
+        mt={10}
+        onPress={verfiyFieldsAndAddAddressToObject}
       />
-      <Button
-        title="Confirmar endereço"
-        weight="black"
-        py={4}
-        px={8}
-        borderWidth={1}
-        borderColor={mainColor}
-        color={mainColor}
-        onPress={handleNextPage}
-      />
+      {address == undefined ||
+      addressNumber == undefined ||
+      addressComplement == undefined ||
+      address == '' ||
+      addressNumber == '' ||
+      addressComplement == '' ? (
+        <></>
+      ) : (
+        <Button
+          title="Confirmar endereço"
+          weight="black"
+          py={4}
+          px={8}
+          borderWidth={1}
+          borderColor={mainColor}
+          color={mainColor}
+          onPress={handleNextPage}
+        />
+      )}
     </VStack>
   )
 }

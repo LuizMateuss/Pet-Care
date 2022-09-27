@@ -6,7 +6,7 @@ import { RequestedServiceCard } from '../components/RequestedServiceCard'
 export function RequestedServices({ route }) {
   const navigation = useNavigation()
 
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
     <VStack>
@@ -20,6 +20,7 @@ export function RequestedServices({ route }) {
           dateService="14/06/2022"
           valueService={35}
           isCare={isCare}
+          user={user}
         />
       </ScrollView>
     </VStack>

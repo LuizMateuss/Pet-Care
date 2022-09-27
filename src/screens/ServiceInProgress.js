@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 
 export function ServiceInProgress({ route }) {
-  const { isCare } = route.params
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   const { colors } = useTheme()
   const navigation = useNavigation()
@@ -45,7 +45,7 @@ export function ServiceInProgress({ route }) {
                 color={mainColor}
                 borderWidth={1}
                 borderColor={mainColor}
-                onPress={() => navigation.navigate('chat', { isCare })}
+                onPress={() => navigation.navigate('chat', { isCare, user })}
               />
             </View>
           )}
@@ -56,9 +56,14 @@ export function ServiceInProgress({ route }) {
             alignItems="center"
             w="full"
           >
-            <View p={4} rounded={40} bg="white">
-              <PawPrint size={25} color={mainColor} />
-            </View>
+            <Image
+              alt="Imagem pet"
+              source={require('../../assets/img/PerfilAnimalImagem.png')}
+              w={70}
+              h={70}
+              borderRadius={50}
+            />
+
             {isCare ? (
               <View w="50%" m={2}>
                 <Text
@@ -79,25 +84,18 @@ export function ServiceInProgress({ route }) {
                   borderWidth={1}
                   borderColor="white"
                   width="100%"
-                  onPress={() => navigation.navigate('chat', { isCare })}
+                  onPress={() => navigation.navigate('chat', { isCare, user })}
                 />
               </View>
             ) : (
               <></>
             )}
-            <View mt={2}>
-              <Text textAlign="center" color="white">
-                Data: 14/06/2022
-              </Text>
-              <Text textAlign="center" color="white">
-                Hora de início: 20:29
-              </Text>
-              <Text textAlign="center" color="white">
-                Serviço: Passeio
-              </Text>
-              <Text textAlign="center" color="white">
-                Cliente: xxx-xxx
-              </Text>
+            <View mt={2} alignItems="center">
+              <Text color="white">Animal: Bob</Text>
+              <Text color="white">Horário de início: 20:29</Text>
+              <Text color="white">Tempo decorrente: xx:xx</Text>
+              <Text color="white">Cliente: xxx-xxx</Text>
+              <Text color="white">Valor do serviço: R$29,75</Text>
             </View>
           </VStack>
           {isCare ? (
@@ -108,7 +106,9 @@ export function ServiceInProgress({ route }) {
                 borderWidth={1}
                 width="100%"
                 borderColor={colors.red[700]}
-                onPress={() => navigation.navigate('startPetCare', { isCare })}
+                onPress={() =>
+                  navigation.navigate('startPetCare', { isCare, user })
+                }
               />
             </VStack>
           ) : (

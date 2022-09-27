@@ -17,7 +17,7 @@ export function StartPetCare({ route }) {
 
   const { isCare, user } = route.params
   const mainColor = isCare ? `#00ABBC` : `#511AC7`
-  
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -47,7 +47,9 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() => navigation.navigate('profileCare', { isCare, user })}
+                onPress={() =>
+                  navigation.navigate('profileCare', { isCare, user })
+                }
               />
               <Button
                 backgroundColor={mainColor}
@@ -57,7 +59,9 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() => navigation.navigate('requests', { isCare })}
+                onPress={() =>
+                  navigation.navigate('requests', { isCare, user })
+                }
               />
               <Button
                 backgroundColor={mainColor}
@@ -67,7 +71,9 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() => navigation.navigate('historyCare', { isCare })}
+                onPress={() =>
+                  navigation.navigate('historyCare', { isCare, user })
+                }
               />
               <Button
                 backgroundColor={mainColor}
@@ -78,7 +84,7 @@ export function StartPetCare({ route }) {
                 py={4}
                 width="80%"
                 onPress={() =>
-                  navigation.navigate('requestedServices', { isCare })
+                  navigation.navigate('requestedServices', { isCare, user })
                 }
               />
               <Button
@@ -90,7 +96,7 @@ export function StartPetCare({ route }) {
                 py={4}
                 width="80%"
                 onPress={() =>
-                  navigation.navigate('serviceInProgress', { isCare })
+                  navigation.navigate('serviceInProgress', { isCare, user })
                 }
               />
             </View>
@@ -104,7 +110,9 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() => navigation.navigate('searchPetCare', { isCare })}
+                onPress={() =>
+                  navigation.navigate('searchPetCare', { isCare, user })
+                }
               />
             </View>
           )}
