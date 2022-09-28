@@ -7,7 +7,7 @@ import { ProfileInfo } from '../components/ProfileInfo'
 
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
@@ -35,6 +35,7 @@ export function ProfileCare({ route }) {
       street: res[0].nm_logradouro,
       houserNumber: res[0].cd_numero_rua,
       complement: res[0].nm_complemento,
+      district: res[0].nm_bairro,
       zipCode: res[0].cd_cep,
       city: res[0].nm_cidade,
       uf: res[0].sg_estado
@@ -44,7 +45,7 @@ export function ProfileCare({ route }) {
       phone: res[0].cd_telefone
     })
   }
-  // getAddressInformations()
+  useEffect(()=>{getAddressInformations()},[])
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -102,7 +103,7 @@ export function ProfileCare({ route }) {
       <ProfileInfo
         icon={<MapPin size={26} color="#FFFFFF" />}
         title="Endereço"
-        info={`${address.street}, Nº ${address.houserNumber} - Comp. ${address.complement}. CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
+        info={`${address.street}, Nº ${address.houserNumber} - Comp. ${address.complement}. Bairro: ${address.district}, CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
         email=""
         phone=""
         backgroundInfo={mainColor}
