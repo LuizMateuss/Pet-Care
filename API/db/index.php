@@ -22,6 +22,8 @@
     $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}', 'getRegistration');
     $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
     $app->map(['get', 'post'], '/registrationAdress/{id}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getAddressRegistration');
+    $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
+
 
     //FUNÇÕES DE CONCÇÃO
     
@@ -122,6 +124,23 @@
         $stmt->bindParam("uf", $uf);
         $stmt->bindParam("cep", $cep);
         $stmt->execute();
+    }
+
+    function getAddressInformations(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql="SELECT e.*, u.nm_usuario, u.nm_email, u.cd_telefone FROM endereco AS e
+            INNER JOIN usuario AS u
+            ON e.cd_usuario=u.cd_usuario
+            WHERE u.cd_usuario=:id";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
     }
 
     function getChangePasswd(Request $request, Response $response, array $args){
