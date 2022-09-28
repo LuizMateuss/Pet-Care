@@ -15,9 +15,7 @@ export function RegisterAddress({ route }) {
   const [addressComplement, setAddressComplement] = useState()
   const [userAddress, setUserAddress] = useState()
 
-  // const { isCare, user } = route.params
-  const isCare = false
-  const user = { name: 'Jorge' }
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   /**
