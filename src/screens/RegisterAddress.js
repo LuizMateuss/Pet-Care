@@ -1,5 +1,5 @@
 import { Alert, TouchableOpacity } from 'react-native'
-import { HStack, Image, Text, VStack, View } from 'native-base'
+import { HStack, Image, Text, VStack, View, ScrollView } from 'native-base'
 
 import { CaretLeft, MapPin } from 'phosphor-react-native'
 
@@ -15,7 +15,9 @@ export function RegisterAddress({ route }) {
   const [addressComplement, setAddressComplement] = useState()
   const [userAddress, setUserAddress] = useState()
 
-  const { isCare, user } = route.params
+  // const { isCare, user } = route.params
+  const isCare = false
+  const user = { name: 'Jorge' }
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   /**
@@ -89,140 +91,147 @@ export function RegisterAddress({ route }) {
   }
   const navigation = useNavigation()
   return (
-    <VStack mt={8} bg="white" h="100%">
-      <Image
-        alt="Imagem usuário"
-        source={require('../../assets/img/anonymous.png')}
-        h={100}
-        w={100}
-        mx="auto"
-        borderRadius={50}
-      />
+    <ScrollView>
+      <VStack mt={8} bg="white" h="100%">
+        <Image
+          alt="Imagem usuário"
+          source={require('../../assets/img/anonymous.png')}
+          h={100}
+          w={100}
+          mx="auto"
+          borderRadius={50}
+        />
 
-      <Text
-        textAlign="center"
-        color={mainColor}
-        fontSize={20}
-        fontWeight="black"
-        my={2}
-      >
-        Bem vindo {user.name}!
-      </Text>
-
-      <View
-        borderBottomWidth={1}
-        borderColor={mainColor}
-        my={5}
-        mx="auto"
-        w="80%"
-      ></View>
-
-      <VStack
-        bg={mainColor}
-        alignItems="center"
-        p={4}
-        w="90%"
-        mx="auto"
-        borderRadius={15}
-      >
-        <MapPin size={20} color="#FFF" />
-        <Text color="white" fontSize={18} fontWeight="black">
-          Endereço
+        <Text
+          textAlign="center"
+          color={mainColor}
+          fontSize={20}
+          fontWeight="black"
+          my={2}
+        >
+          Bem vindo {user.name}!
         </Text>
 
-        <HStack alignItems="center" justifyContent="space-between" w="100%">
-          <Text color="white" fontSize={15} fontWeight="black">
-            Insira o CEP:
-          </Text>
-          <Input
-            ml={4}
-            w="60%"
-            onChangeText={cep => handleZipCode(cep)}
-            maxLength={9}
-          />
-        </HStack>
-        <HStack alignItems="center" justifyContent="space-between" w="100%">
-          <Text color="white" fontSize={15} fontWeight="black">
-            Número:
+        <View
+          borderBottomWidth={1}
+          borderColor={mainColor}
+          my={5}
+          mx="auto"
+          w="80%"
+        ></View>
+
+        <VStack
+          bg={mainColor}
+          alignItems="center"
+          p={4}
+          w="90%"
+          mx="auto"
+          borderRadius={15}
+        >
+          <MapPin size={20} color="#FFF" />
+          <Text color="white" fontSize={18} fontWeight="black">
+            Endereço
           </Text>
 
-          <Input
-            ml={4}
-            w="60%"
-            onChangeText={number => handleAddressNumber(number)}
-          />
-        </HStack>
-        <HStack alignItems="center" justifyContent="space-between" w="100%">
-          <Text color="white" fontSize={15} fontWeight="black">
-            Complemento:
+          <HStack alignItems="center" justifyContent="space-between" w="100%">
+            <Text color="white" fontSize={15} fontWeight="black">
+              Insira o CEP:
+            </Text>
+            <Input
+              ml={4}
+              w="60%"
+              onChangeText={cep => handleZipCode(cep)}
+              maxLength={9}
+            />
+          </HStack>
+          <HStack alignItems="center" justifyContent="space-between" w="100%">
+            <Text color="white" fontSize={15} fontWeight="black">
+              Número:
+            </Text>
+
+            <Input
+              ml={4}
+              w="60%"
+              onChangeText={number => handleAddressNumber(number)}
+            />
+          </HStack>
+          <HStack alignItems="center" justifyContent="space-between" w="100%">
+            <Text color="white" fontSize={15} fontWeight="black">
+              Complemento:
+            </Text>
+            <Input
+              ml={4}
+              w="60%"
+              onChangeText={complement => handleAddressComplement(complement)}
+            />
+          </HStack>
+
+          <Text
+            textAlign="center"
+            color="white"
+            fontSize={18}
+            fontWeight="black"
+          >
+            Endereço selecionado:
           </Text>
-          <Input
-            ml={4}
-            w="60%"
-            onChangeText={complement => handleAddressComplement(complement)}
-          />
-        </HStack>
 
-        <Text textAlign="center" color="white" fontSize={18} fontWeight="black">
-          Endereço selecionado:
-        </Text>
+          {address == undefined ||
+          addressNumber == undefined ||
+          addressComplement == undefined ||
+          address == '' ||
+          addressNumber == '' ||
+          addressComplement == '' ? (
+            <Text
+              textAlign="center"
+              color="white"
+              fontSize={18}
+              fontWeight="black"
+            >
+              Não foi possível encontrar o endereço.
+            </Text>
+          ) : (
+            <Text
+              textAlign="center"
+              color="white"
+              fontSize={18}
+              fontWeight="black"
+            >
+              {address.logradouro}, Nº {addressNumber} - {addressComplement}.
+              {address.bairro}. CEP: {address.cep}, {address.localidade}/
+              {address.uf}
+            </Text>
+          )}
+        </VStack>
 
+        <Button
+          bg={mainColor}
+          title="Adicionar endereço"
+          weight="black"
+          py={4}
+          px={8}
+          mt={10}
+          onPress={verfiyFieldsAndAddAddressToObject}
+        />
         {address == undefined ||
         addressNumber == undefined ||
         addressComplement == undefined ||
         address == '' ||
         addressNumber == '' ||
         addressComplement == '' ? (
-          <Text
-            textAlign="center"
-            color="white"
-            fontSize={18}
-            fontWeight="black"
-          >
-            Não foi possível encontrar o endereço.
-          </Text>
+          <></>
         ) : (
-          <Text
-            textAlign="center"
-            color="white"
-            fontSize={18}
-            fontWeight="black"
-          >
-            {address.logradouro}, Nº {addressNumber} - {addressComplement}.
-            {address.bairro}. CEP: {address.cep}, {address.localidade}/
-            {address.uf}
-          </Text>
+          <Button
+            title="Confirmar endereço"
+            weight="black"
+            py={4}
+            px={8}
+            borderWidth={1}
+            borderColor={mainColor}
+            color={mainColor}
+            onPress={handleNextPage}
+          />
         )}
       </VStack>
-
-      <Button
-        bg={mainColor}
-        title="Adicionar endereço"
-        weight="black"
-        py={4}
-        px={8}
-        mt={10}
-        onPress={verfiyFieldsAndAddAddressToObject}
-      />
-      {address == undefined ||
-      addressNumber == undefined ||
-      addressComplement == undefined ||
-      address == '' ||
-      addressNumber == '' ||
-      addressComplement == '' ? (
-        <></>
-      ) : (
-        <Button
-          title="Confirmar endereço"
-          weight="black"
-          py={4}
-          px={8}
-          borderWidth={1}
-          borderColor={mainColor}
-          color={mainColor}
-          onPress={handleNextPage}
-        />
-      )}
-    </VStack>
+    </ScrollView>
   )
 }
