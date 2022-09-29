@@ -24,12 +24,31 @@ import { useNavigation } from '@react-navigation/native'
 export function AddPet({ route }) {
   const [showModal, setShowModal] = useState(false)
   const [showAnimalSizeInfo, setShowAnimalSizeInfo] = useState(false)
+
+  const [name, setName] = useState('')
   const [species, setSpecies] = useState('')
   const [race, setRace] = useState('')
+  const [weight, setWeight] = useState('')
   const [size, setSize] = useState('')
   const [gender, setGender] = useState('')
+  const [birth, setBirth] = useState('')
+
   const navigation = useNavigation()
   const { isCare, user } = route.params
+
+  async function addAnimal(){
+    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${species}/${race}/${weight}/${size}/${gender}/${birth}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    let res = await req.json()
+    setShowModal(true)
+  }
   return (
     <VStack>
       <Header color="#511AC7" title="Adicionar animal" />
@@ -59,7 +78,7 @@ export function AddPet({ route }) {
           >
             Nome:
           </Text>
-          <Input ml={4} borderWidth={1} borderColor="#511AC7" w="60%" />
+          <Input ml={4} borderWidth={1} borderColor="#511AC7" w="60%" onChangeText={setName}/>
         </HStack>
 
         <VStack bg="primary.700" w="90%" p={4} borderRadius={10} mx="auto">
@@ -154,7 +173,7 @@ export function AddPet({ route }) {
             >
               Peso aproximado:
             </Text>
-            <Input w="40%" placeholder="Kg" />
+            <Input w="40%" placeholder="Kg" onChangeText={setWeight}/>
           </HStack>
           <HStack alignItems="center" justifyContent="space-between" my={2}>
             <Text
@@ -238,7 +257,7 @@ export function AddPet({ route }) {
             >
               Data de nascimento:
             </Text>
-            <Input w="40%" placeholder="DD/MM/YYYY" />
+            <Input w="40%" placeholder="DD/MM/YYYY" onChangeText={setBirth}/>
           </HStack>
         </VStack>
         {showAnimalSizeInfo ? (
@@ -268,7 +287,7 @@ export function AddPet({ route }) {
         color="primary.700"
         borderWidth={1}
         borderColor="primary.700"
-        onPress={() => setShowModal(true)}
+        onPress={() => addAnimal()}
       />
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content
