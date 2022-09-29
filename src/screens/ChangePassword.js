@@ -44,6 +44,7 @@ export function ChangePassword({ route }) {
     // console.log(newPasswd)
     // console.log(confirmPasswd)
     updatePasswd()
+    navigation.goBack()
   }
 
   async function updatePasswd() {
@@ -63,7 +64,7 @@ export function ChangePassword({ route }) {
 
   return (
     <View bg="white" flex={1}>
-      <Header title="Alterar senha" color="#511AC7" />
+      <Header title="Alterar senha" color={mainColor} />
       <ScrollView bg="white" h="70%">
         <HStack
           px={3}
