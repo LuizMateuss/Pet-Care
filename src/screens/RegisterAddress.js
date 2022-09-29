@@ -15,9 +15,7 @@ export function RegisterAddress({ route }) {
   const [addressComplement, setAddressComplement] = useState()
   const [userAddress, setUserAddress] = useState()
 
-  // const { isCare, user } = route.params
-  const isCare = false
-  const user = { name: 'Lucas' }
+  const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   /**
@@ -211,6 +209,7 @@ export function RegisterAddress({ route }) {
               fontWeight="black"
             >
               {address.logradouro}, Nº {addressNumber} - {addressComplement}.
+              Bairro:
               {address.bairro}. CEP: {address.cep}, {address.localidade}/
               {address.uf}
             </Text>
