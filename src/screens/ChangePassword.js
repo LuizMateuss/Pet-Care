@@ -1,4 +1,12 @@
-import { HStack, Input, ScrollView, Text, View, VStack } from 'native-base'
+import {
+  HStack,
+  Input,
+  ScrollView,
+  Text,
+  View,
+  VStack,
+  Modal
+} from 'native-base'
 import { CaretLeft } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -6,6 +14,7 @@ import { Button } from '../components/Button'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 import { Header } from '../components/Header'
+import LottieView from 'lottie-react-native'
 
 /*
   Tela de alterar senha
@@ -13,6 +22,7 @@ import { Header } from '../components/Header'
   e ir para próxima página.
 */
 export function ChangePassword({ route }) {
+  const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
   const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
@@ -44,7 +54,7 @@ export function ChangePassword({ route }) {
     // console.log(newPasswd)
     // console.log(confirmPasswd)
     updatePasswd()
-    navigation.goBack()
+    setShowModal(true)
   }
 
   async function updatePasswd() {
@@ -60,6 +70,11 @@ export function ChangePassword({ route }) {
       }
     )
     console.log('foi')
+  }
+
+  function closeModal() {
+    setShowModal(false)
+    navigation.goBack()
   }
 
   return (
@@ -150,6 +165,44 @@ export function ChangePassword({ route }) {
           />
         </View>
       </ScrollView>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content
+          bg="primary.700"
+          w="80%"
+          p={4}
+          borderRadius={20}
+          alignItems="center"
+        >
+          <LottieView
+            source={require('../../assets/img/success.json')}
+            autoPlay={true}
+            style={{
+              width: 200,
+              height: 200
+            }}
+            resizeMode="cover"
+            loop={false}
+          />
+          <Text
+            color="white"
+            textAlign="center"
+            fontSize={18}
+            fontWeight="black"
+            my={2}
+          >
+            Senha alterada com sucesso!
+          </Text>
+          <Button
+            mt={4}
+            title="Voltar para o perfil!"
+            w="100%"
+            color="white"
+            borderWidth={1}
+            borderColor="white"
+            onPress={closeModal}
+          />
+        </Modal.Content>
+      </Modal>
     </View>
   )
 }
