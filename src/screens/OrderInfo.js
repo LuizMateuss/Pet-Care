@@ -41,7 +41,7 @@ export function OrderInfo() {
 
           <VStack mt={2} alignItems="center">
             <Text fontSize={35} fontWeight="black" color="white">
-              SERVIÇO
+              Passeio
             </Text>
             <Text fontSize={16} color="white">
               Solicitação para: 01/06 - 14h
