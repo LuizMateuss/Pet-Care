@@ -15,7 +15,9 @@ export function RegisterAddress({ route }) {
   const [addressComplement, setAddressComplement] = useState()
   const [userAddress, setUserAddress] = useState()
 
-  const { isCare, user } = route.params
+  // const { isCare, user } = route.params
+  const isCare = false
+  const user = { name: 'Lucas' }
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   /**
@@ -103,7 +105,7 @@ export function RegisterAddress({ route }) {
   }
   const navigation = useNavigation()
   return (
-    <ScrollView>
+    <ScrollView bg="white">
       <VStack mt={8} bg="white" h="100%">
         <Image
           alt="Imagem usuário"
