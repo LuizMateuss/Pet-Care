@@ -19,7 +19,7 @@ import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 
 export function SearchPetCare({ route }) {
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   const { isCare, user } = route.params
 
   const navigation = useNavigation()
