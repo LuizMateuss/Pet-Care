@@ -62,6 +62,20 @@ export function RegisterAddress({ route }) {
     setAddressComplement(addressComplement)
   }
 
+  async function bdRegisterAdd() {
+    await fetch(
+      `${process.env.SERVER_LINK}/registrationAdress/${user.id}/${address.cep}/${addressNumber}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    handleNextPage()
+  }
+
   function handleNextPage() {
     if (isCare) {
       navigation.navigate('startPetCare', {
@@ -226,7 +240,7 @@ export function RegisterAddress({ route }) {
             borderWidth={1}
             borderColor={mainColor}
             color={mainColor}
-            onPress={handleNextPage}
+            onPress={bdRegisterAdd}
           />
         )}
       </VStack>

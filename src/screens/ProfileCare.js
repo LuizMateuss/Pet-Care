@@ -7,6 +7,7 @@ import { ProfileInfo } from '../components/ProfileInfo'
 
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
+import { useEffect, useState } from 'react'
 
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
@@ -14,6 +15,37 @@ export function ProfileCare({ route }) {
   const { isCare, user } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
+
+  const [address, setAddress]=useState({})
+  const [userInformations, setUserInformations]=useState({})
+
+  async function getAddressInformations(){
+    const req = await fetch(
+      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    const res = await req.json()
+    setAddress({
+      street: res[0].nm_logradouro,
+      houserNumber: res[0].cd_numero_rua,
+      complement: res[0].nm_complemento,
+      district: res[0].nm_bairro,
+      zipCode: res[0].cd_cep,
+      city: res[0].nm_cidade,
+      uf: res[0].sg_estado
+    })
+    setUserInformations({
+      email: res[0].nm_email,
+      phone: res[0].cd_telefone
+    })
+  }
+  useEffect(()=>{getAddressInformations()},[])
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -63,15 +95,15 @@ export function ProfileCare({ route }) {
       <ProfileInfo
         icon={<User size={26} color="#FFFFFF" />}
         title="Dados pessoais"
-        info="Nome Completo: XXXXXXXX"
-        email="E-mail: XXXX@XXX.XXX"
-        phone="Telefone: (XX) XXXXX-XXXX"
+        info={`Nome Completo: ${user.name}`}
+        email={`E-mail: ${userInformations.email}`}
+        phone={`Telefone: ${userInformations.phone}`}
         backgroundInfo={mainColor}
       />
       <ProfileInfo
         icon={<MapPin size={26} color="#FFFFFF" />}
         title="Endereço"
-        info="Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP."
+        info={`${address.street}, Nº ${address.houserNumber} - Comp. ${address.complement}. Bairro: ${address.district}, CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
         email=""
         phone=""
         backgroundInfo={mainColor}

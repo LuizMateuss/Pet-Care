@@ -21,6 +21,9 @@
     $app->map(['get', 'post'], '/login/{email}/{password}/{isCare}', 'getLogin');
     $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}', 'getRegistration');
     $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
+    $app->map(['get', 'post'], '/registrationAdress/{id}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getAddressRegistration');
+    $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
+
 
     //FUNÇÕES DE CONCÇÃO
     
@@ -96,6 +99,48 @@
             $response->getBody()->write(json_encode($message));
             return $response;
         }
+    }
+
+    function getAddressRegistration(Request $request, Response $response, array $args){
+        $id = $args['id'];
+        $cep = $args['cep'];
+        $addressNumber = $args['addressNumber'];
+        $logradouro = $args['logradouro'];
+        $addressComplement = $args['addressComplement'];
+        $bairro = $args['bairro'];
+        $localidade = $args['localidade'];
+        $uf = $args['uf'];
+        $conn = getConn();
+    
+        $sql = "INSERT INTO endereco
+            SET nm_logradouro=:logradouro, cd_numero_rua=:addressNumber,nm_complemento=:addressComplement, nm_bairro=:bairro, nm_cidade=:localidade, sg_estado=:uf, cd_cep=:cep, cd_usuario=:id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("logradouro", $logradouro);
+        $stmt->bindParam("addressNumber", $addressNumber);
+        $stmt->bindParam("addressComplement", $addressComplement);
+        $stmt->bindParam("bairro", $bairro);
+        $stmt->bindParam("localidade", $localidade);
+        $stmt->bindParam("uf", $uf);
+        $stmt->bindParam("cep", $cep);
+        $stmt->execute();
+    }
+
+    function getAddressInformations(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql="SELECT e.*, u.nm_usuario, u.nm_email, u.cd_telefone FROM endereco AS e
+            INNER JOIN usuario AS u
+            ON e.cd_usuario=u.cd_usuario
+            WHERE u.cd_usuario=:id";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
     }
 
     function getChangePasswd(Request $request, Response $response, array $args){
