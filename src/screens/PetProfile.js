@@ -4,9 +4,52 @@ import { CaretLeft } from 'phosphor-react-native'
 import { useNavigation } from '@react-navigation/native'
 import { PetInfo } from '../components/PetInfo'
 import { Button } from '../components/Button'
+import { useEffect, useState } from 'react'
 export function PetProfile({ route }) {
   const navigation = useNavigation()
   const { isCare, user } = route.params
+
+  const [pet, setPet] = useState('')
+
+  async function getPetInformations(){
+    // const req = await fetch(
+    //   `${process.env.SERVER_LINK}petInformations/${user.id}`,
+    //   {
+    //     method: process.env.SERVER_METHOD,
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }
+    // )
+    // const res = await req.json()
+    var res = new Array
+    for (let i = 0; i < 3; i++) {
+      res[i]={cd_id:i, cd_name:'nome'+i}
+    }
+    
+    setPet([
+      {
+        id: res[0].cd_id,
+        name: res[0].cd_name,
+        // weight: res[0],
+        // age: res[0],
+        // race: res[0],
+        // gender: res[0],
+      },
+      {
+        id: res[1].cd_id,
+        name: res[1].cd_name,
+        // weight: res[0],
+        // age: res[0],
+        // race: res[0],
+        // gender: res[0],
+      }
+    ])
+    console.log(pet)
+  }
+  useEffect(()=>{getPetInformations()},[])
+
   return (
     <View flex={1} bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -15,7 +58,7 @@ export function PetProfile({ route }) {
 
       <ScrollView>
         <PetInfo
-          petName="Bob"
+          petName={pet[0].name}
           petWeight={7}
           petAge={2}
           petRace="Pastor alemão"
@@ -23,7 +66,7 @@ export function PetProfile({ route }) {
           onPress={() => navigation.navigate('editPet', { isCare, user })}
         />
         <PetInfo
-          petName="Thor"
+          petName={pet[1].name}
           petWeight={9}
           petAge={3}
           petRace="Husky siberiano"
