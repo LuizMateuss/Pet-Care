@@ -21,11 +21,17 @@ import {
   DrawerToggleButton
 } from '@react-navigation/drawer'
 import { TouchableOpacity } from 'react-native'
-import { SearchLocalization } from '../screens/SearchLocalization'
 import { SearchPetCare } from '../screens/SearchPetCare'
+import { SelectPetCare } from '../screens/SelectPetCare'
 import { ContractService } from '../screens/ContractService'
 import { ChangePassword } from '../screens/ChangePassword'
 import { RequestedServices } from '../screens/RequestedServices'
+import { RegisterAddress } from '../screens/RegisterAddress'
+import { AddPet } from '../screens/AddPet'
+import { EditProfile } from '../screens/EditProfile'
+import { EditPet } from '../screens/EditPet'
+import { SelectAnimal } from '../screens/SelectAnimal'
+import { SelectLocal } from '../screens/SelectLocal'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -53,6 +59,7 @@ export function AppRoutes() {
       <Screen name="signIn" component={SignIn} />
       <Screen name="optionsSignUp" component={OptionsSignUp} />
       <Screen name="createAccount" component={CreateAccount} />
+      <Screen name="registerAddress" component={RegisterAddress} />
       <Screen name="menuHamburguer" component={MenuHamburguer} />
       <Screen name="profileCare" component={ProfileCare} />
       <Screen name="changePassword" component={ChangePassword} />
@@ -65,10 +72,15 @@ export function AppRoutes() {
       <Screen name="startService" component={StartService} />
       <Screen name="userProfile" component={UserProfile} />
       <Screen name="petProfile" component={PetProfile} />
-      <Screen name="searchLocalization" component={SearchLocalization} />
       <Screen name="searchPetCare" component={SearchPetCare} />
+      <Screen name="selectPetCare" component={SelectPetCare} />
+      <Screen name="selectAnimal" component={SelectAnimal} />
+      <Screen name="selectLocal" component={SelectLocal} />
       <Screen name="contractService" component={ContractService} />
       <Screen name="requestedServices" component={RequestedServices} />
+      <Screen name="addPet" component={AddPet} />
+      <Screen name="editProfile" component={EditProfile} />
+      <Screen name="editPet" component={EditPet} />
     </Navigator>
   )
 }

@@ -7,13 +7,45 @@ import { ProfileInfo } from '../components/ProfileInfo'
 
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
+import { useEffect, useState } from 'react'
 
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare } = route.params
+  const { isCare, user } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
+
+  const [address, setAddress]=useState({})
+  const [userInformations, setUserInformations]=useState({})
+
+  async function getAddressInformations(){
+    const req = await fetch(
+      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    const res = await req.json()
+    setAddress({
+      street: res[0].nm_logradouro,
+      houserNumber: res[0].cd_numero_rua,
+      complement: res[0].nm_complemento,
+      district: res[0].nm_bairro,
+      zipCode: res[0].cd_cep,
+      city: res[0].nm_cidade,
+      uf: res[0].sg_estado
+    })
+    setUserInformations({
+      email: res[0].nm_email,
+      phone: res[0].cd_telefone
+    })
+  }
+  useEffect(()=>{getAddressInformations()},[])
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -30,11 +62,25 @@ export function ProfileCare({ route }) {
         />
         <VStack ml={5}>
           <Text fontWeight="black" fontSize={20} color={mainColor}>
-            Nome Usuário
+            {user.name}
           </Text>
-          <Text fontWeight="black" fontSize={15} color={mainColor}>
-            Editar perfil
-          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('editProfile', { isCare, user })}
+          >
+            <Text
+              borderWidth={1}
+              borderColor={mainColor}
+              borderRadius={40}
+              fontWeight="black"
+              fontSize={15}
+              color={mainColor}
+              textAlign="center"
+              px={4}
+              py={2}
+            >
+              Alterar perfil
+            </Text>
+          </TouchableOpacity>
         </VStack>
       </HStack>
 
@@ -47,15 +93,19 @@ export function ProfileCare({ route }) {
       ></View>
 
       <ProfileInfo
-        icon={<MapPin size={26} color="#FFFFFF" />}
-        title="Endereço"
-        info="Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP."
+        icon={<User size={26} color="#FFFFFF" />}
+        title="Dados pessoais"
+        info={`Nome Completo: ${user.name}`}
+        email={`E-mail: ${userInformations.email}`}
+        phone={`Telefone: ${userInformations.phone}`}
         backgroundInfo={mainColor}
       />
       <ProfileInfo
-        icon={<User size={26} color="#FFFFFF" />}
-        title="Dados pessoais"
-        info="Nome Completo: XXXXXXXX Data de nascimento: XX/XX/XXXX"
+        icon={<MapPin size={26} color="#FFFFFF" />}
+        title="Endereço"
+        info={`${address.street}, Nº ${address.houserNumber} - Comp. ${address.complement}. Bairro: ${address.district}, CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
+        email=""
+        phone=""
         backgroundInfo={mainColor}
       />
       <Button
@@ -65,10 +115,10 @@ export function ProfileCare({ route }) {
         borderColor={mainColor}
         width="80%"
         py={4}
-        onPress={() => navigation.navigate('changePassword', { isCare })}
+        onPress={() => navigation.navigate('changePassword', { isCare, user })}
       />
 
-      <View mt="10%">
+      <View mt="5%">
         <Button
           title="Logout"
           color={mainColor}

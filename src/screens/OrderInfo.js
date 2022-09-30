@@ -17,7 +17,7 @@ export function OrderInfo() {
         >
           Solicitação #1
         </Text>
-        <VStack w="90%" p={4} mx="auto" bg="secondary.700" mb={10} rounded={40}>
+        <VStack w="90%" p={4} mx="auto" bg="secondary.700" rounded={40}>
           <HStack alignItems="center">
             <Image
               alt="Imagem do tutor"
@@ -39,15 +39,31 @@ export function OrderInfo() {
             </VStack>
           </HStack>
 
-          <VStack mt={10} alignItems="center">
+          <VStack mt={2} alignItems="center">
             <Text fontSize={35} fontWeight="black" color="white">
-              SERVIÇO
+              Passeio
             </Text>
             <Text fontSize={16} color="white">
               Solicitação para: 01/06 - 14h
             </Text>
           </VStack>
-          <VStack mt="20%">
+        </VStack>
+        <Text
+          fontWeight="medium"
+          fontSize={20}
+          color="secondary.700"
+          textAlign="center"
+          my={5}
+        >
+          Valor do serviço: R$29,75
+        </Text>
+        <VStack w="90%" p={4} mx="auto" bg="secondary.700" mb={10} rounded={40}>
+          <VStack>
+            <Image
+              alt="Imagem pet"
+              source={require('../../assets/img/PerfilAnimalImagem.png')}
+              mx="auto"
+            />
             <Text
               textAlign="center"
               fontSize={20}
@@ -56,7 +72,7 @@ export function OrderInfo() {
             >
               Detalhes do animal
             </Text>
-            <HStack mx="auto" w="50%" justifyContent="space-between">
+            <HStack justifyContent="space-between">
               <VStack>
                 <Text fontSize={18} color="white">
                   Peso
@@ -87,35 +103,35 @@ export function OrderInfo() {
               </VStack>
             </HStack>
           </VStack>
-          <VStack mt={10}>
-            <HStack mb="20%" justifyContent="space-between">
-              <Button
-                color="white"
-                title="Aceitar"
-                borderWidth={1}
-                borderColor="white"
-                width="40%"
-                onPress={() => navigation.goBack()}
-              />
-              <Button
-                color="white"
-                title="Recusar"
-                borderWidth={1}
-                borderColor="white"
-                width="40%"
-                onPress={() => navigation.goBack()}
-              />
-            </HStack>
-            <Button
-              color="white"
-              title="Voltar"
-              borderWidth={1}
-              borderColor="white"
-              width="100%"
-              onPress={() => navigation.goBack()}
-            />
-          </VStack>
         </VStack>
+
+        <HStack justifyContent="space-between">
+          <Button
+            color="secondary.700"
+            title="Aceitar"
+            borderWidth={1}
+            borderColor="secondary.700"
+            w="40%"
+            onPress={() => navigation.goBack()}
+          />
+          <Button
+            color="red.700"
+            title="Recusar"
+            borderWidth={1}
+            borderColor="red.700"
+            w="40%"
+            onPress={() => navigation.goBack()}
+          />
+        </HStack>
+        <Button
+          color="secondary.700"
+          title="Voltar"
+          borderWidth={1}
+          borderColor="secondary.700"
+          width="90%"
+          mb={5}
+          onPress={() => navigation.goBack()}
+        />
       </ScrollView>
     </VStack>
   )
