@@ -24,6 +24,7 @@
     $app->map(['get', 'post'], '/registrationAdress/{id}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getAddressRegistration');
     $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
     $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
+    $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -186,6 +187,25 @@
         $stmt->execute();
 
         $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getPetInformations(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql="SELECT a.*, r.nm_raca_animal, t.nm_tipo_animal, p.nm_porte_animal FROM usuario AS u
+                    JOIN animal AS a ON u.cd_usuario=a.cd_usuario
+                    JOIN raca_animal AS r ON r.cd_raca_animal=a.cd_raca_animal
+                    JOIN tipo_animal AS t ON t.cd_tipo_animal=r.cd_tipo_animal
+                    JOIN porte_animal AS p ON p.cd_porte_animal=a.cd_porte_animal
+                WHERE u.cd_usuario=:id ORDER BY a.nm_animal";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($message));
         return $response;
     }
