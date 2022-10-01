@@ -23,6 +23,7 @@
     $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
     $app->map(['get', 'post'], '/registrationAdress/{id}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getAddressRegistration');
     $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
+    $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -156,6 +157,35 @@
         $stmt->execute();
 
         $message = "Atualizado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getregistrationAnimal(Request $request, Response $response, array $args){
+        $id = $args['id'];
+        $name = $args['name'];
+        $birth = $args['birth'];
+        $gender = $args['gender'];
+        $weight = $args['weight'];
+        $description = $args['description'];
+        $size = $args['size'];
+        $race = $args['race'];
+        $conn = getConn();
+
+        $sql = "INSERT INTO animal
+            SET nm_animal=:AnimalName, dt_nascimento_animal=:birth, nm_genero_animal=:gender, cd_peso_animal=:animalWeight, ds_animal=:animalDescription, cd_usuario=:id, cd_porte_animal=:size, cd_raca_animal=:race";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("AnimalName", $name);
+        $stmt->bindParam("birth", $birth);
+        $stmt->bindParam("gender", $gender);
+        $stmt->bindParam("animalWeight", $weight);
+        $stmt->bindParam("animalDescription", $description);
+        $stmt->bindParam("size", $size);
+        $stmt->bindParam("race", $race);
+        $stmt->execute();
+
+        $message = "Cadastrado";
         $response->getBody()->write(json_encode($message));
         return $response;
     }
