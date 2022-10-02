@@ -1,5 +1,5 @@
 import { ScrollView, View, Text } from 'native-base'
-import { TouchableOpacity, SafeAreaView, VirtualizedList } from 'react-native'
+import { TouchableOpacity} from 'react-native'
 import { CaretLeft } from 'phosphor-react-native'
 import { useNavigation } from '@react-navigation/native'
 import { PetInfo } from '../components/PetInfo'
@@ -9,8 +9,6 @@ import { useEffect, useState } from 'react'
 export function PetProfile({ route }) {
   const navigation = useNavigation()
   const { isCare, user } = route.params
-  // const isCare = false
-  // const user = {name:'I havw', id: 7}
 
   const [pet, setPet] = useState([{}])
 
@@ -29,21 +27,6 @@ export function PetProfile({ route }) {
     setPet(res)
   }
   useEffect(()=>{getPetInformations()},[])
-  
-  const getItem = (data, index) => (
-    data[index]
-    );
-    
-    const Item = ({petName, weight}) => (
-        <PetInfo
-        petName={petName}
-        petWeight={weight}
-        petAge={2}
-        petRace="Pastor alemão"
-        petGender="Masculino"
-        onPress={() => console.log("oi")}
-    />
-  )
 
   return (
     <View flex={1} bg="white" mt={8}>
@@ -52,15 +35,16 @@ export function PetProfile({ route }) {
       </TouchableOpacity>
 
       <ScrollView>
-        <SafeAreaView>
-          <VirtualizedList
-            data={pet}
-            keyExtractor={item => item.cd_animal}
-            renderItem={({ item }) => <Item petName={item.nm_animal} weight={item.weight}/>}
-            getItemCount={()=>pet.length}
-            getItem={getItem}
+        {pet.map((pet)=>
+          <PetInfo
+            petName={pet.nm_animal}
+            petWeight={pet.cd_peso_animal}
+            petAge={pet.dt_nascimento_animal}
+            petRace={pet.nm_raca_animal}
+            petGender={pet.nm_genero_animal}
+            onPress={() => navigation.navigate('editPet', { isCare, user })}
           />
-        </SafeAreaView>
+        )}
       </ScrollView>
 
       <View
