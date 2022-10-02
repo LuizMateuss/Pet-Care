@@ -15,6 +15,8 @@ export function RegisterAddress({ route }) {
   const [addressComplement, setAddressComplement] = useState()
   const [userAddress, setUserAddress] = useState()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
@@ -63,6 +65,7 @@ export function RegisterAddress({ route }) {
   }
 
   async function bdRegisterAdd(){
+    let verify = true
     await fetch(
       `${process.env.SERVER_LINK}/registrationAdress/${user.id}/${address.cep}/${addressNumber}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`
     ,
@@ -72,11 +75,18 @@ export function RegisterAddress({ route }) {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       }
+    }).catch(()=>{
+      verify = false
+      setIsLoading(false)
+      Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
     })
-    handleNextPage()
+    if(verify){
+      handleNextPage()
+    }
   }
 
   function handleNextPage() {
+    setIsLoading(false)
     if (isCare) {
       navigation.navigate('startPetCare', {
         isCare,
@@ -234,7 +244,11 @@ export function RegisterAddress({ route }) {
           borderWidth={1}
           borderColor={mainColor}
           color={mainColor}
-          onPress={bdRegisterAdd}
+          onPress={()=>{
+            setIsLoading(true)
+            bdRegisterAdd()
+          }}
+          isLoading={isLoading}
         />
       )}
     </VStack>
