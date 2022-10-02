@@ -1,54 +1,49 @@
 import { ScrollView, View, Text } from 'native-base'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, SafeAreaView, VirtualizedList } from 'react-native'
 import { CaretLeft } from 'phosphor-react-native'
 import { useNavigation } from '@react-navigation/native'
 import { PetInfo } from '../components/PetInfo'
 import { Button } from '../components/Button'
 import { useEffect, useState } from 'react'
+
 export function PetProfile({ route }) {
   const navigation = useNavigation()
   const { isCare, user } = route.params
+  // const isCare = false
+  // const user = {name:'I havw', id: 7}
 
-  const [pet, setPet] = useState('')
+  const [pet, setPet] = useState([{}])
 
   async function getPetInformations(){
-    // const req = await fetch(
-    //   `${process.env.SERVER_LINK}petInformations/${user.id}`,
-    //   {
-    //     method: process.env.SERVER_METHOD,
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    // )
-    // const res = await req.json()
-    var res = new Array
-    for (let i = 0; i < 3; i++) {
-      res[i]={cd_id:i, cd_name:'nome'+i}
-    }
-    
-    setPet([
+    const req = await fetch(
+      `${process.env.SERVER_LINK}petInformations/${user.id}`,
       {
-        id: res[0].cd_id,
-        name: res[0].cd_name,
-        // weight: res[0],
-        // age: res[0],
-        // race: res[0],
-        // gender: res[0],
-      },
-      {
-        id: res[1].cd_id,
-        name: res[1].cd_name,
-        // weight: res[0],
-        // age: res[0],
-        // race: res[0],
-        // gender: res[0],
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       }
-    ])
-    console.log(pet)
+    )
+    const res = await req.json()
+    setPet(res)
   }
   useEffect(()=>{getPetInformations()},[])
+  
+  const getItem = (data, index) => (
+    data[index]
+    );
+    
+    const Item = ({petName, weight}) => (
+        <PetInfo
+        petName={petName}
+        petWeight={weight}
+        petAge={2}
+        petRace="Pastor alemão"
+        petGender="Masculino"
+        onPress={() => console.log("oi")}
+    />
+  )
 
   return (
     <View flex={1} bg="white" mt={8}>
@@ -57,22 +52,15 @@ export function PetProfile({ route }) {
       </TouchableOpacity>
 
       <ScrollView>
-        <PetInfo
-          petName={pet[0].name}
-          petWeight={7}
-          petAge={2}
-          petRace="Pastor alemão"
-          petGender="Masculino"
-          onPress={() => navigation.navigate('editPet', { isCare, user })}
-        />
-        <PetInfo
-          petName={pet[1].name}
-          petWeight={9}
-          petAge={3}
-          petRace="Husky siberiano"
-          petGender="Feminino"
-          onPress={() => navigation.navigate('editPet', { isCare, user })}
-        />
+        <SafeAreaView>
+          <VirtualizedList
+            data={pet}
+            keyExtractor={item => item.cd_animal}
+            renderItem={({ item }) => <Item petName={item.nm_animal} weight={item.weight}/>}
+            getItemCount={()=>pet.length}
+            getItem={getItem}
+          />
+        </SafeAreaView>
       </ScrollView>
 
       <View
