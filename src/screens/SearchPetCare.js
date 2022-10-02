@@ -1,11 +1,12 @@
+import { useState } from 'react'
 import {
   VStack,
   ScrollView,
   View,
   Image,
   Text,
-  Input,
-  HStack
+  HStack,
+  Modal
 } from 'native-base'
 import { useNavigation } from '@react-navigation/native'
 import {
@@ -15,8 +16,10 @@ import {
 } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { Button } from '../components/Button'
+import { Input } from '../components/Input'
 
 export function SearchPetCare({ route }) {
+  const [showModal, setShowModal] = useState(false)
   const { isCare, user } = route.params
 
   const navigation = useNavigation()
@@ -116,6 +119,61 @@ export function SearchPetCare({ route }) {
           >
             Selecione uma data
           </Text>
+          <Button
+            my={4}
+            title="Selecionar data"
+            bg="#511AC7"
+            w="70%"
+            py={4}
+            onPress={() => setShowModal(true)}
+          />
+          <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+            <Modal.Content
+              bg="primary.700"
+              w="80%"
+              p={4}
+              borderRadius={20}
+              alignItems="center"
+            >
+              <Text
+                color="white"
+                fontSize={20}
+                fontWeight="black"
+                textAlign="center"
+                my={2}
+              >
+                Insira uma data:
+              </Text>
+              <VStack>
+                <HStack alignItems="center" justifyContent="space-between">
+                  <Text color="white" fontSize={16} fontWeight="black">
+                    Data:
+                  </Text>
+                  <Input
+                    placeholder="00/00/0000"
+                    ml={4}
+                    w="60%"
+                    maxLength={10}
+                  />
+                </HStack>
+                <HStack alignItems="center" justifyContent="space-between">
+                  <Text color="white" fontSize={16} fontWeight="black">
+                    Horário:
+                  </Text>
+                  <Input placeholder="00:00" ml={4} w="60%" maxLength={5} />
+                </HStack>
+              </VStack>
+              <Button
+                title="Adicionar data"
+                mt={4}
+                w="100%"
+                color="white"
+                borderWidth={1}
+                borderColor="white"
+                onPress={() => setShowModal(false)}
+              />
+            </Modal.Content>
+          </Modal>
           <Button
             title="Achar um cuidador"
             bg="#511AC7"

@@ -37,14 +37,14 @@ export function OptionsSignUp() {
           backgroundColor: 'white',
           width: 30,
           position: 'relative',
-          top: -50
+          top: -60
         }}
         dotStyle={{
           backgroundColor: 'transparent',
           borderWidth: 1,
           borderColor: 'white',
           position: 'relative',
-          top: -50
+          top: -60
         }}
         renderDoneButton={() => <></>}
         renderNextButton={() => <></>}
@@ -90,7 +90,7 @@ export function OptionsSignUp() {
         <Image
           alt="Fundo branco"
           position="absolute"
-          top={-60}
+          top={-90}
           w="100%"
           h={300}
           zIndex={-1}
