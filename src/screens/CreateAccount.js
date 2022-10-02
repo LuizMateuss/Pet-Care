@@ -104,7 +104,10 @@ export function CreateAccount({ route }) {
           'Content-Type': 'application/json'
         }
       }
-    )
+    ).catch(()=>{
+      setIsLoading(false)
+      Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
+    })
     const res = await req.json()
     if (res) {
       const user = { name: res.nm_usuario, id: res.cd_usuario }

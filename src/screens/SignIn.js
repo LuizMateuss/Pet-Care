@@ -54,7 +54,10 @@ export function SignIn() {
             'Content-Type': 'application/json'
           }
         }
-      )
+      ).catch(()=>{
+        setIsLoading(false)
+        Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
+      })
       //resposta
       const resLogin = await req.json()
 
