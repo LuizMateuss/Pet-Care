@@ -90,13 +90,12 @@ export function RegisterAddress({ route }) {
     if (isCare) {
       navigation.navigate('startPetCare', {
         isCare,
-        user,
-        userAddress
+        user
       })
     } else {
       navigation.navigate('menuHamburguer', {
         screen: 'startPetCare',
-        params: { isCare, user, userAddress }
+        params: { isCare, user }
       })
     }
   }
