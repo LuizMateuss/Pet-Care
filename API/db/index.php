@@ -83,12 +83,12 @@
             return $response;
         }else{
             $sql = "INSERT INTO usuario 
-                         SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_data=:dt_data, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
+                         SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_nascimento=:dt_nascimento, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam("nm_usuario", $name);
             $stmt->bindParam("nm_email", $email);
             $stmt->bindParam("nm_senha", $password);
-            $stmt->bindParam("dt_data", $birthday);
+            $stmt->bindParam("dt_nascimento", $birthday);
             $stmt->bindParam("cd_telefone", $phone);
             $stmt->bindParam("cd_isCare", $isCare);
             $stmt->execute();
@@ -115,7 +115,7 @@
         $conn = getConn();
     
         $sql = "INSERT INTO endereco
-            SET nm_logradouro=:logradouro, cd_numero_rua=:addressNumber,nm_complemento=:addressComplement, nm_bairro=:bairro, nm_cidade=:localidade, sg_estado=:uf, cd_cep=:cep, cd_usuario=:id";
+            SET nm_logradouro=:logradouro, cd_numero_rua=:addressNumber,nm_complemento=:addressComplement, nm_bairro=:bairro, nm_cidade=:localidade, nm_uf=:uf, cd_cep=:cep, cd_usuario=:id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("id", $id);
         $stmt->bindParam("logradouro", $logradouro);
