@@ -1,29 +1,53 @@
 import { Image, Text, VStack, View, useTheme } from 'native-base'
+import MapView from 'react-native-maps'
 import { PawPrint } from 'phosphor-react-native'
 import { Button } from '../components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import MapViewDirections from 'react-native-maps-directions'
 
 export function ServiceInProgress({ route }) {
-  const { isCare, user } = route.params
+  const [initialCords, setInitialCords] = useState({
+    pickupAndDropCords: {
+      latitude: -23.966185579866277,
+      longitude: -46.337672487834844,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    },
+    currentCords: {
+      latitude: -23.97590347583942,
+      longitude: -46.31840498403957,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    }
+  })
+
+  const { pickupAndDropCords, currentCords } = initialCords
+  // const { isCare, user } = route.params
+  const isCare = false
+  const user = { name: 'Jorge' }
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   const { colors } = useTheme()
   const navigation = useNavigation()
   return (
     <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
       <VStack bg="white">
-        <Image
-          position="relative"
-          zIndex={0}
-          w="100%"
-          h={isCare ? '50%' : '60%'}
-          alt="Imagem do mapa"
-          source={
-            isCare
-              ? require('../../assets/img/map_image.png')
-              : require('../../assets/img/progressServiceMap.png')
-          }
-        />
+        <MapView
+          initialRegion={pickupAndDropCords}
+          style={{
+            width: '100%',
+            height: '60%',
+            position: 'relative',
+            zIndex: 0
+          }}
+        >
+          <MapViewDirections
+            origin={pickupAndDropCords}
+            destination={currentCords}
+            apikey={process.env.GOOGLE_MAP_API_KEY}
+          />
+        </MapView>
 
         <VStack
           position="relative"
@@ -42,6 +66,7 @@ export function ServiceInProgress({ route }) {
             <View mb={4}>
               <Button
                 title="Chat"
+                w="100%"
                 color={mainColor}
                 borderWidth={1}
                 borderColor={mainColor}
