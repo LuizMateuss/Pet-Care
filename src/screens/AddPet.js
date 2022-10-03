@@ -32,12 +32,16 @@ export function AddPet({ route }) {
   const [size, setSize] = useState('')
   const [gender, setGender] = useState('')
   const [birth, setBirth] = useState('')
+  const description = 'falta adicionar o componente para descrição do pet, com máximo de 200 caracteres'
 
   const navigation = useNavigation()
   const { isCare, user } = route.params
 
   async function addAnimal(){
-    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${species}/${race}/${weight}/${size}/${gender}/${birth}`,
+    let birthday = birth.split('/')
+    birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+
+    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${birthday}/${gender}/${weight}/${description}/${size}/${race}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -110,8 +114,8 @@ export function AddPet({ route }) {
               bg="white"
               borderRadius={40}
             >
-              <Select.Item label="Cachorro" value="cachorro" />
-              <Select.Item label="Gato" value="gato" />
+              <Select.Item label="Gato" value="1" />
+              <Select.Item label="Cachorro" value="2" />
             </Select>
           </HStack>
           {species.length > 0 ? (
@@ -124,7 +128,7 @@ export function AddPet({ route }) {
               >
                 {species.length > 0 ? 'Raça:' : ''}
               </Text>
-              {species == 'cachorro' ? (
+              {species == '2' ? (
                 <Select
                   placeholder="Escolha a raça"
                   accessibilityLabel="Escolha a raça"
@@ -136,11 +140,11 @@ export function AddPet({ route }) {
                   bg="white"
                   borderRadius={40}
                 >
-                  <Select.Item label="Husky" value="husky" />
-                  <Select.Item label="Labrador" value="labrador" />
-                  <Select.Item label="Pastor Alemão" value="pastor_alemão" />
+                  <Select.Item label="Husky" value="104" />
+                  <Select.Item label="Labrador" value="115" />
+                  <Select.Item label="Pastor Alemão" value="136" />
                 </Select>
-              ) : species == 'gato' ? (
+              ) : species == '1' ? (
                 <Select
                   placeholder="Escolha a raça"
                   accessibilityLabel="Escolha a raça"
@@ -208,9 +212,9 @@ export function AddPet({ route }) {
               bg="white"
               borderRadius={40}
             >
-              <Select.Item label="Pequeno" value="pequeno" />
-              <Select.Item label="Médio" value="medio" />
-              <Select.Item label="Grande" value="grande" />
+              <Select.Item label="Pequeno" value="2" />
+              <Select.Item label="Médio" value="3" />
+              <Select.Item label="Grande" value="4" />
             </Select>
           </HStack>
           <HStack alignItems="center" justifyContent="space-between" my={2}>
@@ -232,7 +236,7 @@ export function AddPet({ route }) {
                 borderWidth={1}
                 borderColor="white"
                 bg="transparent"
-                value="f"
+                value="F"
                 my="1"
               >
                 <Text color="white">Fêmea</Text>
@@ -241,7 +245,7 @@ export function AddPet({ route }) {
                 borderWidth={1}
                 borderColor="white"
                 bg="transparent"
-                value="m"
+                value="M"
                 my="1"
               >
                 <Text color="white">Macho</Text>
