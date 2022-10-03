@@ -25,6 +25,7 @@
     $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
     $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
     $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
+    $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -208,6 +209,16 @@
         $message=$stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($message));
         return $response;
+    }
+
+    function getDeletePet(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql="DELETE FROM animal WHERE cd_animal=:id";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
     }
 
     $app->run();

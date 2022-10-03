@@ -8,8 +8,20 @@ import { useNavigation } from '@react-navigation/native'
 
 export function EditPet({ route }) {
   const [showModal, setShowModal] = useState(false)
-  const { isCare } = route.params
+  const { isCare, user, pet } = route.params
   const navigation = useNavigation()
+
+  async function deletePet(){
+    await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
   return (
     <VStack>
       <Header title="Editar animal" color="#511AC7" />
@@ -99,7 +111,14 @@ export function EditPet({ route }) {
             borderColor="cyan.700"
             my={1}
             w="100%"
-            onPress={() => navigation.goBack()}
+            onPress={() =>{
+              deletePet()
+              navigation.navigate('menuHamburguer', {
+                screen: 'startPetCare',
+                params: { isCare, user }
+              })
+            }
+            }
           />
           <Button
             title="Não"

@@ -43,7 +43,7 @@ export function PetProfile({ route }) {
             petAge={pet.dt_nascimento_animal}
             petRace={pet.nm_raca_animal}
             petGender={pet.nm_genero_animal}
-            onPress={() => navigation.navigate('editPet', { isCare, user })}
+            onPress={() => navigation.navigate('editPet', { isCare, user, pet })}
           />
         )}
       </ScrollView>
