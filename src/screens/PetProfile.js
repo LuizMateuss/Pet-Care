@@ -10,7 +10,7 @@ export function PetProfile({ route }) {
   const navigation = useNavigation()
   const { isCare, user } = route.params
 
-  const [pet, setPet] = useState([{}])
+  const [pet, setPet] = useState([{cd_animal:0}])
 
   async function getPetInformations(){
     const req = await fetch(
@@ -37,6 +37,7 @@ export function PetProfile({ route }) {
       <ScrollView>
         {pet.map((pet)=>
           <PetInfo
+            key={pet.cd_animal}
             petName={pet.nm_animal}
             petWeight={pet.cd_peso_animal}
             petAge={pet.dt_nascimento_animal}
