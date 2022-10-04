@@ -11,8 +11,11 @@ export function EditPet({ route }) {
   const { isCare, user, pet, newPet } = route.params
   const navigation = useNavigation()
 
+  const [newPetName, setNewPetName] = useState()
+  const [newPetWeight, setNewPetWeight] = useState()
+  const [newPetDs, setNewPetDs] = useState()
+
   async function deletePet(){
-    console.log('del')
     await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}`,
       {
         method: process.env.SERVER_METHOD,
@@ -26,17 +29,27 @@ export function EditPet({ route }) {
     nextPage(VerifyPet)
   }
 
-  async function updatePet(){
-    console.log('up')
-    // await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}/{petName}/{petWeight}/{petDescription}`,
-    //   {
-    //     method: process.env.SERVER_METHOD,
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    // )
+  function VerifyPetInformation(){
+    let sendPetName=newPetName, sendPetWeight=newPetWeight, sendPetDs=newPetDs
+    if(!newPetName)
+      sendPetName=pet.nm_animal
+    if(!newPetWeight)
+      sendPetWeight=pet.cd_peso_animal
+    if(!newPetDs)
+      sendPetDs=pet.ds_animal
+    updatePet(sendPetName, sendPetWeight, sendPetDs)
+  }
+
+  async function updatePet(petName, petWeight, petDescription){
+    await fetch(`${process.env.SERVER_LINK}updatePet/${pet.cd_animal}/${petName}/${petWeight}/${petDescription}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
     let VerifyPet=!newPet
     nextPage(VerifyPet)
   }
@@ -45,6 +58,7 @@ export function EditPet({ route }) {
     let newPet=pet
     navigation.navigate('petProfile', { isCare, user, newPet })
   }
+
   return (
     <VStack>
       <Header title="Editar animal" color="#511AC7" />
@@ -77,7 +91,7 @@ export function EditPet({ route }) {
         <Text fontWeight="black" fontSize={16} color="#511AC7">
           Alterar nome:
         </Text>
-        <Input w="60%" borderWidth={1} borderColor="#511AC7" placeholder={pet.nm_animal}/>
+        <Input w="60%" borderWidth={1} borderColor="#511AC7" placeholder={pet.nm_animal} onChangeText={setNewPetName}/>
       </HStack>
       <VStack bg="primary.700" p={4} borderRadius={10} w="95%" mx="auto" mt={4}>
         <Text fontWeight="black" textAlign="center" fontSize={16} color="white">
@@ -85,9 +99,9 @@ export function EditPet({ route }) {
         </Text>
         <HStack alignItems="center" justifyContent="space-between">
           <Text fontWeight="black" fontSize={16} color="white">
-            Peso aproximado:
+            Peso aproximado (kg):
           </Text>
-          <Input placeholder={`${pet.cd_peso_animal} kg`} w="40%" />
+          <Input placeholder={`${pet.cd_peso_animal} kg`} w="40%" onChangeText={setNewPetWeight}/>
         </HStack>
         <VStack>
           <Text
@@ -98,7 +112,7 @@ export function EditPet({ route }) {
           >
             Descrição do animal (opcional):
           </Text>
-          <Input placeholder={pet.ds_animal}/>
+          <Input placeholder={pet.ds_animal} onChangeText={setNewPetDs}/>
         </VStack>
       </VStack>
       <Button
@@ -144,7 +158,7 @@ export function EditPet({ route }) {
             my={1}
             w="100%"
             onPress={() =>{
-              showModal[1] === 'excluir este' ? deletePet() : updatePet()
+              showModal[1] === 'excluir este' ? deletePet() : VerifyPetInformation()
             }
             }
           />
