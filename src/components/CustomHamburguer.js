@@ -40,10 +40,14 @@ export function CustomHamburguer(props) {
         my={2}
         py={4}
         onPress={() =>
-          navigation.navigate('petProfile', {
-            isCare,
-            user
-          })
+          {
+            const newPet=false
+            navigation.navigate('petProfile', {
+              isCare,
+              user,
+              newPet
+            })
+          }
         }
       />
       <Button

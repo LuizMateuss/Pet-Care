@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 export function PetProfile({ route }) {
   const navigation = useNavigation()
-  const { isCare, user } = route.params
+  const { isCare, user, newPet } = route.params
 
   const [pet, setPet] = useState([{cd_animal:0}])
 
@@ -26,7 +26,7 @@ export function PetProfile({ route }) {
     const res = await req.json()
     setPet(res)
   }
-  useEffect(()=>{getPetInformations()},[])
+  useEffect(()=>{getPetInformations()},[newPet])
 
   return (
     <View flex={1} bg="white" mt={8}>
@@ -43,7 +43,7 @@ export function PetProfile({ route }) {
             petAge={pet.dt_nascimento_animal}
             petRace={pet.nm_raca_animal}
             petGender={pet.nm_genero_animal}
-            onPress={() => navigation.navigate('editPet', { isCare, user, pet })}
+            onPress={() => navigation.navigate('editPet', { isCare, user, pet, newPet })}
           />
         )}
       </ScrollView>
@@ -62,7 +62,7 @@ export function PetProfile({ route }) {
         my={5}
         width="80%"
         margin="auto"
-        onPress={() => navigation.navigate('addPet', { isCare, user })}
+        onPress={() => navigation.navigate('addPet', { isCare, user, newPet })}
       />
     </View>
   )

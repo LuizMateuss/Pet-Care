@@ -35,7 +35,7 @@ export function AddPet({ route }) {
   const description = 'falta adicionar o componente para descrição do pet, com máximo de 200 caracteres'
 
   const navigation = useNavigation()
-  const { isCare, user } = route.params
+  const { isCare, user, newPet } = route.params
 
   async function addAnimal(){
     let birthday = birth.split('/')
@@ -52,6 +52,11 @@ export function AddPet({ route }) {
     )
     let res = await req.json()
     setShowModal(true)
+  }
+
+  function nextPage(pet){
+    let newPet=pet
+    navigation.navigate('petProfile', { isCare, user, newPet })
   }
   return (
     <VStack>
@@ -324,10 +329,8 @@ export function AddPet({ route }) {
             borderColor="white"
             onPress={() => {
               setShowModal(false)
-              navigation.navigate('menuHamburguer', {
-                screen: 'startPetCare',
-                params: { isCare, user }
-              })
+              let VerifyPet=!newPet
+              nextPage(VerifyPet)
             }}
           />
         </Modal.Content>

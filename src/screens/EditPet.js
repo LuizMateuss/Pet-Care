@@ -8,29 +8,12 @@ import { useNavigation } from '@react-navigation/native'
 
 export function EditPet({ route }) {
   const [showModal, setShowModal] = useState([false, ''])
-  const { isCare, user, pet } = route.params
+  const { isCare, user, pet, newPet } = route.params
   const navigation = useNavigation()
 
   async function deletePet(){
-    // await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}`,
-    //   {
-    //     method: process.env.SERVER_METHOD,
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    // )
-    // navigation.navigate('menuHamburguer', {
-    //   screen: 'startPetCare',
-    //   params: { isCare, user }
-    // })
     console.log('del')
-  }
-
-  async function updatePet(){
-    console.log('up')
-    await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}/{petName}/{petWeight}/{petDescription}`,
+    await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -39,10 +22,28 @@ export function EditPet({ route }) {
         }
       }
     )
-    navigation.navigate('menuHamburguer', {
-      screen: 'startPetCare',
-      params: { isCare, user }
-    })
+    let VerifyPet=!newPet
+    nextPage(VerifyPet)
+  }
+
+  async function updatePet(){
+    console.log('up')
+    // await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}/{petName}/{petWeight}/{petDescription}`,
+    //   {
+    //     method: process.env.SERVER_METHOD,
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }
+    // )
+    let VerifyPet=!newPet
+    nextPage(VerifyPet)
+  }
+
+  function nextPage(pet){
+    let newPet=pet
+    navigation.navigate('petProfile', { isCare, user, newPet })
   }
   return (
     <VStack>
