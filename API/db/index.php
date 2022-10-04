@@ -208,6 +208,12 @@
         $stmt->execute();
 
         $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        foreach ($message as $key) {
+            $petBirth=$key->dt_nascimento_animal;
+            $petBirthYear = explode("-", $petBirth);
+            $petYear = date('Y') - $petBirthYear[0];
+            $key->dt_nascimento_animal=$petYear;
+        }
         $response->getBody()->write(json_encode($message));
         return $response;
     }
