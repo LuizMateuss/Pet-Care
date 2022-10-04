@@ -26,6 +26,7 @@
     $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
     $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
     $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
+    $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -218,6 +219,24 @@
         $sql="DELETE FROM animal WHERE cd_animal=:id";
         $stmt=$conn->prepare($sql);
         $stmt->bindParam("id", $id);
+        $stmt->execute();
+    }
+
+    function getUpdatePet(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $petName=$args['petName'];
+        $petWeight=$args['petWeight'];
+        $petDescription=$args['petDescription'];
+        $conn = getConn();
+
+        $sql="UPDATE animal
+                 SET nm_animal=:petName, cd_peso_animal=:petWeight, ds_animal=:petDescription
+                WHERE cd_animal=:id;";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("petName", $petName);
+        $stmt->bindParam("petWeight", $petWeight);
+        $stmt->bindParam("petDescription", $petDescription);
         $stmt->execute();
     }
 
