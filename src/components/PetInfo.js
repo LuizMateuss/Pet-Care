@@ -48,6 +48,7 @@ export function PetInfo(props) {
             <Text fontWeight="black" fontSize={14} color="white">
               Genêro
             </Text>
+            
           </VStack>
           <VStack>
             <Text fontWeight="black" fontSize={14} color="white">
@@ -64,6 +65,12 @@ export function PetInfo(props) {
             </Text>
           </VStack>
         </HStack>
+        <Text fontWeight="black" fontSize={14} color="white">
+              Descrição:
+        </Text>
+        <Text fontWeight="black" fontSize={14} color="white" backgroundColor='blue'>
+          {props.petDescription}
+        </Text>
       </VStack>
     </View>
   )

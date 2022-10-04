@@ -32,7 +32,7 @@ export function AddPet({ route }) {
   const [size, setSize] = useState('')
   const [gender, setGender] = useState('')
   const [birth, setBirth] = useState('')
-  const description = 'falta adicionar o componente para descrição do pet, com máximo de 200 caracteres'
+  const [description, setDescription] = useState('')
 
   const navigation = useNavigation()
   const { isCare, user, newPet } = route.params
@@ -161,9 +161,9 @@ export function AddPet({ route }) {
                   bg="white"
                   borderRadius={40}
                 >
-                  <Select.Item label="Siamês" value="siames" />
-                  <Select.Item label="Persa" value="persa" />
-                  <Select.Item label="Sphynx" value="sphynx" />
+                  <Select.Item label="Siamês" value="263" />
+                  <Select.Item label="Persa" value="254" />
+                  <Select.Item label="Sphynx" value="267" />
                 </Select>
               ) : (
                 <></>
@@ -267,6 +267,18 @@ export function AddPet({ route }) {
               Data de nascimento:
             </Text>
             <Input w="40%" placeholder="DD/MM/YYYY" onChangeText={setBirth}/>
+          </HStack>
+
+          <HStack alignItems="center" justifyContent="space-between" my={2}>
+            <Text
+              textAlign="center"
+              color="white"
+              fontWeight="black"
+              fontSize={17}
+            >
+              Descrição:
+            </Text>
+            <Input w="40%" placeholder="Opcional" onChangeText={setDescription}/>
           </HStack>
         </VStack>
         {showAnimalSizeInfo ? (

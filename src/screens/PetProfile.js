@@ -43,6 +43,7 @@ export function PetProfile({ route }) {
             petAge={pet.dt_nascimento_animal}
             petRace={pet.nm_raca_animal}
             petGender={pet.nm_genero_animal}
+            petDescription={pet.ds_animal}
             onPress={() => navigation.navigate('editPet', { isCare, user, pet, newPet })}
           />
         )}
