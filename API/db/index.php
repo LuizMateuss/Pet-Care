@@ -213,6 +213,10 @@
             $petBirthYear = explode("-", $petBirth);
             $petYear = date('Y') - $petBirthYear[0];
             $key->dt_nascimento_animal=$petYear;
+
+            if($key->ds_animal=="null"){
+                $key->ds_animal=" ";
+            }
         }
         $response->getBody()->write(json_encode($message));
         return $response;

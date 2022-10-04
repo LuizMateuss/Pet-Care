@@ -11,9 +11,9 @@ export function EditPet({ route }) {
   const { isCare, user, pet, newPet } = route.params
   const navigation = useNavigation()
 
-  const [newPetName, setNewPetName] = useState()
-  const [newPetWeight, setNewPetWeight] = useState()
-  const [newPetDs, setNewPetDs] = useState()
+  const [newPetName, setNewPetName] = useState('')
+  const [newPetWeight, setNewPetWeight] = useState('')
+  const [newPetDs, setNewPetDs] = useState(pet.ds_animal)
 
   async function deletePet(){
     await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}`,
@@ -30,13 +30,19 @@ export function EditPet({ route }) {
   }
 
   function VerifyPetInformation(){
-    let sendPetName=newPetName, sendPetWeight=newPetWeight, sendPetDs=newPetDs
+    let sendPetName, sendPetWeight, sendPetDs
     if(!newPetName)
       sendPetName=pet.nm_animal
+    else
+      sendPetName=newPetName
     if(!newPetWeight)
       sendPetWeight=pet.cd_peso_animal
-    if(!newPetDs)
-      sendPetDs=pet.ds_animal
+    else
+      sendPetWeight=newPetWeight
+    if(newPetDs === ' ' || newPetDs === '')
+      sendPetDs=null
+    else
+      sendPetDs=newPetDs
     updatePet(sendPetName, sendPetWeight, sendPetDs)
   }
 
@@ -112,7 +118,7 @@ export function EditPet({ route }) {
           >
             Descrição do animal (opcional):
           </Text>
-          <Input placeholder={pet.ds_animal} onChangeText={setNewPetDs}/>
+          <Input value={newPetDs} onChangeText={setNewPetDs}/>
         </VStack>
       </VStack>
       <Button

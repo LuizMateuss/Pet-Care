@@ -41,7 +41,10 @@ export function AddPet({ route }) {
     let birthday = birth.split('/')
     birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
 
-    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${birthday}/${gender}/${weight}/${description}/${size}/${race}`,
+    let sendDescription=description
+    if(!description) sendDescription=null
+
+    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${birthday}/${gender}/${weight}/${sendDescription}/${size}/${race}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
