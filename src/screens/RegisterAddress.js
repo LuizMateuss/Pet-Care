@@ -103,7 +103,7 @@ export function RegisterAddress({ route }) {
   }
   const navigation = useNavigation()
   return (
-    <ScrollView bg="white">
+    <ScrollView bg="white" keyboardShouldPersistTaps={true}>
       <VStack mt={8} bg="white" h="100%">
         <Image
           alt="Imagem usuário"

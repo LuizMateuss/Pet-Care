@@ -80,7 +80,7 @@ export function ChangePassword({ route }) {
   return (
     <View bg="white" flex={1}>
       <Header title="Alterar senha" color={mainColor} />
-      <ScrollView bg="white" h="70%">
+      <ScrollView bg="white" h="70%" keyboardShouldPersistTaps={true}>
         <HStack
           px={3}
           py={10}

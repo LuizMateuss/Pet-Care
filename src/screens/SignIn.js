@@ -94,7 +94,7 @@ export function SignIn() {
   }
 
   return (
-    <ScrollView bg="white">
+    <ScrollView bg="white" keyboardShouldPersistTaps={true}>
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
         <VStack>
           {/* IMAGEM PET CARE */}
