@@ -116,7 +116,7 @@ export function CreateAccount({ route }) {
 
   return (
     <View flex={1}>
-      <ScrollView keyboardShouldPersistTaps={true}>
+      <ScrollView keyboardShouldPersistTaps="always">
         <LinearGradient
           colors={isCare ? ['#00abbc52', '#00abbc'] : ['#511AC752', '#511AC7']}
           style={{ paddingBottom: 50, flex: 1, flexDirection: 'column' }}

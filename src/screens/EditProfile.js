@@ -14,7 +14,7 @@ export function EditProfile({ route }) {
     <VStack>
       <Header title="Editar perfil" color={mainColor} />
 
-      <ScrollView h="85%" keyboardShouldPersistTaps={true}>
+      <ScrollView h="85%" keyboardShouldPersistTaps="always">
         <HStack
           justifyContent="space-between"
           w="80%"

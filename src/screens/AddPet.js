@@ -34,7 +34,7 @@ export function AddPet({ route }) {
     <VStack>
       <Header color="#511AC7" title="Adicionar animal" />
 
-      <ScrollView h="75%" keyboardShouldPersistTaps={true}>
+      <ScrollView h="75%" keyboardShouldPersistTaps="always">
         <Image
           alt="Imagem Pet"
           source={require('../../assets/img/PerfilAnimalImagem.png')}
