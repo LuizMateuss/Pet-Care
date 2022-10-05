@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   HStack,
-  Modal
+  Modal,
+  Platform
 } from 'native-base'
 import { useNavigation } from '@react-navigation/native'
 import {
@@ -17,8 +18,40 @@ import {
 import { TouchableOpacity } from 'react-native'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
+import {
+  DateTimePicker,
+  DateTimePickerAndroid
+} from '@react-native-community/datetimepicker'
 
 export function SearchPetCare({ route }) {
+
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState('Empty');
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate
+    setDate(currentDate)
+  }
+
+  const showMode = currentMode => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true
+    })
+  }
+
+  const showDatepicker = () => {
+    showMode('date')
+  }
+
+  const showTimepicker = () => {
+    showMode('time')
+  }
+
   const [showModal, setShowModal] = useState(false)
   const { isCare, user } = route.params
 
@@ -55,7 +88,7 @@ export function SearchPetCare({ route }) {
             textAlign="center"
             fontWeight="light"
             color="#511AC7"
-            fontSize={20}
+            fontSize={15}
           >
             São 30 minutos de passeio e muita diversão para seu pet.
           </Text>
@@ -111,14 +144,6 @@ export function SearchPetCare({ route }) {
               Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP.
             </Text>
           </VStack>
-          <Text
-            textAlign="center"
-            fontWeight="light"
-            color="#000"
-            fontSize={20}
-          >
-            Selecione uma data
-          </Text>
           <Button
             my={4}
             title="Selecionar data"
@@ -135,33 +160,34 @@ export function SearchPetCare({ route }) {
               borderRadius={20}
               alignItems="center"
             >
-              <Text
-                color="white"
-                fontSize={20}
-                fontWeight="black"
-                textAlign="center"
-                my={2}
-              >
-                Insira uma data:
-              </Text>
               <VStack>
                 <HStack alignItems="center" justifyContent="space-between">
-                  <Text color="white" fontSize={16} fontWeight="black">
-                    Data:
-                  </Text>
-                  <Input
-                    placeholder="00/00/0000"
-                    ml={4}
-                    w="60%"
-                    maxLength={10}
+                  <Button
+                     title="Selecione a data" bg="white" color='#511AC7' onPress={() => showMode('date')} 
                   />
                 </HStack>
                 <HStack alignItems="center" justifyContent="space-between">
-                  <Text color="white" fontSize={16} fontWeight="black">
-                    Horário:
-                  </Text>
-                  <Input placeholder="00:00" ml={4} w="60%" maxLength={5} />
+                  <Button 
+                     title="Selecione o horário" bg="white" color='#511AC7' onPress={() => showMode('time')}
+                  />
                 </HStack>
+                <Text
+                  color="white"
+                  fontSize={20}
+                  fontWeight="black"
+                  textAlign="center"
+                  my={2}
+                  >
+                    Dia e horário selecionados:
+                </Text>
+                <Text
+                  color="white"
+                  fontSize={20}
+                  fontWeight="black"
+                  textAlign="center"
+                  my={2}>
+                {date.getDate()}/{date.getMonth()}/{date.getFullYear()} às {date.getHours()}:{date.getMinutes()}
+                </Text>
               </VStack>
               <Button
                 title="Adicionar data"
@@ -174,6 +200,33 @@ export function SearchPetCare({ route }) {
               />
             </Modal.Content>
           </Modal>
+          <VStack bg="#f4f4f4">
+            <Text
+              textAlign="center"
+              fontWeight="light"
+              color="#000"
+              fontSize={20}
+            >
+              Data e hora selecionada:
+            </Text>
+            {show && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display='default'
+                onChange={onChange}
+              />)}
+            <Text
+              textAlign="center"
+              fontWeight="black"
+              color="#511AC7"
+              fontSize={18}
+            >
+              Dia {date.getDate()}/{date.getMonth()}/{date.getFullYear()} às {date.getHours()}:{date.getMinutes()}
+            </Text>
+          </VStack>
           <Button
             title="Achar um cuidador"
             bg="#511AC7"
