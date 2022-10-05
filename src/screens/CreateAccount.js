@@ -36,16 +36,6 @@ export function CreateAccount({ route }) {
   const { isCare } = route.params
   let configEmail
 
-  function verifyIsCareAndNextPage(user) {
-    if (isCare) {
-      navigation.navigate('registerAddress', {
-        isCare,
-        user
-      })
-    } else {
-      navigation.navigate('registerAddress', { isCare, user })
-    }
-  }
   function handleSignUp() {
     if (!email || !password || !confirmPassword || !phone || !dateBirth) {
       return Alert.alert(
@@ -88,15 +78,9 @@ export function CreateAccount({ route }) {
   }
 
   async function registerUser() {
-    let sendIsCare
-    if (isCare) sendIsCare = 'C'
-    else sendIsCare = 'T'
-    let birthday = dateBirth.split('/')
-    birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
-
     const req = await fetch(
       process.env.SERVER_LINK +
-        `/registration/${name}/${configEmail}/${password}/${birthday}/${phone}/${sendIsCare}`,
+        `/verifyRegistration/${configEmail}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -109,11 +93,35 @@ export function CreateAccount({ route }) {
       Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
     })
     const res = await req.json()
+
     if (res) {
-      const user = { name: res.nm_usuario, id: res.cd_usuario }
+      let sendIsCare
+      if (isCare) sendIsCare = 'C'
+      else sendIsCare = 'T'
+      let birthday = dateBirth.split('/')
+      birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+      const user = {
+        name: name,
+        email: configEmail,
+        password: password,
+        birthday: birthday,
+        phone: phone,
+        isCare: sendIsCare
+      }
       verifyIsCareAndNextPage(user)
     } else {
       Alert.alert('Email já Cadastrado', 'Por favor, informe outro email')
+    }
+  }
+
+  function verifyIsCareAndNextPage(user) {
+    if (isCare) {
+      navigation.navigate('registerAddress', {
+        isCare,
+        user
+      })
+    } else {
+      navigation.navigate('registerAddress', { isCare, user })
     }
   }
 

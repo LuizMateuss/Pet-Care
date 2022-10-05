@@ -12,7 +12,7 @@ export function RegisterAddress({ route }) {
   const [cep, setCep] = useState()
   const [address, setAddress] = useState()
   const [addressNumber, setAddressNumber] = useState()
-  const [addressComplement, setAddressComplement] = useState()
+  const [addressComplement, setAddressComplement] = useState(null)
   const [userAddress, setUserAddress] = useState()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -44,7 +44,7 @@ export function RegisterAddress({ route }) {
           setAddress(data)
         })
         .catch(err => {
-          return Alert.alert('Endereço inválido')
+          return Alert.alert('Falha na conexão')
         })
     } else {
       setAddress('')
@@ -65,9 +65,20 @@ export function RegisterAddress({ route }) {
   }
 
   async function bdRegisterAdd(){
+    if(address.erro){
+      return Alert.alert(
+        'Endereço inválido!',
+        'Porfavor, verifique os valores.'
+      )
+    }
+    let addressComple
+    if(addressComplement == ''){
+      addressComple = null
+    }else{
+      addressComple=addressComplement
+    }
     let verify = true
-    await fetch(
-      `${process.env.SERVER_LINK}/registrationAdress/${user.id}/${address.cep}/${addressNumber}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
+    const req = await fetch(`${process.env.SERVER_LINK}registration/${user.name}/${user.email}/${user.password}/${user.birthday}/${user.phone}/${user.isCare}/${address.cep}/${addressNumber}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -80,12 +91,19 @@ export function RegisterAddress({ route }) {
       setIsLoading(false)
       Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
     })
-    if(verify){
-      handleNextPage()
+
+    const res = await req.json()
+
+    if(res){
+      const User = {id: res.cd_usuario, name: res.nm_usuario}
+      if(verify){
+        handleNextPage(User)
+      }
     }
+
   }
 
-  function handleNextPage() {
+  function handleNextPage(user) {
     setIsLoading(false)
     if (isCare) {
       navigation.navigate('startPetCare', {
@@ -101,14 +119,15 @@ export function RegisterAddress({ route }) {
   }
 
   function verfiyFieldsAndAddAddressToObject() {
-    if (address == '' || addressNumber == '' || addressComplement == '') {
+    if (address == '' || address == undefined || addressNumber == '') {
       return Alert.alert(
         'Endereço inválido!',
         'Porfavor, preencha os campos e verifique os valores.'
       )
     }
-    let userAddress = { address, addressNumber, addressComplement }
-    setUserAddress(userAddress)
+    let UserAddress = { address, addressNumber, addressComplement }
+    setUserAddress(UserAddress)
+    bdRegisterAdd()
   }
   const navigation = useNavigation()
   return (
@@ -156,7 +175,7 @@ export function RegisterAddress({ route }) {
 
           <HStack alignItems="center" justifyContent="space-between" w="100%">
             <Text color="white" fontSize={15} fontWeight="black">
-              Insira o CEP:
+              Insira o CEP*:
             </Text>
             <Input
               ml={4}
@@ -167,7 +186,7 @@ export function RegisterAddress({ route }) {
           </HStack>
           <HStack alignItems="center" justifyContent="space-between" w="100%">
             <Text color="white" fontSize={15} fontWeight="black">
-              Número:
+              Número*:
             </Text>
 
             <Input
@@ -198,10 +217,8 @@ export function RegisterAddress({ route }) {
 
           {address == undefined ||
           addressNumber == undefined ||
-          addressComplement == undefined ||
           address == '' ||
-          addressNumber == '' ||
-          addressComplement == '' ? (
+          addressNumber == '' ? (
             <Text
               textAlign="center"
               color="white"
@@ -217,10 +234,11 @@ export function RegisterAddress({ route }) {
               fontSize={18}
               fontWeight="black"
             >
-              {address.logradouro}, Nº {addressNumber} - {addressComplement}.
-              Bairro:
-              {address.bairro}. CEP: {address.cep}, {address.localidade}/
-              {address.uf}
+              {
+                `${address.logradouro}, Nº ${addressNumber}${
+                addressComplement==='' || addressComplement==null ? ' ' : ', Comp: '+addressComplement
+                }.\nBairro: ${address.bairro}.\nCEP: ${address.cep}, ${address.localidade}/${address.uf}`
+              }
             </Text>
           )}
         </VStack>
@@ -234,25 +252,6 @@ export function RegisterAddress({ route }) {
           mt={10}
           onPress={verfiyFieldsAndAddAddressToObject}
         />
-        {address == undefined ||
-        addressNumber == undefined ||
-        addressComplement == undefined ||
-        address == '' ||
-        addressNumber == '' ||
-        addressComplement == '' ? (
-          <></>
-        ) : (
-          <Button
-            title="Confirmar endereço"
-            weight="black"
-            py={4}
-            px={8}
-            borderWidth={1}
-            borderColor={mainColor}
-            color={mainColor}
-            onPress={bdRegisterAdd}
-          />
-        )}
       </VStack>
     </ScrollView>
   )
