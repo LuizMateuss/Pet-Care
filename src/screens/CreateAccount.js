@@ -31,6 +31,7 @@ export function CreateAccount({ route }) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [dateBirth, setDateBirth] = useState('')
+  const [cpf, setCpf] = useState('')
   const [check, setCheck] = useState(false)
   const navigation = useNavigation()
   const { isCare } = route.params
@@ -64,8 +65,9 @@ export function CreateAccount({ route }) {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
     const regexDate =
       /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+    const regexCpf = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
     setIsLoading(false)
-    validationRegex(reg, regexDate)
+    validationRegex(reg, regexDate, regexCpf)
   }
 
   function validationRegex(reg, regexDate) {
@@ -75,13 +77,17 @@ export function CreateAccount({ route }) {
       if (regexDate.test(dateBirth) == false) {
         return Alert.alert('Data inválida', 'Insira uma data válida!')
       } else {
-        if (check) {
-          registerUser()
+        if (regexCpf.test(cpf) == false) {
+          return Alert.alert('CPF inválido', 'Insira um CPF válido!')
         } else {
-          return Alert.alert(
-            'Termos e condições',
-            'Por favor, aceite os termos e condições.'
-          )
+          if (check) {
+            registerUser()
+          } else {
+            return Alert.alert(
+              'Termos e condições',
+              'Por favor, aceite os termos e condições.'
+            )
+          }
         }
       }
     }
@@ -159,6 +165,7 @@ export function CreateAccount({ route }) {
                 placeholder="Data de Nascimento:"
                 onChangeText={setDateBirth}
               />
+              <Input placeholder="CPF:" onChangeText={setCpf} />
               <HStack alignItems="center" mx="auto" mb="2%" color="white">
                 <Checkbox
                   accessibilityLabel="termos"
