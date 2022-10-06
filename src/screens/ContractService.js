@@ -75,7 +75,11 @@ export function ContractService({ route }) {
           <Text textAlign="center" fontSize={20}>
             Selecione o método de pagamento
           </Text>
-          <Button title="Mercado Pago" bg="#511AC7" w="50%" />
+          <TouchableOpacity onPress={() => props.navigation.navigate('MercadoPago',{price: price.toFixed(2)})}>
+            <Text>
+              <MaterialIcons name="payment" size={24} color="white" />Mercado Pago
+            </Text>
+          </TouchableOpacity>
         </VStack>
         <VStack
           bg="white"
