@@ -69,7 +69,7 @@ export function CreateAccount({ route }) {
     validationRegex(reg, regexDate)
   }
 
-  function validationRegex(reg, regexDate) {
+  function validationRegex(reg, regexDate, regexCpf) {
     if (reg.test(configEmail) == false) {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
