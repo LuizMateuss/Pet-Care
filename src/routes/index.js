@@ -1,16 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { AddPet } from '../screens/AddPet'
-import { RegisterAddress } from '../screens/RegisterAddress'
-import { SelectLocal } from '../screens/SelectLocal'
-import { ServiceInProgress } from '../screens/ServiceInProgress'
-import SelectDate from '../screens/SelectDate'
 
 import { AppRoutes } from './app.routes'
+import { SearchPetCare } from '../screens/SearchPetCare'
 
 export function Routes() {
   return (
     <NavigationContainer>
-      <SelectDate />
+      <AppRoutes />
     </NavigationContainer>
   )
 }
