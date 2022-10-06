@@ -22,6 +22,7 @@ export default function App() {
     Roboto_700Bold,
     Roboto_900Black
   })
+  
   return (
     <NativeBaseProvider theme={THEME}>
       <StatusBar

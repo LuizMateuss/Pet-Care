@@ -77,17 +77,11 @@ export function ContractService({ route }) {
           <Text textAlign="center" fontSize={20}>
             Selecione o método de pagamento
           </Text>
-<<<<<<< Updated upstream
           <TouchableOpacity onPress={() => props.navigation.navigate('MercadoPago',{price: price.toFixed(2)})}>
             <Text>
               <MaterialIcons name="payment" size={24} color="white" />Mercado Pago
             </Text>
           </TouchableOpacity>
-=======
-          <TouchableOpacity style={css.price} onPress={() => props.navigation.navigate('MercadoPago',{price: price.toFixed(2),address:address})}>
-                    <Text style={css.price__text}><MaterialIcons name="payment" size={24} color="white" /> Mercado Pago</Text>
-                </TouchableOpacity>
->>>>>>> Stashed changes
         </VStack>
         <VStack
           bg="white"

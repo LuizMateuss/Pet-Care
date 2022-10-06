@@ -1,16 +1,9 @@
-<<<<<<< Updated upstream
-=======
-/*
-expo install react-native-webview
-*/
-
-
->>>>>>> Stashed changes
 import React, {useState,useEffect,useRef} from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import {css} from '../assets/css/Css';
 import config from '../config';
 import { WebView } from 'react-native-webview';
+import cssMP from '../../assets/cssMP/cssMP';
 
 
 export default function MercadoPago(props) {
@@ -42,15 +35,9 @@ export default function MercadoPago(props) {
         let url=state.url;
         if(state.canGoBack == true && !url.includes('mercadopago')){
             if(url.includes("approved")){
-<<<<<<< Updated upstream
-                props.navigation.navigate('HistoryCare');
+                props.navigation.navigate('HistoryCare'); //página quando dá certo
             }else{
-                props.navigation.navigate('ContractService');
-=======
-                props.navigation.navigate('MapTracking'); //requestedservices
-            }else{
-                props.navigation.navigate('Map');
->>>>>>> Stashed changes
+                props.navigation.navigate('ContractService'); //página quando dá erro
             }
         }      
     }
