@@ -1,32 +1,53 @@
+import { useState, useRef } from 'react'
 import { VStack, Text, Image, HStack } from 'native-base'
+import MapView, { Marker } from 'react-native-maps'
 import { MagnifyingGlass } from 'phosphor-react-native'
 import { Button } from '../components/Button'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
+import MapViewDirections from 'react-native-maps-directions'
 
 export function SelectLocal() {
+  const [initialCords, setInitialCords] = useState({
+    pickupAndDropCords: {
+      latitude: -23.966185579866277,
+      longitude: -46.337672487834844,
+      latitudeDelta: 0.0322,
+      longitudeDelta: 0.0221
+    },
+    currentCords: {
+      latitude: -23.97590347583942,
+      longitude: -46.31840498403957,
+      latitudeDelta: 0.0322,
+      longitudeDelta: 0.0221
+    }
+  })
+  const mapRef = useRef()
+  const { pickupAndDropCords, currentCords } = initialCords
   return (
     <VStack bg="white" h="100%">
       <Header title="Selecionar local" color="#511AC7" />
-      <Input
-        w="70%"
-        mx="auto"
-        my={2}
-        size="lg"
-        borderColor="primary.700"
-        borderBottomColor="primary.700"
-        borderBottomWidth={1}
-        borderRadius={0}
-        placeholder="Inserir local..."
-        InputLeftElement={<MagnifyingGlass size={24} color="#511AC7" />}
-      />
-      <Image
-        mx="auto"
-        h={250}
-        borderRadius={10}
-        alt="Mapa localização"
-        source={require('../../assets/img/map_image.png')}
-      />
+
+      <MapView
+        ref={mapRef}
+        initialRegion={pickupAndDropCords}
+        style={{
+          width: '100%',
+          height: 220,
+          flex: 1
+        }}
+      >
+        <Marker coordinate={pickupAndDropCords}>
+          <Image
+            alt="Ícone local"
+            source={require('../../assets/img/pinPurple.png')}
+            w="25"
+            h="25"
+            resizeMode="contain"
+          />
+        </Marker>
+      </MapView>
+
       <VStack
         bg="white"
         borderWidth={1}
@@ -34,9 +55,12 @@ export function SelectLocal() {
         borderRadius={40}
         w="80%"
         mx="auto"
-        my={10}
+        mt={10}
+        mb={0}
         px={4}
         pb={4}
+        position="relative"
+        top={-60}
       >
         <Text
           bg="primary.700"
@@ -73,9 +97,9 @@ export function SelectLocal() {
         textAlign="center"
         borderRadius={40}
       >
-        Solicitar serviço neste endereço?
+        Confirmar neste endereço?
       </Text>
-      <HStack justifyContent="space-between" w="80%" mx="auto" mt={4}>
+      <HStack justifyContent="space-between" w="80%" mx="auto" mt={0}>
         <Button
           title="Sim"
           borderColor="primary.700"
