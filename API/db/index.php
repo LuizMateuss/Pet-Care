@@ -19,10 +19,14 @@
     // rotas
     $app->get( '/usuario', 'getUsuario');
     $app->map(['get', 'post'], '/login/{email}/{password}/{isCare}', 'getLogin');
-    $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}', 'getRegistration');
+    $app->map(['get', 'post'], '/verifyRegistration/{email}', 'getVerifyRegistration');
+    $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getRegistration');
     $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
-    $app->map(['get', 'post'], '/registrationAdress/{id}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getAddressRegistration');
     $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
+    $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
+    $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
+    $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
+    $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -60,15 +64,10 @@
         return $response;
     }
 
-    function getRegistration(Request $request, Response $response, array $args){
-        $name = $args['name'];
+    function getVerifyRegistration(Request $request, Response $response, array $args){
         $email = $args['email'];
-        $password = $args['password'];
-        $birthday = $args['birthday'];
-        $phone = $args['phone'];
-        $isCare = $args['isCare'];
         $conn = getConn();
-        
+
         $sql = "SELECT nm_email FROM usuario WHERE nm_email=:nm_email";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("nm_email", $email);
@@ -77,32 +76,21 @@
 
         if($verifyEmail){
             $message = false;
-            $response->getBody()->write(json_encode($message));
-            return $response;
         }else{
-            $sql = "INSERT INTO usuario 
-                         SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_data=:dt_data, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam("nm_usuario", $name);
-            $stmt->bindParam("nm_email", $email);
-            $stmt->bindParam("nm_senha", $password);
-            $stmt->bindParam("dt_data", $birthday);
-            $stmt->bindParam("cd_telefone", $phone);
-            $stmt->bindParam("cd_isCare", $isCare);
-            $stmt->execute();
-
-            $sql = "SELECT cd_usuario, nm_usuario FROM usuario WHERE nm_email=:nm_email";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam("nm_email", $email);
-            $stmt->execute();
-            $message=$stmt->fetchObject();
-            $response->getBody()->write(json_encode($message));
-            return $response;
+            $message = true;
         }
+        $response->getBody()->write(json_encode($message));
+        return $response;
     }
 
-    function getAddressRegistration(Request $request, Response $response, array $args){
-        $id = $args['id'];
+    function getRegistration(Request $request, Response $response, array $args){
+        $name = $args['name'];
+        $email = $args['email'];
+        $password = $args['password'];
+        $birthday = $args['birthday'];
+        $phone = $args['phone'];
+        $isCare = $args['isCare'];
+
         $cep = $args['cep'];
         $addressNumber = $args['addressNumber'];
         $logradouro = $args['logradouro'];
@@ -111,9 +99,28 @@
         $localidade = $args['localidade'];
         $uf = $args['uf'];
         $conn = getConn();
-    
+        
+        $sql = "INSERT INTO usuario 
+                    SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_nascimento=:dt_nascimento, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("nm_usuario", $name);
+        $stmt->bindParam("nm_email", $email);
+        $stmt->bindParam("nm_senha", $password);
+        $stmt->bindParam("dt_nascimento", $birthday);
+        $stmt->bindParam("cd_telefone", $phone);
+        $stmt->bindParam("cd_isCare", $isCare);
+        $stmt->execute();
+
+        $sql = "SELECT cd_usuario, nm_usuario FROM usuario WHERE nm_email=:nm_email";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("nm_email", $email);
+        $stmt->execute();
+        $message=$stmt->fetchObject();
+
+        $id=$message->cd_usuario;
+
         $sql = "INSERT INTO endereco
-            SET nm_logradouro=:logradouro, cd_numero_rua=:addressNumber,nm_complemento=:addressComplement, nm_bairro=:bairro, nm_cidade=:localidade, sg_estado=:uf, cd_cep=:cep, cd_usuario=:id";
+            SET nm_logradouro=:logradouro, cd_numero_rua=:addressNumber,nm_complemento=:addressComplement, nm_bairro=:bairro, nm_cidade=:localidade, nm_uf=:uf, cd_cep=:cep, cd_usuario=:id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("id", $id);
         $stmt->bindParam("logradouro", $logradouro);
@@ -124,6 +131,9 @@
         $stmt->bindParam("uf", $uf);
         $stmt->bindParam("cep", $cep);
         $stmt->execute();
+
+        $response->getBody()->write(json_encode($message));
+        return $response;
     }
 
     function getAddressInformations(Request $request, Response $response, array $args){
@@ -158,6 +168,92 @@
         $message = "Atualizado";
         $response->getBody()->write(json_encode($message));
         return $response;
+    }
+
+    function getregistrationAnimal(Request $request, Response $response, array $args){
+        $id = $args['id'];
+        $name = $args['name'];
+        $birth = $args['birth'];
+        $gender = $args['gender'];
+        $weight = $args['weight'];
+        $description = $args['description'];
+        $size = $args['size'];
+        $race = $args['race'];
+        $conn = getConn();
+
+        $sql = "INSERT INTO animal
+            SET nm_animal=:AnimalName, dt_nascimento_animal=:birth, nm_genero_animal=:gender, cd_peso_animal=:animalWeight, ds_animal=:animalDescription, cd_usuario=:id, cd_porte_animal=:size, cd_raca_animal=:race";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("AnimalName", $name);
+        $stmt->bindParam("birth", $birth);
+        $stmt->bindParam("gender", $gender);
+        $stmt->bindParam("animalWeight", $weight);
+        $stmt->bindParam("animalDescription", $description);
+        $stmt->bindParam("size", $size);
+        $stmt->bindParam("race", $race);
+        $stmt->execute();
+
+        $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getPetInformations(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql="SELECT a.*, r.nm_raca_animal, t.nm_tipo_animal, p.nm_porte_animal FROM usuario AS u
+                    JOIN animal AS a ON u.cd_usuario=a.cd_usuario
+                    JOIN raca_animal AS r ON r.cd_raca_animal=a.cd_raca_animal
+                    JOIN tipo_animal AS t ON t.cd_tipo_animal=r.cd_tipo_animal
+                    JOIN porte_animal AS p ON p.cd_porte_animal=a.cd_porte_animal
+                WHERE u.cd_usuario=:id ORDER BY a.nm_animal";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        foreach ($message as $key) {
+            $petBirth=$key->dt_nascimento_animal;
+            $petBirthYear = explode("-", $petBirth);
+            $petYear = date('Y') - $petBirthYear[0];
+            $key->dt_nascimento_animal=$petYear;
+
+            if($key->ds_animal=="null"){
+                $key->ds_animal=" ";
+            }
+        }
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getDeletePet(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql="DELETE FROM animal WHERE cd_animal=:id";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+    }
+
+    function getUpdatePet(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $petName=$args['petName'];
+        $petWeight=$args['petWeight'];
+        $petDescription=$args['petDescription'];
+        $conn = getConn();
+
+        $sql="UPDATE animal
+                 SET nm_animal=:petName, cd_peso_animal=:petWeight, ds_animal=:petDescription
+                WHERE cd_animal=:id;";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("petName", $petName);
+        $stmt->bindParam("petWeight", $petWeight);
+        $stmt->bindParam("petDescription", $petDescription);
+        $stmt->execute();
     }
 
     $app->run();

@@ -24,12 +24,43 @@ import { useNavigation } from '@react-navigation/native'
 export function AddPet({ route }) {
   const [showModal, setShowModal] = useState(false)
   const [showAnimalSizeInfo, setShowAnimalSizeInfo] = useState(false)
+
+  const [name, setName] = useState('')
   const [species, setSpecies] = useState('')
   const [race, setRace] = useState('')
+  const [weight, setWeight] = useState('')
   const [size, setSize] = useState('')
   const [gender, setGender] = useState('')
+  const [birth, setBirth] = useState('')
+  const [description, setDescription] = useState('')
+
   const navigation = useNavigation()
-  const { isCare, user } = route.params
+  const { isCare, user, newPet } = route.params
+
+  async function addAnimal(){
+    let birthday = birth.split('/')
+    birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+
+    let sendDescription=description
+    if(!description) sendDescription=null
+
+    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${birthday}/${gender}/${weight}/${sendDescription}/${size}/${race}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    let res = await req.json()
+    setShowModal(true)
+  }
+
+  function nextPage(pet){
+    let newPet=pet
+    navigation.navigate('petProfile', { isCare, user, newPet })
+  }
   return (
     <VStack>
       <Header color="#511AC7" title="Adicionar animal" />
@@ -59,7 +90,7 @@ export function AddPet({ route }) {
           >
             Nome:
           </Text>
-          <Input ml={4} borderWidth={1} borderColor="#511AC7" w="60%" />
+          <Input ml={4} borderWidth={1} borderColor="#511AC7" w="60%" onChangeText={setName}/>
         </HStack>
 
         <VStack bg="primary.700" w="90%" p={4} borderRadius={10} mx="auto">
@@ -91,8 +122,8 @@ export function AddPet({ route }) {
               bg="white"
               borderRadius={40}
             >
-              <Select.Item label="Cachorro" value="cachorro" />
-              <Select.Item label="Gato" value="gato" />
+              <Select.Item label="Gato" value="1" />
+              <Select.Item label="Cachorro" value="2" />
             </Select>
           </HStack>
           {species.length > 0 ? (
@@ -105,7 +136,7 @@ export function AddPet({ route }) {
               >
                 {species.length > 0 ? 'Raça:' : ''}
               </Text>
-              {species == 'cachorro' ? (
+              {species == '2' ? (
                 <Select
                   placeholder="Escolha a raça"
                   accessibilityLabel="Escolha a raça"
@@ -117,11 +148,11 @@ export function AddPet({ route }) {
                   bg="white"
                   borderRadius={40}
                 >
-                  <Select.Item label="Husky" value="husky" />
-                  <Select.Item label="Labrador" value="labrador" />
-                  <Select.Item label="Pastor Alemão" value="pastor_alemão" />
+                  <Select.Item label="Husky" value="104" />
+                  <Select.Item label="Labrador" value="115" />
+                  <Select.Item label="Pastor Alemão" value="136" />
                 </Select>
-              ) : species == 'gato' ? (
+              ) : species == '1' ? (
                 <Select
                   placeholder="Escolha a raça"
                   accessibilityLabel="Escolha a raça"
@@ -133,9 +164,9 @@ export function AddPet({ route }) {
                   bg="white"
                   borderRadius={40}
                 >
-                  <Select.Item label="Siamês" value="siames" />
-                  <Select.Item label="Persa" value="persa" />
-                  <Select.Item label="Sphynx" value="sphynx" />
+                  <Select.Item label="Siamês" value="263" />
+                  <Select.Item label="Persa" value="254" />
+                  <Select.Item label="Sphynx" value="267" />
                 </Select>
               ) : (
                 <></>
@@ -154,7 +185,7 @@ export function AddPet({ route }) {
             >
               Peso aproximado:
             </Text>
-            <Input w="40%" placeholder="Kg" />
+            <Input w="40%" placeholder="Kg" onChangeText={setWeight}/>
           </HStack>
           <HStack alignItems="center" justifyContent="space-between" my={2}>
             <Text
@@ -189,9 +220,9 @@ export function AddPet({ route }) {
               bg="white"
               borderRadius={40}
             >
-              <Select.Item label="Pequeno" value="pequeno" />
-              <Select.Item label="Médio" value="medio" />
-              <Select.Item label="Grande" value="grande" />
+              <Select.Item label="Pequeno" value="2" />
+              <Select.Item label="Médio" value="3" />
+              <Select.Item label="Grande" value="4" />
             </Select>
           </HStack>
           <HStack alignItems="center" justifyContent="space-between" my={2}>
@@ -213,7 +244,7 @@ export function AddPet({ route }) {
                 borderWidth={1}
                 borderColor="white"
                 bg="transparent"
-                value="f"
+                value="F"
                 my="1"
               >
                 <Text color="white">Fêmea</Text>
@@ -222,7 +253,7 @@ export function AddPet({ route }) {
                 borderWidth={1}
                 borderColor="white"
                 bg="transparent"
-                value="m"
+                value="M"
                 my="1"
               >
                 <Text color="white">Macho</Text>
@@ -238,7 +269,19 @@ export function AddPet({ route }) {
             >
               Data de nascimento:
             </Text>
-            <Input w="40%" placeholder="DD/MM/YYYY" />
+            <Input w="40%" placeholder="DD/MM/YYYY" onChangeText={setBirth}/>
+          </HStack>
+
+          <HStack alignItems="center" justifyContent="space-between" my={2}>
+            <Text
+              textAlign="center"
+              color="white"
+              fontWeight="black"
+              fontSize={17}
+            >
+              Descrição:
+            </Text>
+            <Input w="40%" placeholder="Opcional" onChangeText={setDescription}/>
           </HStack>
         </VStack>
         {showAnimalSizeInfo ? (
@@ -268,7 +311,7 @@ export function AddPet({ route }) {
         color="primary.700"
         borderWidth={1}
         borderColor="primary.700"
-        onPress={() => setShowModal(true)}
+        onPress={() => addAnimal()}
       />
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content
@@ -301,10 +344,8 @@ export function AddPet({ route }) {
             borderColor="white"
             onPress={() => {
               setShowModal(false)
-              navigation.navigate('menuHamburguer', {
-                screen: 'startPetCare',
-                params: { isCare, user }
-              })
+              let VerifyPet=!newPet
+              nextPage(VerifyPet)
             }}
           />
         </Modal.Content>

@@ -38,7 +38,7 @@ export function ProfileCare({ route }) {
       district: res[0].nm_bairro,
       zipCode: res[0].cd_cep,
       city: res[0].nm_cidade,
-      uf: res[0].sg_estado
+      uf: res[0].nm_uf
     })
     setUserInformations({
       email: res[0].nm_email,
