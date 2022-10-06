@@ -65,9 +65,8 @@ export function CreateAccount({ route }) {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
     const regexDate =
       /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-    const regexCpf = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
     setIsLoading(false)
-    validationRegex(reg, regexDate, regexCpf)
+    validationRegex(reg, regexDate)
   }
 
   function validationRegex(reg, regexDate) {
@@ -77,17 +76,13 @@ export function CreateAccount({ route }) {
       if (regexDate.test(dateBirth) == false) {
         return Alert.alert('Data inválida', 'Insira uma data válida!')
       } else {
-        if (regexCpf.test(cpf) == false) {
-          return Alert.alert('CPF inválido', 'Insira um CPF válido!')
+        if (check) {
+          registerUser()
         } else {
-          if (check) {
-            registerUser()
-          } else {
-            return Alert.alert(
-              'Termos e condições',
-              'Por favor, aceite os termos e condições.'
-            )
-          }
+          return Alert.alert(
+            'Termos e condições',
+            'Por favor, aceite os termos e condições.'
+          )
         }
       }
     }
@@ -111,7 +106,6 @@ export function CreateAccount({ route }) {
         }
       }
     )
-    const res = await req.json()
     if (res) {
       const user = { name: res.nm_usuario, id: res.cd_usuario }
       verifyIsCareAndNextPage(user)
