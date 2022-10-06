@@ -11,13 +11,17 @@ import {
 } from '@expo-google-fonts/roboto'
 import { Loading } from './src/components/Loading'
 import { Routes } from './src/routes'
+import { MercadoPago } from './src/screens/MercadoPago'
+import MercadoPago from './src/screens/MercadoPago'
 
 export default function App() {
+  const Stack = createStackNavigator();
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
     Roboto_900Black
   })
+  
   return (
     <NativeBaseProvider theme={THEME}>
       <StatusBar
@@ -26,6 +30,10 @@ export default function App() {
         translucent
       />
       {fontsLoaded ? <Routes /> : Loading}
+
+      <Stack.Navigator>
+        <Stack.Screen name="Checkout" component={MapCheckout} options={{headerShown:false}} />
+      </Stack.Navigator>
     </NativeBaseProvider>
   )
 }

@@ -15,6 +15,7 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { Header } from '../components/Header'
 import LottieView from 'lottie-react-native'
+import cssMP from '../../assets/cssMP/cssMP';
 
 export function ContractService({ route }) {
   const [showModal, setShowModal] = useState(false)
