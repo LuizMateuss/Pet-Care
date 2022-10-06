@@ -1,0 +1,8 @@
+{
+    "googleApi" : "",
+    "publicKey": "SUA_PUBLIC_KEY_DO_MERCADO_PAGO",
+    "token": "SEU_TOKEN_DO_MERCADO_PAGO",
+    "urlRoot":"SEU_IP_DO_COMPUTADOR_LOCAL" 
+
+}
+

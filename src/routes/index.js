@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { AddPet } from '../screens/AddPet'
 import { RegisterAddress } from '../screens/RegisterAddress'
+import MercadoPago from '..screens/MercadoPago';
 
 import { AppRoutes } from './app.routes'
 
