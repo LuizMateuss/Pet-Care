@@ -21,6 +21,7 @@
     $app->map(['get', 'post'], '/login/{email}/{password}/{isCare}', 'getLogin');
     $app->map(['get', 'post'], '/verifyRegistration/{email}', 'getVerifyRegistration');
     $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getRegistration');
+    $app->map(['get', 'post'], '/updateUser/{id}/{newName}/{newEmail}/{newPhone}/{zipCode}/{newHouseNumber}/{street}/{newComplement}/{district}/{city}/{uf}', 'getUpdateUser');
     $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
     $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
     $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
@@ -151,6 +152,44 @@
         $message=$stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($message));
         return $response;
+    }
+
+    function getUpdateUser(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $newName=$args['newName'];
+        $newEmail=$args['newEmail'];
+        $newPhone=$args['newPhone'];
+        $zipCode=$args['zipCode'];
+        $newHouseNumber=$args['newHouseNumber'];
+        $street=$args['street'];
+        $newComplement=$args['newComplement'];
+        $district=$args['district'];
+        $city=$args['city'];
+        $uf=$args['uf'];
+
+        $sql = "UPDATE usuario 
+                    SET nm_usuario=:UserName, nm_email=:newEmail, cd_telefone=:newPhone 
+                WHERE cd_usuario=:id";
+        $stmt = getConn()->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("UserName", $newName);
+        $stmt->bindParam("newEmail", $newEmail);
+        $stmt->bindParam("newPhone", $newPhone);
+        $stmt->execute();
+
+        $sql = "UPDATE endereco
+                    SET cd_cep=:zipCode, cd_numero_rua=:newHouseNumber, nm_logradouro=:street, nm_complemento=:newComplement, nm_bairro=:district, nm_cidade=:city, nm_uf=:uf
+                WHERE cd_usuario=:id";
+        $stmt = getConn()->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("zipCode", $zipCode);
+        $stmt->bindParam("newHouseNumber", $newHouseNumber);
+        $stmt->bindParam("street", $street);
+        $stmt->bindParam("newComplement", $newComplement);
+        $stmt->bindParam("district", $district);
+        $stmt->bindParam("city", $city);
+        $stmt->bindParam("uf", $uf);
+        $stmt->execute();
     }
 
     function getChangePasswd(Request $request, Response $response, array $args){
