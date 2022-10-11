@@ -95,6 +95,7 @@ export function CreateAccount({ route }) {
         'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
       )
     })
+    const res = await req.json()
 
     if (res) {
       let sendIsCare
