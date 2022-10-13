@@ -239,12 +239,12 @@ export function SearchPetCare({ route }) {
             </Text>
           </VStack>
           <Button
-            title="Achar um cuidador"
+            title="Ir para tela de pagamento"
             bg="#511AC7"
             w="70%"
             py={4}
             onPress={() =>
-              navigation.navigate('selectPetCare', { isCare, user })
+              navigation.navigate('contractService', { isCare, user })
             }
           />
         </VStack>
