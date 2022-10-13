@@ -123,7 +123,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectLocal')}
+            onPress={() => navigation.navigate('selectLocal', { isCare, user })}
           />
           <VStack bg="#f4f4f4" py={2}>
             <Text
