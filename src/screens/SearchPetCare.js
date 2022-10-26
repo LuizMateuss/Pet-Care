@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   VStack,
   ScrollView,
@@ -22,12 +22,14 @@ import {
   DateTimePicker,
   DateTimePickerAndroid
 } from '@react-native-community/datetimepicker'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SearchPetCare({ route }) {
   const [date, setDate] = useState(new Date(1598051730000))
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const [text, setText] = useState('Empty')
+  const [address, setAddress] = useState()
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
@@ -50,6 +52,16 @@ export function SearchPetCare({ route }) {
   const showTimepicker = () => {
     showMode('time')
   }
+
+  async function handleAddress() {
+    const response = await AsyncStorage.getItem('@petcare:coords')
+
+    setAddress(JSON.parse(response))
+  }
+
+  useEffect(() => {
+    handleAddress()
+  }, [])
 
   const [showModal, setShowModal] = useState(false)
   const { isCare, user } = route.params
@@ -134,14 +146,25 @@ export function SearchPetCare({ route }) {
             >
               Local selecionado:
             </Text>
-            <Text
-              textAlign="center"
-              fontWeight="black"
-              color="#511AC7"
-              fontSize={16}
-            >
-              Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP.
-            </Text>
+            {address ? (
+              <Text
+                textAlign="center"
+                fontWeight="black"
+                color="#511AC7"
+                fontSize={16}
+              >
+                {address.formatted_address}
+              </Text>
+            ) : (
+              <Text
+                textAlign="center"
+                fontWeight="black"
+                color="#511AC7"
+                fontSize={16}
+              >
+                Nenhum endereço selecionado.
+              </Text>
+            )}
           </VStack>
           <Button
             my={4}

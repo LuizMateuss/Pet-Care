@@ -8,35 +8,27 @@ import { Input } from '../components/Input'
 import MapViewDirections from 'react-native-maps-directions'
 import { useNavigation } from '@react-navigation/native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SelectLocal({ route }) {
   const navigation = useNavigation()
   const { isCare, user } = route.params
 
-  const [initialCords, setInitialCords] = useState({
-    pickupAndDropCords: {
-      latitude: -23.966185579866277,
-      longitude: -46.337672487834844,
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221
-    },
-    currentCords: {
-      latitude: -23.97590347583942,
-      longitude: -46.31840498403957,
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221
-    }
+  const [pickupAndDropCords, setPickupAndDropCords] = useState({
+    latitude: -23.966185579866277,
+    longitude: -46.337672487834844,
+    latitudeDelta: 0.0322,
+    longitudeDelta: 0.0221
   })
   const [destination, setDestination] = useState(null)
-  const mapEl = useRef()
-  const { pickupAndDropCords, currentCords } = initialCords
+
   return (
     <VStack bg="white" h="100%">
       <Header title="Selecionar local" color="#511AC7" />
 
       <MapView
-        ref={mapEl}
         initialRegion={pickupAndDropCords}
+        region={pickupAndDropCords}
         style={{
           width: '100%',
           height: 220,
@@ -58,14 +50,21 @@ export function SelectLocal({ route }) {
 
       <GooglePlacesAutocomplete
         placeholder="Insira o local"
-        onPress={(data, details = null) => {
+        onPress={async (data, details = null) => {
+          setPickupAndDropCords({
+            latitude: details.geometry.location.lat,
+            longitude: details.geometry.location.lng,
+            latitudeDelta: 0.00392,
+            longitudeDelta: 0.003421
+          })
           setDestination({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
-            latitudeDelta: 0.00092,
-            longitudeDelta: 0.000421
+            latitudeDelta: 0.00392,
+            longitudeDelta: 0.003421
           })
-          console.log(destination)
+          console.log(details)
+          await AsyncStorage.setItem('@petcare:coords', JSON.stringify(details))
         }}
         query={{
           key: process.env.GOOGLE_MAP_API_KEY,
@@ -108,7 +107,6 @@ export function SelectLocal({ route }) {
         />
         <Button
           title="Não"
-          onPress={() => navigation.goBack()}
           borderColor="red.700"
           borderWidth={1}
           color="red.700"
