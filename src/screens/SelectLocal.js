@@ -1,11 +1,10 @@
 import { useState, useRef } from 'react'
 import { VStack, Text, Image, HStack } from 'native-base'
 import MapView, { Marker } from 'react-native-maps'
-import { MagnifyingGlass } from 'phosphor-react-native'
+
 import { Button } from '../components/Button'
 import { Header } from '../components/Header'
-import { Input } from '../components/Input'
-import MapViewDirections from 'react-native-maps-directions'
+
 import { useNavigation } from '@react-navigation/native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import AsyncStorage from '@react-native-async-storage/async-storage'
