@@ -15,9 +15,11 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { Header } from '../components/Header'
 import LottieView from 'lottie-react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function ContractService({ route }) {
   const [showModal, setShowModal] = useState(false)
+  const [address, setAddress] = useState()
   const navigation = useNavigation()
   const { isCare, user } = route.params
 
@@ -35,6 +37,16 @@ export function ContractService({ route }) {
       user
     })
   }
+
+  async function handleAddress() {
+    const response = await AsyncStorage.getItem('@petcare:coords')
+
+    setAddress(JSON.parse(response))
+  }
+
+  useEffect(() => {
+    handleAddress()
+  }, [])
   return (
     <View flex={1} bg="white">
       <Header title="Resumo do serviço" color="#511AC7" />
@@ -44,7 +56,7 @@ export function ContractService({ route }) {
           fontSize={16}
           fontWeight="black"
           textAlign="center"
-          w="60%"
+          w="90%"
           m="auto"
         >
           O pagamento é realizado para o aplicativo e só é repassado ao cuidador
@@ -87,14 +99,25 @@ export function ContractService({ route }) {
           >
             Local selecionado:
           </Text>
-          <Text
-            fontWeight="black"
-            fontSize={16}
-            color="primary.700"
-            textAlign="center"
-          >
-            Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP.
-          </Text>
+          {address ? (
+            <Text
+              textAlign="center"
+              fontWeight="black"
+              color="#511AC7"
+              fontSize={16}
+            >
+              {address.formatted_address}
+            </Text>
+          ) : (
+            <Text
+              textAlign="center"
+              fontWeight="black"
+              color="#511AC7"
+              fontSize={16}
+            >
+              Nenhum endereço selecionado.
+            </Text>
+          )}
         </VStack>
         <VStack
           bg="#511AC7"
