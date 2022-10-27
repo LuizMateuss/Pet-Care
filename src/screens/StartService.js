@@ -58,7 +58,28 @@ export function StartService({ route }) {
             latitudeDelta: 0.00392,
             longitudeDelta: 0.003421
           }}
-        ></MapView>
+        >
+          <Marker
+            coordinate={{
+              latitude: address.geometry.location.lat,
+              longitude: address.geometry.location.lng,
+              latitudeDelta: 0.00392,
+              longitudeDelta: 0.003421
+            }}
+          >
+            <Image
+              alt="Ícone local"
+              source={
+                isCare
+                  ? require('../../assets/img/pinGreen.png')
+                  : require('../../assets/img/pinPurple.png')
+              }
+              w="25"
+              h="25"
+              resizeMode="contain"
+            />
+          </Marker>
+        </MapView>
       ) : (
         <Text>Ops, algum problema ocorreu no endereço!</Text>
       )}
