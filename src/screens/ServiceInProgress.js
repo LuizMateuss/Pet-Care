@@ -36,7 +36,7 @@ export function ServiceInProgress({ route }) {
           initialRegion={pickupAndDropCords}
           style={{
             width: '100%',
-            height: '60%',
+            height: '45%',
             position: 'relative',
             zIndex: 0
           }}
@@ -44,7 +44,11 @@ export function ServiceInProgress({ route }) {
           <Marker coordinate={pickupAndDropCords}>
             <Image
               alt="Ícone local"
-              source={require('../../assets/img/pinPurple.png')}
+              source={
+                isCare
+                  ? require('../../assets/img/pinGreen.png')
+                  : require('../../assets/img/pinPurple.png')
+              }
               w="25"
               h="25"
               resizeMode="contain"
@@ -53,7 +57,11 @@ export function ServiceInProgress({ route }) {
           <Marker coordinate={currentCords}>
             <Image
               alt="Ícone local"
-              source={require('../../assets/img/petPointPurple.png')}
+              source={
+                isCare
+                  ? require('../../assets/img/petPoint.png')
+                  : require('../../assets/img/petPointPurple.png')
+              }
               w={25}
               h={25}
               resizeMode="contain"
