@@ -26,7 +26,7 @@ export function UserProfile({ route }) {
   const navigation = useNavigation()
 
   return (
-    <VStack bg="white">
+    <VStack bg="white" h="100%">
       <Header
         title={isCare ? 'Perfil do tutor' : 'Perfil do cuidador'}
         color={mainColor}
