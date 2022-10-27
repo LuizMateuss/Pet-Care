@@ -8,11 +8,12 @@ import {
   Radio,
   ScrollView
 } from 'native-base'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
@@ -20,6 +21,14 @@ export function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
+
+  async function clearAsyncStorage() {
+    await AsyncStorage.removeItem('@petcare:coords')
+  }
+
+  useEffect(() => {
+    clearAsyncStorage()
+  }, [])
 
   //valida campos vázios
   function handleSignIn() {
@@ -54,9 +63,12 @@ export function SignIn() {
             'Content-Type': 'application/json'
           }
         }
-      ).catch(()=>{
+      ).catch(() => {
         setIsLoading(false)
-        Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
+        Alert.alert(
+          'Desulpe!',
+          'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+        )
       })
       //resposta
       const resLogin = await req.json()
