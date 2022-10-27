@@ -15,9 +15,11 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { Header } from '../components/Header'
 import LottieView from 'lottie-react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function ContractService({ route }) {
   const [showModal, setShowModal] = useState(false)
+  const [address, setAddress] = useState()
   const navigation = useNavigation()
   const { isCare, user } = route.params
 
@@ -35,35 +37,34 @@ export function ContractService({ route }) {
       user
     })
   }
+
+  async function handleAddress() {
+    const response = await AsyncStorage.getItem('@petcare:coords')
+
+    setAddress(JSON.parse(response))
+  }
+
+  useEffect(() => {
+    handleAddress()
+  }, [])
   return (
     <View flex={1} bg="white">
       <Header title="Resumo do serviço" color="#511AC7" />
       <ScrollView h="90%">
-        <HStack
-          bg="white"
-          borderRadius={10}
-          borderWidth={1}
-          borderColor="primary.700"
-          p={5}
+        <Text
+          color="primary.700"
+          fontSize={16}
+          fontWeight="black"
+          textAlign="center"
           w="90%"
-          mx="auto"
-          mt={5}
-          alignItems="center"
+          m="auto"
         >
-          <Image
-            borderRadius={50}
-            alt="Imagem cuidador"
-            source={require('../../assets/img/anonymous.png')}
-          />
-          <VStack ml={5}>
-            <Text>Nome do cuidador</Text>
-            <RatingBar />
-            <Text>Local: 1km de você</Text>
-          </VStack>
-        </HStack>
-
+          O pagamento é realizado para o aplicativo e só é repassado ao cuidador
+          após o término do serviço.
+        </Text>
         <Text
           mt={5}
+          p={4}
           bg="primary.700"
           color="white"
           textAlign="center"
@@ -71,12 +72,7 @@ export function ContractService({ route }) {
         >
           Valor do serviço: R$35,00
         </Text>
-        <VStack w="80%" justifyContent="center" mx="auto">
-          <Text textAlign="center" fontSize={20}>
-            Selecione o método de pagamento
-          </Text>
-          <Button title="Mercado Pago" bg="#511AC7" w="50%" />
-        </VStack>
+
         <VStack
           bg="white"
           borderWidth={1}
@@ -84,7 +80,7 @@ export function ContractService({ route }) {
           borderRadius={40}
           w="80%"
           mx="auto"
-          my={5}
+          my={8}
           px={4}
           pb={4}
         >
@@ -103,14 +99,25 @@ export function ContractService({ route }) {
           >
             Local selecionado:
           </Text>
-          <Text
-            fontWeight="black"
-            fontSize={16}
-            color="primary.700"
-            textAlign="center"
-          >
-            Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP.
-          </Text>
+          {address ? (
+            <Text
+              textAlign="center"
+              fontWeight="black"
+              color="#511AC7"
+              fontSize={16}
+            >
+              {address.formatted_address}
+            </Text>
+          ) : (
+            <Text
+              textAlign="center"
+              fontWeight="black"
+              color="#511AC7"
+              fontSize={16}
+            >
+              Nenhum endereço selecionado.
+            </Text>
+          )}
         </VStack>
         <VStack
           bg="#511AC7"
@@ -137,26 +144,14 @@ export function ContractService({ route }) {
             <Text color="white">Cuidador: xxx-xxx</Text>
           </View>
         </VStack>
-        <Button title="Deseja agendar o serviço?" bg="#511AC7" w="80%" my={5} />
-        <HStack mx="auto" mb={5} w="90%" justifyContent="space-between">
-          <Button
-            title="Sim"
-            borderWidth={1}
-            borderColor="#511AC7"
-            color="#511AC7"
-            w="40%"
-            onPress={() => setShowModal(true)}
-          />
-
-          <Button
-            title="Não"
-            borderWidth={1}
-            color="#BC0000"
-            borderColor="#BC0000"
-            w="40%"
-            onPress={() => navigation.goBack()}
-          />
-        </HStack>
+        <Button title="Realizar pagamento" bg="#511AC7" w="80%" my={5} />
+        <Button
+          onPress={() => setShowModal(true)}
+          title="Concluir agendamento"
+          bg="#511AC7"
+          w="80%"
+          my={5}
+        />
         <Modal isOpen={showModal} onClose={onCloseModal}>
           <View
             bg="primary.700"
@@ -176,9 +171,10 @@ export function ContractService({ route }) {
               loop={true}
             />
             <Text color="white" textAlign="center" my={5} fontWeight="black">
-              Serviço agendado com sucesso! Verifique com detalhes em “Serviços
-              agendados”. Lembre-se de conversar com o cuidador para combinar
-              como entregar o animal.
+              Serviço agendado com sucesso! Aguarde até que um cuidador aceite o
+              serviço. Você vai receber uma notificação (lembre-se de ativar a
+              permissão de notificações). Verifique com detalhes em “Serviços
+              agendados”.
             </Text>
             <Button
               title="Serviços agendados"

@@ -4,69 +4,95 @@ import { PawPrint } from 'phosphor-react-native'
 import { Button } from '../components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import MapViewDirections from 'react-native-maps-directions'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function ServiceInProgress({ route }) {
-  const [initialCords, setInitialCords] = useState({
-    pickupAndDropCords: {
-      latitude: -23.966185579866277,
-      longitude: -46.337672487834844,
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221
-    },
-    currentCords: {
-      latitude: -23.97590347583942,
-      longitude: -46.31840498403957,
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221
-    }
+  const [currentLocation, setCurrentLocation] = useState({
+    latitude: -23.966185579866277,
+    longitude: -46.337672487834844,
+    latitudeDelta: 0.0322,
+    longitudeDelta: 0.0221
   })
+  const [address, setAddress] = useState()
   const mapRef = useRef()
-  const { pickupAndDropCords, currentCords } = initialCords
   const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   const { colors } = useTheme()
   const navigation = useNavigation()
+
+  async function handleAddress() {
+    const response = await AsyncStorage.getItem('@petcare:coords')
+    setAddress(JSON.parse(response))
+  }
+
+  useEffect(() => {
+    handleAddress()
+  }, [])
   return (
     <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
       <VStack bg="white">
-        <MapView
-          ref={mapRef}
-          initialRegion={pickupAndDropCords}
-          style={{
-            width: '100%',
-            height: '60%',
-            position: 'relative',
-            zIndex: 0
-          }}
-        >
-          <Marker coordinate={pickupAndDropCords}>
-            <Image
-              alt="Ícone local"
-              source={require('../../assets/img/pinPurple.png')}
-              w="25"
-              h="25"
-              resizeMode="contain"
+        {address ? (
+          <MapView
+            ref={mapRef}
+            initialRegion={currentLocation}
+            style={{
+              width: '100%',
+              height: '45%',
+              position: 'relative',
+              zIndex: 0
+            }}
+          >
+            <Marker
+              coordinate={{
+                latitude: address.geometry.location.lat,
+                longitude: address.geometry.location.lng,
+                latitudeDelta: 0.0322,
+                longitudeDelta: 0.0221
+              }}
+            >
+              <Image
+                alt="Ícone local"
+                source={
+                  isCare
+                    ? require('../../assets/img/pinGreen.png')
+                    : require('../../assets/img/pinPurple.png')
+                }
+                w="25"
+                h="25"
+                resizeMode="contain"
+              />
+            </Marker>
+            <Marker coordinate={currentLocation}>
+              <Image
+                alt="Ícone cuidador"
+                source={
+                  isCare
+                    ? require('../../assets/img/petPoint.png')
+                    : require('../../assets/img/petPointPurple.png')
+                }
+                w={25}
+                h={25}
+                resizeMode="contain"
+              />
+            </Marker>
+            <MapViewDirections
+              origin={currentLocation}
+              destination={{
+                latitude: address.geometry.location.lat,
+                longitude: address.geometry.location.lng,
+                latitudeDelta: 0.0322,
+                longitudeDelta: 0.0221
+              }}
+              apikey={process.env.GOOGLE_MAP_API_KEY}
+              strokeColor={mainColor}
+              strokeWidth={5}
             />
-          </Marker>
-          <Marker coordinate={currentCords}>
-            <Image
-              alt="Ícone local"
-              source={require('../../assets/img/petPointPurple.png')}
-              w={25}
-              h={25}
-              resizeMode="contain"
-            />
-          </Marker>
-          <MapViewDirections
-            origin={pickupAndDropCords}
-            destination={currentCords}
-            apikey={process.env.GOOGLE_MAP_API_KEY}
-            strokeColor={mainColor}
-            strokeWidth={5}
-          />
-        </MapView>
+          </MapView>
+        ) : (
+          <Text>Ops, algum problema ocorreu no endereço!</Text>
+        )}
 
         <VStack
           position="relative"

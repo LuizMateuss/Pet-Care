@@ -1,4 +1,12 @@
-import { HStack, VStack, View, Text, ScrollView, Image } from 'native-base'
+import {
+  HStack,
+  VStack,
+  View,
+  Text,
+  ScrollView,
+  Image,
+  Modal
+} from 'native-base'
 import { Info, MapPin } from 'phosphor-react-native'
 
 import { Header } from '../components/Header'
@@ -7,8 +15,10 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { AvaliationCard } from '../components/AvaliationCard'
 import { RatingBar } from '../components/RatingStar'
+import { useState } from 'react'
 
 export function UserProfile({ route }) {
+  const [showModal, setShowModal] = useState(false)
   const { isCare } = route.params
 
   const mainColor = isCare ? '#511AC7' : '#00ABBC'
@@ -16,7 +26,7 @@ export function UserProfile({ route }) {
   const navigation = useNavigation()
 
   return (
-    <VStack>
+    <VStack bg="white" h="100%">
       <Header
         title={isCare ? 'Perfil do tutor' : 'Perfil do cuidador'}
         color={mainColor}
@@ -55,7 +65,7 @@ export function UserProfile({ route }) {
         </Text>
       </VStack>
       {isCare ? (
-        <View w="40%" m="auto">
+        <View w="40%" mx="auto">
           <Button
             title="Chat"
             color={mainColor}
@@ -84,6 +94,41 @@ export function UserProfile({ route }) {
               />
               <AvaliationCard avaliationDescription="Foi a primeira vez que eu deixei o Ozzy com alguém. O cuidador foi incrível em sempre me mandar fotos e vídeos dele pra eu saber que tava tudo bem. Deu tudo certo! Com certeza recomendo ;)" />
             </ScrollView>
+            <Button
+              title="Procurar outro cuidador"
+              color="red.700"
+              bg="white"
+              borderWidth={1}
+              borderColor="red.700"
+              onPress={() => setShowModal(true)}
+            />
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+              <Modal.Content>
+                <VStack bg="secondary.700" p={2}>
+                  <Text
+                    textAlign="center"
+                    color="white"
+                    fontSize={16}
+                    fontWeight="black"
+                  >
+                    Realmente deseja procurar outro cuidador?
+                  </Text>
+                  <Text textAlign="center" color="white" fontSize={16}>
+                    *Tarifas poderão ser aplicadas segundo os termos de serviço
+                  </Text>
+                  <VStack>
+                    <Button w="100%" title="Sim" bg="red.700" color="white" />
+                    <Button
+                      w="100%"
+                      title="Não"
+                      bg="white"
+                      color="secondary.700"
+                      onPress={() => setShowModal(false)}
+                    />
+                  </VStack>
+                </VStack>
+              </Modal.Content>
+            </Modal>
           </View>
         </VStack>
       )}
