@@ -22,14 +22,6 @@ export function SignIn() {
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
 
-  async function clearAsyncStorage() {
-    await AsyncStorage.removeItem('@petcare:coords')
-  }
-
-  useEffect(() => {
-    clearAsyncStorage()
-  }, [])
-
   //valida campos vázios
   function handleSignIn() {
     if (!email || !password || isCare === '') {
