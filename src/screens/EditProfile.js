@@ -8,26 +8,12 @@ import { useState } from 'react'
 
 export function EditProfile({ route }) {
   const navigation = useNavigation()
-  const { isCare, user, address, userInformations } = route.params
-
-  // const address = {
-  //   city: "Santos",
-  //   complement: "Apartamento",
-  //   district: "Pomdado",
-  //   houseNumber: "333",
-  //   street: "Rua Aleatoria",
-  //   uf: "SP",
-  //   zipCode: "00000000",
-  // }
-  // ?const user={id:1, name:'teste', email:'luiz@pet.br', phone:'(13)97843-2159'}
-  // const isCare=false
-
+  const { isCare, user, address, userInformations, newUser } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   const [newName, setNewName] = useState(user.name)
   const [newEmail, setNewEmail] = useState(userInformations.email)
   const [newPhone, setNewPhone] = useState(userInformations.phone)
-  // const [newZipCode, setNewZipCode] = useState(address.zipCode)
   const [newHouseNumber, setNewHouseNumber] = useState(address.houseNumber)
   const [newComplement, setNewComplement] = useState(address.complement)
   const [newAddress, setNewAddress] = useState(address)
@@ -80,7 +66,7 @@ export function EditProfile({ route }) {
     if(newAddress.erro){
       return Alert.alert(
         'Endereço inválido!',
-        'Porfavor, verifique os valores.'
+        'Por favor, verifique os valores.'
       )
     }
     let addressComple
@@ -89,58 +75,40 @@ export function EditProfile({ route }) {
     }else{
       addressComple=newComplement
     }
-    let verify = true
-    console.log(`${process.env.SERVER_LINK}updateUser/${newName}/${newEmail}/${newPhone}/${newAddress.zipCode}/${newHouseNumber}/${newAddress.street}/${newComplement}/${newAddress.district}/${newAddress.city}/${newAddress.uf}`)
-    // const req = await fetch(`${process.env.SERVER_LINK}registration/${user.name}/${user.email}/${user.password}/${user.birthday}/${user.phone}/${user.isCare}/${address.cep}/${addressNumber}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
-    //   {
-    //     method: process.env.SERVER_METHOD,
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    // ).catch(()=>{
-    //   verify = false
-    //   setIsLoading(false)
-    //   Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
-    // })
 
-    // const res = await req.json()
+    await fetch(`${process.env.SERVER_LINK}updateUser/${user.id}/${newName}/${newEmail}/${newPhone}/${newAddress.zipCode}/${newHouseNumber}/${newAddress.street}/${newComplement}/${newAddress.district}/${newAddress.city}/${newAddress.uf}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    ).catch(()=>{
+      verify = false
+      Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
+    })
 
-    // if(res){
-    //   const User = {id: res.cd_usuario, name: res.nm_usuario}
-    //   if(verify){
-    //     handleNextPage(User)
-    // ?navigation.navigate('profileCare', { isCare, user })
-    //   }
-    // }
-
+    let verifyNewUser = !newUser
+    handleNextPage(verifyNewUser)
   }
 
-  function handleNextPage(user) {
-    setIsLoading(false)
-    if (isCare) {
-      navigation.navigate('startPetCare', {
-        isCare,
-        user
-      })
-    } else {
-      navigation.navigate('menuHamburguer', {
-        screen: 'startPetCare',
-        params: { isCare, user }
-      })
-    }
+  function handleNextPage(verifyNewUser) {
+    let newUser = verifyNewUser
+    navigation.navigate('profileCare', {
+      isCare,
+      user,
+      newUser
+    })
   }
 
   function verfiyFieldsAndAddAddressToObject() {
     if (newAddress == '' || newAddress == undefined || newHouseNumber == '') {
       return Alert.alert(
         'Endereço inválido!',
-        'Porfavor, preencha os campos e verifique os valores.'
+        'Por favor, preencha os campos e verifique os valores.'
       )
     }
-    // let UserAddress = { newAddress, newHouseNumber, newComplement }
-    // setUserAddress(UserAddress)
     bdRegisterAdd()
   }
 

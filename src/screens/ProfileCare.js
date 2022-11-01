@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare, user } = route.params
+  const { isCare, user, newUser } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
@@ -45,7 +45,7 @@ export function ProfileCare({ route }) {
       phone: res[0].cd_telefone
     })
   }
-  useEffect(()=>{getAddressInformations()},[])
+  useEffect(()=>{getAddressInformations()},[newUser])
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -65,7 +65,7 @@ export function ProfileCare({ route }) {
             {user.name}
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('editProfile', { isCare, user, address, userInformations })}
+            onPress={() => navigation.navigate('editProfile', { isCare, user, address, userInformations, newUser })}
           >
             <Text
               borderWidth={1}
