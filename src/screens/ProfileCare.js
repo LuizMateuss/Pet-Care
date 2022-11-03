@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
 
-  const { isCare, user } = route.params
+  const { isCare, user, newUser } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
@@ -33,7 +33,7 @@ export function ProfileCare({ route }) {
     const res = await req.json()
     setAddress({
       street: res[0].nm_logradouro,
-      houserNumber: res[0].cd_numero_rua,
+      houseNumber: res[0].cd_numero_rua,
       complement: res[0].nm_complemento,
       district: res[0].nm_bairro,
       zipCode: res[0].cd_cep,
@@ -45,7 +45,7 @@ export function ProfileCare({ route }) {
       phone: res[0].cd_telefone
     })
   }
-  useEffect(()=>{getAddressInformations()},[])
+  useEffect(()=>{getAddressInformations()},[newUser])
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -65,7 +65,7 @@ export function ProfileCare({ route }) {
             {user.name}
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('editProfile', { isCare, user })}
+            onPress={() => navigation.navigate('editProfile', { isCare, user, address, userInformations, newUser })}
           >
             <Text
               borderWidth={1}
@@ -103,9 +103,9 @@ export function ProfileCare({ route }) {
       <ProfileInfo
         icon={<MapPin size={26} color="#FFFFFF" />}
         title="Endereço"
-        info={`${address.street}, Nº ${address.houserNumber} - Comp. ${address.complement}. Bairro: ${address.district}, CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
-        email=""
-        phone=""
+        info={`${address.street}, Nº ${address.houseNumber}${
+          address.complement==='' || address.complement==null ? ' ' : ',\nComp: '+address.complement
+          }.\nBairro: ${address.district}, CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
         backgroundInfo={mainColor}
       />
       <Button

@@ -45,6 +45,8 @@ export function SignIn() {
       let sendIsCare
       if (isCare) sendIsCare = 'C'
       else sendIsCare = 'T'
+      console.log(process.env.SERVER_LINK +
+        `login/${configEmail}/${password}/${sendIsCare}`)
       const req = await fetch(
         process.env.SERVER_LINK +
           `login/${configEmail}/${password}/${sendIsCare}`,

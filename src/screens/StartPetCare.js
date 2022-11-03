@@ -47,8 +47,10 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() =>
-                  navigation.navigate('profileCare', { isCare, user })
+                onPress={() =>{
+                  const newUser=false
+                  navigation.navigate('profileCare', { isCare, user, newUser })
+                  }
                 }
               />
               <Button
