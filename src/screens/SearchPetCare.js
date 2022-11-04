@@ -30,6 +30,7 @@ export function SearchPetCare({ route }) {
   const [show, setShow] = useState(false)
   const [text, setText] = useState('Empty')
   const [address, setAddress] = useState()
+  const [selectedPet, setSelectedPet] = useState()
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
@@ -52,14 +53,18 @@ export function SearchPetCare({ route }) {
   const showTimepicker = () => {
     showMode('time')
   }
-
+  
+  
+  async function handlePet() {
+    const response = await AsyncStorage.getItem('@petcare:selectedPet');
+    setSelectedPet(JSON.parse(response))
+  }
   async function handleAddress() {
     const response = await AsyncStorage.getItem('@petcare:coords')
-
     setAddress(JSON.parse(response))
   }
-
   useEffect(() => {
+    handlePet() 
     handleAddress()
   }, [])
 
@@ -126,7 +131,25 @@ export function SearchPetCare({ route }) {
               color="#511AC7"
               fontSize={18}
             >
-              Bob
+              {selectedPet ? (
+                  <Text
+                    textAlign="center"
+                    fontWeight="black"
+                    color="#511AC7"
+                    fontSize={16}
+                  >
+                    {selectedPet.nm_animal}
+                  </Text>
+                ) : (
+                  <Text
+                    textAlign="center"
+                    fontWeight="black"
+                    color="#511AC7"
+                    fontSize={16}
+                  >
+                    Nenhum animal selecionado.
+                  </Text>
+              )}
             </Text>
           </VStack>
           <Button

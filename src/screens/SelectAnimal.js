@@ -5,6 +5,8 @@ import { SelectAnimalCard } from '../components/SelectAnimalCard'
 import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 export function SelectAnimal({ route }) {
   const navigation = useNavigation()
   const { user } = route.params
@@ -27,6 +29,10 @@ export function SelectAnimal({ route }) {
   }
   useEffect(()=>{getPetInformations()},[])
 
+  async function savePet(pet){
+    await AsyncStorage.setItem('@petcare:selectedPet', JSON.stringify(pet))
+  }
+
   return (
     <VStack>
       <Header title="Selecionar animal" color="#511AC7" />
@@ -40,6 +46,7 @@ export function SelectAnimal({ route }) {
             animalWeight={pet.cd_peso_animal}
             animalGender={pet.nm_genero_animal}
             onSelect={() => {
+                savePet(pet)
                 navigation.navigate('searchPetCare', { user })
               }
             }
