@@ -6,7 +6,8 @@ export function SelectAnimalCard({
   animalAge,
   animalWeight,
   animalRace,
-  animalGender
+  animalGender,
+  onSelect
 }) {
   return (
     <VStack bg="primary.700" p={4} w="85%" mx="auto" my={2} borderRadius={10}>
@@ -78,7 +79,7 @@ export function SelectAnimalCard({
           </Text>
         </VStack>
       </HStack>
-      <Button bg="white" color="#511AC7" title="Selecionar animal" />
+      <Button bg="white" color="#511AC7" title="Selecionar animal" onPress={onSelect}/>
     </VStack>
   )
 }
