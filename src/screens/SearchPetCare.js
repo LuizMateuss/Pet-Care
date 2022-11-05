@@ -25,12 +25,17 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SearchPetCare({ route }) {
+  const { isCare, user, updateService } = route.params
+  const navigation = useNavigation()
+
   const [date, setDate] = useState(new Date(1598051730000))
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const [text, setText] = useState('Empty')
   const [address, setAddress] = useState()
   const [selectedPet, setSelectedPet] = useState()
+  
+  const [showModal, setShowModal] = useState(false)
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
@@ -66,12 +71,8 @@ export function SearchPetCare({ route }) {
   useEffect(() => {
     handlePet() 
     handleAddress()
-  }, [])
+  }, [updateService])
 
-  const [showModal, setShowModal] = useState(false)
-  const { isCare, user } = route.params
-
-  const navigation = useNavigation()
   return (
     <View flex={1} pt={10} bg="white">
       <ScrollView bg="white">
@@ -114,7 +115,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectAnimal', { user })}
+            onPress={() => navigation.navigate('selectAnimal', { user, updateService })}
           />
           <VStack bg="#f4f4f4">
             <Text
@@ -158,7 +159,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectLocal', { isCare, user })}
+            onPress={() => navigation.navigate('selectLocal', { isCare, user, updateService })}
           />
           <VStack bg="#f4f4f4" py={2}>
             <Text

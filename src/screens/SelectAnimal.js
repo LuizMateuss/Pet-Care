@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SelectAnimal({ route }) {
   const navigation = useNavigation()
-  const { user } = route.params
+  const { user, updateService } = route.params
 
   const [pet, setPet] = useState([{cd_animal:0}])
 
@@ -33,6 +33,11 @@ export function SelectAnimal({ route }) {
     await AsyncStorage.setItem('@petcare:selectedPet', JSON.stringify(pet))
   }
 
+  function nextPage(newUpdateService){
+    let updateService = !newUpdateService
+    navigation.navigate('searchPetCare', { user, updateService })
+  }
+
   return (
     <VStack>
       <Header title="Selecionar animal" color="#511AC7" />
@@ -47,7 +52,7 @@ export function SelectAnimal({ route }) {
             animalGender={pet.nm_genero_animal}
             onSelect={() => {
                 savePet(pet)
-                navigation.navigate('searchPetCare', { user })
+                nextPage(updateService)
               }
             }
           />
