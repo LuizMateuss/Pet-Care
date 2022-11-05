@@ -75,7 +75,7 @@ export function SearchPetCare({ route }) {
             <TouchableOpacity
               onPress={() => navigation.navigate('menuHamburguer', { isCare })}
             >
-              <CaretLeft size={20} color="#511AC7" />
+              <CaretLeft size={32} color="#511AC7" />
             </TouchableOpacity>
 
             <Text
