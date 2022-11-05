@@ -290,8 +290,16 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() =>
-              navigation.navigate('contractService', { isCare, user })
+            onPress={() =>{
+                const serviceDate = {
+                  day: date.getDate(),
+                  month: date.getMonth(),
+                  year: date.getFullYear(),
+                  hour: date.getHours(),
+                  minute: date.getMinutes()
+                }
+                navigation.navigate('contractService', { isCare, user, selectedPet, serviceDate })
+              }
             }
           />
         </VStack>
