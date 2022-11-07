@@ -112,8 +112,10 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() =>
-                  navigation.navigate('searchPetCare', { isCare, user })
+                onPress={() =>{
+                    const updateService = false
+                    navigation.navigate('searchPetCare', { isCare, user, updateService })
+                  }
                 }
               />
             </View>

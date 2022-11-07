@@ -25,11 +25,17 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SearchPetCare({ route }) {
+  const { isCare, user, updateService } = route.params
+  const navigation = useNavigation()
+
   const [date, setDate] = useState(new Date(1598051730000))
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const [text, setText] = useState('Empty')
   const [address, setAddress] = useState()
+  const [selectedPet, setSelectedPet] = useState()
+  
+  const [showModal, setShowModal] = useState(false)
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
@@ -52,21 +58,21 @@ export function SearchPetCare({ route }) {
   const showTimepicker = () => {
     showMode('time')
   }
-
+  
+  
+  async function handlePet() {
+    const response = await AsyncStorage.getItem('@petcare:selectedPet');
+    setSelectedPet(JSON.parse(response))
+  }
   async function handleAddress() {
     const response = await AsyncStorage.getItem('@petcare:coords')
-
     setAddress(JSON.parse(response))
   }
-
   useEffect(() => {
+    handlePet() 
     handleAddress()
-  }, [])
+  }, [updateService])
 
-  const [showModal, setShowModal] = useState(false)
-  const { isCare, user } = route.params
-
-  const navigation = useNavigation()
   return (
     <View flex={1} pt={10} bg="white">
       <ScrollView bg="white">
@@ -109,7 +115,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectAnimal')}
+            onPress={() => navigation.navigate('selectAnimal', { user, updateService })}
           />
           <VStack bg="#f4f4f4">
             <Text
@@ -126,7 +132,25 @@ export function SearchPetCare({ route }) {
               color="#511AC7"
               fontSize={18}
             >
-              Bob
+              {selectedPet ? (
+                  <Text
+                    textAlign="center"
+                    fontWeight="black"
+                    color="#511AC7"
+                    fontSize={16}
+                  >
+                    {selectedPet.nm_animal}
+                  </Text>
+                ) : (
+                  <Text
+                    textAlign="center"
+                    fontWeight="black"
+                    color="#511AC7"
+                    fontSize={16}
+                  >
+                    Nenhum animal selecionado.
+                  </Text>
+              )}
             </Text>
           </VStack>
           <Button
@@ -135,7 +159,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectLocal', { isCare, user })}
+            onPress={() => navigation.navigate('selectLocal', { isCare, user, updateService })}
           />
           <VStack bg="#f4f4f4" py={2}>
             <Text
@@ -266,8 +290,16 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() =>
-              navigation.navigate('contractService', { isCare, user })
+            onPress={() =>{
+                const serviceDate = {
+                  day: date.getDate(),
+                  month: date.getMonth(),
+                  year: date.getFullYear(),
+                  hour: date.getHours(),
+                  minute: date.getMinutes()
+                }
+                navigation.navigate('contractService', { isCare, user, selectedPet, serviceDate })
+              }
             }
           />
         </VStack>
