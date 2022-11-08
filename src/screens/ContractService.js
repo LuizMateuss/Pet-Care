@@ -21,7 +21,7 @@ export function ContractService({ route }) {
   const [showModal, setShowModal] = useState(false)
   const [address, setAddress] = useState()
   const navigation = useNavigation()
-  const { isCare, user } = route.params
+  const { isCare, user, selectedPet, serviceDate } = route.params
 
   function onCloseModal() {
     setShowModal(false)
@@ -40,7 +40,6 @@ export function ContractService({ route }) {
 
   async function handleAddress() {
     const response = await AsyncStorage.getItem('@petcare:coords')
-
     setAddress(JSON.parse(response))
   }
 
@@ -136,12 +135,11 @@ export function ContractService({ route }) {
           />
 
           <View mt={2} alignItems="center">
-            <Text color="white">Animal: Bob</Text>
-            <Text color="white">Data agendada: 28/07</Text>
-            <Text color="white">Horário de início: xx:xx</Text>
-            <Text color="white">Horário de término: xx:xx</Text>
+            <Text color="white">Animal: {selectedPet.nm_animal}</Text>
+            <Text color="white">Data agendada: {serviceDate.day}/{serviceDate.month}/{serviceDate.year}</Text>
+            <Text color="white">Horário de início: {serviceDate.hour}:{serviceDate.minute}</Text>
+            <Text color="white">Horário de término: {serviceDate.hour+1}:{serviceDate.minute}</Text>
             <Text color="white">Serviço: Passeio</Text>
-            <Text color="white">Cuidador: xxx-xxx</Text>
           </View>
         </VStack>
         <Button title="Realizar pagamento" bg="#511AC7" w="80%" my={5} />
