@@ -70,7 +70,11 @@ export function SelectLocal({ route }) {
           <Marker coordinate={destination}>
             <Image
               alt="Ícone local"
-              source={require('../../assets/img/pinPurple.png')}
+              source={
+                isCare
+                  ? require('../../assets/img/pinGreen.png')
+                  : require('../../assets/img/pinPurple.png')
+              }
               w="25"
               h="25"
               resizeMode="contain"
