@@ -28,6 +28,7 @@
     $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
     $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
     $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
+    $app->map(['get', 'post'], '/setService/{selectedPet}/{servico}/{formatedDate}/{serviceStatus}/{servicePrice}/{serviceZipCode}/{serviceHouseNumber}/{serviceHouseComplement}', 'getSetService');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -293,6 +294,36 @@
         $stmt->bindParam("petWeight", $petWeight);
         $stmt->bindParam("petDescription", $petDescription);
         $stmt->execute();
+    }
+
+    function getSetService(Request $request, Response $response, array $args){
+        $servico=$args['servico'];
+        $formatedDate=$args['formatedDate'];
+        $serviceStatus=$args['serviceStatus'];
+        $servicePrice=$args['servicePrice'];
+        $selectedPet=$args['selectedPet'];
+        $serviceZipCode=$args['serviceZipCode'];
+        $serviceHouseNumber=$args['serviceHouseNumber'];
+        $serviceHouseComplement=$args['serviceHouseComplement'];
+        $conn = getConn();
+
+        $sql = "INSERT INTO servico SET nm_tipo_servico=:servico, dt_time_servico=:formatedDate, sg_estado_servico=:serviceStatus, vl_servico=:servicePrice, cd_animal=:selectedPet, cd_cep_historico=:serviceZipCode, cd_numero_rua_historico=:serviceHouseNumber, nm_complemento_historico=:serviceHouseComplement";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("servico", $servico);
+        $stmt->bindParam("formatedDate", $formatedDate);
+        $stmt->bindParam("serviceStatus", $serviceStatus);
+        $stmt->bindParam("servicePrice", $servicePrice);
+        $stmt->bindParam("selectedPet", $selectedPet);
+        $stmt->bindParam("serviceZipCode", $serviceZipCode);
+        $stmt->bindParam("serviceHouseNumber", $serviceHouseNumber);
+        $stmt->bindParam("serviceHouseComplement", $serviceHouseComplement);
+
+        $stmt->execute();
+
+        $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
     }
 
     $app->run();
