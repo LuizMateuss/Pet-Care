@@ -41,7 +41,6 @@ export function EditProfile({ route }) {
     })
     setNewEmail(res[0].nm_email)
     setNewPhone(res[0].cd_telefone)
-    console.log(address)
   }
 
   async function bdRegisterAdd() {
@@ -157,7 +156,13 @@ export function EditProfile({ route }) {
               mt={4}
               w="100%"
               onPress={() =>
-                navigation.navigate('searchLocal', { isCare, user })
+                navigation.navigate('selectLocal', {
+                  isCare,
+                  user,
+                  newName,
+                  newEmail,
+                  newPhone
+                })
               }
             />
           </VStack>
