@@ -31,6 +31,7 @@ import { EditProfile } from '../screens/EditProfile'
 import { EditPet } from '../screens/EditPet'
 import { SelectAnimal } from '../screens/SelectAnimal'
 import { SelectLocal } from '../screens/SelectLocal'
+import { ConfirmedServices } from '../screens/ConfirmedServices'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -76,6 +77,7 @@ export function AppRoutes() {
       <Screen name="selectLocal" component={SelectLocal} />
       <Screen name="contractService" component={ContractService} />
       <Screen name="requestedServices" component={RequestedServices} />
+      <Screen name="confirmedServices" component={ConfirmedServices} />
       <Screen name="addPet" component={AddPet} />
       <Screen name="editProfile" component={EditProfile} />
       <Screen name="editPet" component={EditPet} />
