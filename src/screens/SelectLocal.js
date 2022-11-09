@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SelectLocal({ route }) {
   const navigation = useNavigation()
-  const { isCare, user, updateService } = route.params
+  const { isCare, user } = route.params
 
   const [pickupAndDropCords, setPickupAndDropCords] = useState({
     latitude: -23.966185579866277,
@@ -21,9 +21,8 @@ export function SelectLocal({ route }) {
   })
   const [destination, setDestination] = useState(null)
 
-  function nextPage(newUpdateService){
-    let updateService = !newUpdateService
-    navigation.navigate('searchPetCare', { user, updateService })
+  function nextPage() {
+    navigation.goBack()
   }
 
   return (
@@ -107,7 +106,7 @@ export function SelectLocal({ route }) {
           color="primary.700"
           px={4}
           w="40%"
-          onPress={() => nextPage(updateService)}
+          onPress={() => nextPage()}
         />
         <Button
           title="Não"
