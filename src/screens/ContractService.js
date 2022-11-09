@@ -49,7 +49,7 @@ export function ContractService({ route }) {
 
   async function setService(){
     let formatedDate = serviceDate.year+'-'+serviceDate.month+'-'+serviceDate.day+' '+serviceDate.hour+':'+serviceDate.minute+':00'
-    const req = await fetch(`${process.env.SERVER_LINK}setService/${selectedPet.cd_animal}/Serviço/${serviceDate}/S/45.20/12345678/77/Complemento`,
+    const req = await fetch(`${process.env.SERVER_LINK}setService/${selectedPet.cd_animal}/Serviço/${formatedDate}/S/45.20/12345678/77/Complemento`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -64,6 +64,7 @@ export function ContractService({ route }) {
           'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
       )
     })
+    setShowModal(true)
   }
   return (
     <View flex={1} bg="white">
@@ -163,10 +164,7 @@ export function ContractService({ route }) {
         </VStack>
         <Button title="Realizar pagamento" bg="#511AC7" w="80%" my={5} />
         <Button
-          onPress={() => {
-            setService();
-            setShowModal(true)
-          }}
+          onPress={() => setService()}
           title="Concluir agendamento"
           bg="#511AC7"
           w="80%"
