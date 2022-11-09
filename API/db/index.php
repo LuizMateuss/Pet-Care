@@ -29,6 +29,7 @@
     $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
     $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
     $app->map(['get', 'post'], '/setService/{selectedPet}/{servico}/{formatedDate}/{serviceStatus}/{servicePrice}/{serviceZipCode}/{serviceHouseNumber}/{serviceHouseComplement}', 'getSetService');
+    $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -322,6 +323,28 @@
         $stmt->execute();
 
         $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getRequestedServices(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql = "SELECT s.cd_servico, u.cd_usuario, s.nm_tipo_servico, s.dt_time_servico, s.vl_servico, 
+                    s.sg_estado_servico
+                        from servico as s join animal as a
+                            on a.cd_animal = s.cd_animal
+                                join usuario as u
+                                    on u.cd_usuario = a.cd_usuario 
+                                        where s.sg_estado_servico = 'S' and u.cd_usuario=:id and u.cd_isCare='T'";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($message));
         return $response;
     }
