@@ -9,11 +9,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SelectAnimal({ route }) {
   const navigation = useNavigation()
-  const { user, updateService } = route.params
+  const { user } = route.params
 
-  const [pet, setPet] = useState([{cd_animal:0}])
+  const [pet, setPet] = useState([{ cd_animal: 0 }])
 
-  async function getPetInformations(){
+  async function getPetInformations() {
     const req = await fetch(
       `${process.env.SERVER_LINK}petInformations/${user.id}`,
       {
@@ -27,23 +27,24 @@ export function SelectAnimal({ route }) {
     const res = await req.json()
     setPet(res)
   }
-  useEffect(()=>{getPetInformations()},[])
+  useEffect(() => {
+    getPetInformations()
+  }, [])
 
-  async function savePet(pet){
+  async function savePet(pet) {
     await AsyncStorage.setItem('@petcare:selectedPet', JSON.stringify(pet))
   }
 
-  function nextPage(newUpdateService){
-    let updateService = !newUpdateService
-    navigation.navigate('searchPetCare', { user, updateService })
+  function nextPage() {
+    navigation.goBack()
   }
 
   return (
     <VStack>
       <Header title="Selecionar animal" color="#511AC7" />
       <ScrollView h="85%">
-        {pet.map((pet)=>
-            <SelectAnimalCard
+        {pet.map(pet => (
+          <SelectAnimalCard
             key={pet.cd_animal}
             animalName={pet.nm_animal}
             animalAge={pet.dt_nascimento_animal}
@@ -51,12 +52,11 @@ export function SelectAnimal({ route }) {
             animalWeight={pet.cd_peso_animal}
             animalGender={pet.nm_genero_animal}
             onSelect={() => {
-                savePet(pet)
-                nextPage(updateService)
-              }
-            }
+              savePet(pet)
+              nextPage()
+            }}
           />
-        )}
+        ))}
       </ScrollView>
     </VStack>
   )
