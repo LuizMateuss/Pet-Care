@@ -29,10 +29,8 @@ export function SelectLocal({ route }) {
   const [showModal, setShowModal] = useState(false)
 
   async function changeAddressAndNextPage() {
-    if (address.complemento === '') {
-    }
     await fetch(
-      `${process.env.SERVER_LINK}updateUser/${user.id}/${newName}/${newEmail}/${newPhone}/${address.cep}/${address.numero}/${address.logradouro}/${address.complemento}/${address.bairro}/${address.localidade}/${address.uf}`,
+      `${process.env.SERVER_LINK}updateUser/${user.id}/${newName}/${newEmail}/${newPhone}/${address.cep}/${address.numero}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
