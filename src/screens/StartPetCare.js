@@ -47,11 +47,10 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() =>{
-                  const newUser=false
+                onPress={() => {
+                  const newUser = false
                   navigation.navigate('profileCare', { isCare, user, newUser })
-                  }
-                }
+                }}
               />
               <Button
                 backgroundColor={mainColor}
@@ -79,14 +78,14 @@ export function StartPetCare({ route }) {
               />
               <Button
                 backgroundColor={mainColor}
-                title="Serviços agendados"
+                title="Serviços confirmados"
                 color="white"
                 margin="auto"
                 my={3}
                 py={4}
                 width="80%"
                 onPress={() =>
-                  navigation.navigate('requestedServices', { isCare, user })
+                  navigation.navigate('confirmedServices', { isCare, user })
                 }
               />
               <Button
@@ -112,11 +111,14 @@ export function StartPetCare({ route }) {
                 my={3}
                 py={4}
                 width="80%"
-                onPress={() =>{
-                    const updateService = false
-                    navigation.navigate('searchPetCare', { isCare, user, updateService })
-                  }
-                }
+                onPress={() => {
+                  const updateService = false
+                  navigation.navigate('searchPetCare', {
+                    isCare,
+                    user,
+                    updateService
+                  })
+                }}
               />
             </View>
           )}
