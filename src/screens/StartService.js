@@ -43,12 +43,12 @@ export function StartService({ route }) {
   }, [])
 
   return (
-    <VStack bg="white">
+    <VStack bg="white" h="100%">
       {address ? (
         <MapView
           style={{
             width: '100%',
-            height: '50%',
+            height: '40%',
             position: 'relative',
             zIndex: 1
           }}
@@ -85,9 +85,8 @@ export function StartService({ route }) {
       )}
 
       <VStack
-        position="relative"
-        bottom={10}
         zIndex={2}
+        bottom={10}
         w="full"
         bg="white"
         justifyContent="center"

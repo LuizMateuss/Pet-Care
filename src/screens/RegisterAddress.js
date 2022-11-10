@@ -1,24 +1,28 @@
+import { useEffect, useState } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
-import { HStack, Image, Text, VStack, View, ScrollView } from 'native-base'
-
-import { CaretLeft, MapPin } from 'phosphor-react-native'
+import { VStack, ScrollView, Image, Modal, Text } from 'native-base'
 
 import { useNavigation } from '@react-navigation/native'
-import { Input } from '../components/Input'
 import { Button } from '../components/Button'
-import { useEffect, useState } from 'react'
+import MapView, { Marker } from 'react-native-maps'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { Input } from '../components/Input'
 
 export function RegisterAddress({ route }) {
-  const [cep, setCep] = useState()
-  const [address, setAddress] = useState()
-  const [addressNumber, setAddressNumber] = useState()
+  const [address, setAddress] = useState(null)
   const [addressComplement, setAddressComplement] = useState(null)
-  const [userAddress, setUserAddress] = useState()
-
-  const [isLoading, setIsLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const { isCare, user } = route.params
+
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
+  const [initialCords, setInitialCords] = useState({
+    latitude: -23.966185579866277,
+    longitude: -46.337672487834844,
+    latitudeDelta: 0.0322,
+    longitudeDelta: 0.0221
+  })
+  const [destination, setDestination] = useState(null)
 
   /**
    *
@@ -29,56 +33,17 @@ export function RegisterAddress({ route }) {
    * -> Testa se o CEP é valido com a máscara do Regex, se for válido, seta o CEP ao estado.
    * -> Se a minha validação for false o meu CEP permanece limpo.
    */
-  function handleZipCode(cep) {
-    const zipCodeRegex = /^[0-9]{8}$/
-    let zipCode = cep
-    if (zipCode.includes('-')) {
-      zipCode = zipCode.replace('-', '')
-    }
 
-    if (zipCodeRegex.test(zipCode)) {
-      setCep(zipCode)
-      fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
-        .then(response => response.json())
-        .then(data => {
-          setAddress(data)
-        })
-        .catch(err => {
-          return Alert.alert('Falha na conexão')
-        })
-    } else {
-      setAddress('')
-    }
-  }
-
-  function handleAddressNumber(number) {
-    let addressNumber = number.trim()
-    if (!isNaN(addressNumber)) {
-      setAddressNumber(addressNumber)
-    }
-  }
-
-  function handleAddressComplement(complement) {
-    let addressComplement = complement
-
-    setAddressComplement(addressComplement)
-  }
-
-  async function bdRegisterAdd(){
-    if(address.erro){
+  async function bdRegisterAdd() {
+    if (address.erro) {
       return Alert.alert(
         'Endereço inválido!',
         'Porfavor, verifique os valores.'
       )
     }
-    let addressComple
-    if(addressComplement == ''){
-      addressComple = null
-    }else{
-      addressComple=addressComplement
-    }
     let verify = true
-    const req = await fetch(`${process.env.SERVER_LINK}registration/${user.name}/${user.email}/${user.password}/${user.birthday}/${user.phone}/${user.isCare}/${address.cep}/${addressNumber}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
+    const req = await fetch(
+      `${process.env.SERVER_LINK}registration/${user.name}/${user.email}/${user.password}/${user.birthday}/${user.phone}/${user.isCare}/${address.cep}/${address.numero}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -86,25 +51,25 @@ export function RegisterAddress({ route }) {
           'Content-Type': 'application/json'
         }
       }
-    ).catch(()=>{
+    ).catch(() => {
       verify = false
-      setIsLoading(false)
-      Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
+      Alert.alert(
+        'Desulpe!',
+        'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+      )
     })
 
     const res = await req.json()
 
-    if(res){
-      const User = {id: res.cd_usuario, name: res.nm_usuario}
-      if(verify){
+    if (res) {
+      const User = { id: res.cd_usuario, name: res.nm_usuario }
+      if (verify) {
         handleNextPage(User)
       }
     }
-
   }
 
   function handleNextPage(user) {
-    setIsLoading(false)
     if (isCare) {
       navigation.navigate('startPetCare', {
         isCare,
@@ -119,140 +84,136 @@ export function RegisterAddress({ route }) {
   }
 
   function verfiyFieldsAndAddAddressToObject() {
-    if (address == '' || address == undefined || addressNumber == '') {
+    if (address == '' || address == undefined || address == null) {
       return Alert.alert(
         'Endereço inválido!',
         'Porfavor, preencha os campos e verifique os valores.'
       )
     }
-    let UserAddress = { address, addressNumber, addressComplement }
-    setUserAddress(UserAddress)
+    let UserAddress = { address, addressComplement }
     bdRegisterAdd()
   }
   const navigation = useNavigation()
   return (
-    <ScrollView bg="white" keyboardShouldPersistTaps="always">
-      <VStack mt={8} bg="white" h="100%">
-        <Image
-          alt="Imagem usuário"
-          source={require('../../assets/img/anonymous.png')}
-          h={100}
-          w={100}
-          mx="auto"
-          borderRadius={50}
-        />
-
-        <Text
-          textAlign="center"
-          color={mainColor}
-          fontSize={20}
-          fontWeight="black"
-          my={2}
+    <VStack bg="white" h="100%">
+      <VStack h="55%">
+        <MapView
+          initialRegion={initialCords}
+          region={initialCords}
+          style={{
+            width: '100%',
+            flex: 1
+          }}
         >
-          Bem vindo {user.name}!
-        </Text>
-
-        <View
-          borderBottomWidth={1}
-          borderColor={mainColor}
-          my={5}
-          mx="auto"
-          w="80%"
-        ></View>
-
-        <VStack
-          bg={mainColor}
-          alignItems="center"
-          p={4}
-          w="90%"
-          mx="auto"
-          borderRadius={15}
-        >
-          <MapPin size={20} color="#FFF" />
-          <Text color="white" fontSize={18} fontWeight="black">
-            Endereço
-          </Text>
-
-          <HStack alignItems="center" justifyContent="space-between" w="100%">
-            <Text color="white" fontSize={15} fontWeight="black">
-              Insira o CEP*:
-            </Text>
-            <Input
-              ml={4}
-              w="60%"
-              onChangeText={cep => handleZipCode(cep)}
-              maxLength={9}
-            />
-          </HStack>
-          <HStack alignItems="center" justifyContent="space-between" w="100%">
-            <Text color="white" fontSize={15} fontWeight="black">
-              Número*:
-            </Text>
-
-            <Input
-              ml={4}
-              w="60%"
-              onChangeText={number => handleAddressNumber(number)}
-            />
-          </HStack>
-          <HStack alignItems="center" justifyContent="space-between" w="100%">
-            <Text color="white" fontSize={15} fontWeight="black">
-              Complemento:
-            </Text>
-            <Input
-              ml={4}
-              w="60%"
-              onChangeText={complement => handleAddressComplement(complement)}
-            />
-          </HStack>
-
-          <Text
-            textAlign="center"
-            color="white"
-            fontSize={18}
-            fontWeight="black"
-          >
-            Endereço selecionado:
-          </Text>
-
-          {address == undefined ||
-          addressNumber == undefined ||
-          address == '' ||
-          addressNumber == '' ? (
-            <Text
-              textAlign="center"
-              color="white"
-              fontSize={18}
-              fontWeight="black"
-            >
-              Não foi possível encontrar o endereço.
-            </Text>
-          ) : (
-            <Text
-              textAlign="center"
-              color="white"
-              fontSize={18}
-              fontWeight="black"
-            >
-              {
-                `${address.logradouro}, Nº ${addressNumber}${
-                addressComplement==='' || addressComplement==null ? ' ' : ', Comp: '+addressComplement
-                }.\nBairro: ${address.bairro}.\nCEP: ${address.cep}, ${address.localidade}/${address.uf}`
-              }
-            </Text>
+          {destination && (
+            <Marker coordinate={destination}>
+              <Image
+                alt="Ícone local"
+                source={
+                  isCare
+                    ? require('../../assets/img/pinGreen.png')
+                    : require('../../assets/img/pinPurple.png')
+                }
+                w="25"
+                h="25"
+                resizeMode="contain"
+              />
+            </Marker>
           )}
-        </VStack>
-
-        <Button
-          bg={mainColor}
-          title="Adicionar endereço"
-          weight="black"
-          py={4}
-          px={8}
-          mt={10}
-          onPress={verfiyFieldsAndAddAddressToObject}
+        </MapView>
+      </VStack>
+      <VStack h="20%">
+        <GooglePlacesAutocomplete
+          placeholder="Insira o local"
+          enablePoweredByContainer={false}
+          onPress={async (data, details = null) => {
+            setInitialCords({
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng,
+              latitudeDelta: 0.00392,
+              longitudeDelta: 0.003421
+            })
+            setDestination({
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng,
+              latitudeDelta: 0.00392,
+              longitudeDelta: 0.003421
+            })
+            setAddress({
+              numero: details.address_components[0].long_name,
+              logradouro: details.address_components[1].long_name,
+              bairro: details.address_components[2].long_name,
+              localidade: details.address_components[3].long_name,
+              uf: details.address_components[4].short_name,
+              complemento: '',
+              cep: details.address_components[6].long_name
+            })
+          }}
+          query={{
+            key: process.env.GOOGLE_MAP_API_KEY,
+            language: 'pt-BR',
+            components: 'country:br'
+          }}
+          fetchDetails={true}
+          styles={{
+            textInputContainer: {
+              backgroundColor: '#f2f2f2',
+              paddingHorizontal: 5,
+              paddingTop: 5
+            },
+            textInput: {
+              color: '#5d5d5d',
+              fontSize: 16
+            }
+          }}
         />
       </VStack>
-    </ScrollView>
+      <Button
+        bg="transparent"
+        color={mainColor}
+        borderWidth={1}
+        borderColor={mainColor}
+        title="Adicionar complemento"
+        weight="black"
+        py={4}
+        px={8}
+        mt={10}
+        w="70%"
+        onPress={() => setShowModal(true)}
+      />
+      <Button
+        bg={mainColor}
+        title="Adicionar endereço"
+        weight="black"
+        py={4}
+        px={8}
+        w="70%"
+        onPress={verfiyFieldsAndAddAddressToObject}
+      />
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content
+          bg="primary.700"
+          w="80%"
+          p={4}
+          borderRadius={20}
+          alignItems="center"
+        >
+          <Input
+            placeholder="Complemento:"
+            onChangeText={setAddressComplement}
+          />
+          <Button
+            bg="transparent"
+            borderColor="white"
+            borderWidth={1}
+            title="Concluído"
+            w="100%"
+            py={4}
+            px={8}
+            onPress={() => setShowModal(false)}
+          />
+        </Modal.Content>
+      </Modal>
+    </VStack>
   )
 }

@@ -9,7 +9,7 @@ import {
   Modal,
   Platform
 } from 'native-base'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import {
   CalendarBlank,
   CaretLeft,
@@ -25,8 +25,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SearchPetCare({ route }) {
-  const { isCare, user, updateService } = route.params
+  const { isCare, user } = route.params
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
+  const [newName, setNewName] = useState(user.name)
+  const [newEmail, setNewEmail] = useState()
+  const [newPhone, setNewPhone] = useState()
 
   const [date, setDate] = useState(new Date(1598051730000))
   const [mode, setMode] = useState('date')
@@ -34,7 +38,7 @@ export function SearchPetCare({ route }) {
   const [text, setText] = useState('Empty')
   const [address, setAddress] = useState()
   const [selectedPet, setSelectedPet] = useState()
-  
+
   const [showModal, setShowModal] = useState(false)
 
   const onChange = (event, selectedDate) => {
@@ -58,20 +62,41 @@ export function SearchPetCare({ route }) {
   const showTimepicker = () => {
     showMode('time')
   }
-  
-  
+
   async function handlePet() {
-    const response = await AsyncStorage.getItem('@petcare:selectedPet');
+    const response = await AsyncStorage.getItem('@petcare:selectedPet')
     setSelectedPet(JSON.parse(response))
   }
   async function handleAddress() {
-    const response = await AsyncStorage.getItem('@petcare:coords')
-    setAddress(JSON.parse(response))
+    const req = await fetch(
+      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    const res = await req.json()
+
+    setAddress({
+      street: res[0].nm_logradouro,
+      houseNumber: res[0].cd_numero_rua,
+      complement: res[0].nm_complemento,
+      district: res[0].nm_bairro,
+      zipCode: res[0].cd_cep,
+      city: res[0].nm_cidade,
+      uf: res[0].nm_uf
+    })
+    setNewEmail(res[0].nm_email)
+    setNewPhone(res[0].cd_telefone)
   }
+
   useEffect(() => {
-    handlePet() 
+    handlePet()
     handleAddress()
-  }, [updateService])
+  }, [isFocused])
 
   return (
     <View flex={1} pt={10} bg="white">
@@ -81,7 +106,7 @@ export function SearchPetCare({ route }) {
             <TouchableOpacity
               onPress={() => navigation.navigate('menuHamburguer', { isCare })}
             >
-              <CaretLeft size={20} color="#511AC7" />
+              <CaretLeft size={32} color="#511AC7" />
             </TouchableOpacity>
 
             <Text
@@ -115,7 +140,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectAnimal', { user, updateService })}
+            onPress={() => navigation.navigate('selectAnimal', { user })}
           />
           <VStack bg="#f4f4f4">
             <Text
@@ -133,33 +158,41 @@ export function SearchPetCare({ route }) {
               fontSize={18}
             >
               {selectedPet ? (
-                  <Text
-                    textAlign="center"
-                    fontWeight="black"
-                    color="#511AC7"
-                    fontSize={16}
-                  >
-                    {selectedPet.nm_animal}
-                  </Text>
-                ) : (
-                  <Text
-                    textAlign="center"
-                    fontWeight="black"
-                    color="#511AC7"
-                    fontSize={16}
-                  >
-                    Nenhum animal selecionado.
-                  </Text>
+                <Text
+                  textAlign="center"
+                  fontWeight="black"
+                  color="#511AC7"
+                  fontSize={16}
+                >
+                  {selectedPet.nm_animal}
+                </Text>
+              ) : (
+                <Text
+                  textAlign="center"
+                  fontWeight="black"
+                  color="#511AC7"
+                  fontSize={16}
+                >
+                  Nenhum animal selecionado.
+                </Text>
               )}
             </Text>
           </VStack>
           <Button
             my={4}
-            title="Selecionar local"
+            title="Alterar local"
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectLocal', { isCare, user, updateService })}
+            onPress={() =>
+              navigation.navigate('selectLocal', {
+                isCare,
+                user,
+                newName,
+                newEmail,
+                newPhone
+              })
+            }
           />
           <VStack bg="#f4f4f4" py={2}>
             <Text
@@ -177,7 +210,9 @@ export function SearchPetCare({ route }) {
                 color="#511AC7"
                 fontSize={16}
               >
-                {address.formatted_address}
+                {address.street}, {address.houseNumber}. {address.complement}.{' '}
+                {address.district}, {address.city} - {address.uf},{' '}
+                {address.zipCode}.
               </Text>
             ) : (
               <Text
@@ -290,17 +325,21 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() =>{
-                const serviceDate = {
-                  day: date.getDate(),
-                  month: date.getMonth(),
-                  year: date.getFullYear(),
-                  hour: date.getHours(),
-                  minute: date.getMinutes()
-                }
-                navigation.navigate('contractService', { isCare, user, selectedPet, serviceDate })
+            onPress={() => {
+              const serviceDate = {
+                day: date.getDate(),
+                month: date.getMonth(),
+                year: date.getFullYear(),
+                hour: date.getHours(),
+                minute: date.getMinutes()
               }
-            }
+              navigation.navigate('contractService', {
+                isCare,
+                user,
+                selectedPet,
+                serviceDate
+              })
+            }}
           />
         </VStack>
       </ScrollView>

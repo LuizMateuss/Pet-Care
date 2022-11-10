@@ -5,21 +5,22 @@ import { CaretLeft, MapPin, User } from 'phosphor-react-native'
 
 import { ProfileInfo } from '../components/ProfileInfo'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
 import { useEffect, useState } from 'react'
 
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
 
-  const { isCare, user, newUser } = route.params
+  const { isCare, user } = route.params
 
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
-  const [address, setAddress]=useState({})
-  const [userInformations, setUserInformations]=useState({})
+  const [address, setAddress] = useState({})
+  const [userInformations, setUserInformations] = useState({})
 
-  async function getAddressInformations(){
+  async function getAddressInformations() {
     const req = await fetch(
       `${process.env.SERVER_LINK}addressInformations/${user.id}`,
       {
@@ -45,7 +46,9 @@ export function ProfileCare({ route }) {
       phone: res[0].cd_telefone
     })
   }
-  useEffect(()=>{getAddressInformations()},[newUser])
+  useEffect(() => {
+    getAddressInformations()
+  }, [isFocused])
   return (
     <ScrollView bg="white" mt={8}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -65,7 +68,7 @@ export function ProfileCare({ route }) {
             {user.name}
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('editProfile', { isCare, user, address, userInformations, newUser })}
+            onPress={() => navigation.navigate('editProfile', { isCare, user })}
           >
             <Text
               borderWidth={1}
@@ -104,8 +107,12 @@ export function ProfileCare({ route }) {
         icon={<MapPin size={26} color="#FFFFFF" />}
         title="Endereço"
         info={`${address.street}, Nº ${address.houseNumber}${
-          address.complement==='' || address.complement==null ? ' ' : ',\nComp: '+address.complement
-          }.\nBairro: ${address.district}, CEP: ${address.zipCode}, ${address.city}/${address.uf}.`}
+          address.complement === '' || address.complement == null
+            ? ' '
+            : ',\nComp: ' + address.complement
+        }.\nBairro: ${address.district}, CEP: ${address.zipCode}, ${
+          address.city
+        }/${address.uf}.`}
         backgroundInfo={mainColor}
       />
       <Button

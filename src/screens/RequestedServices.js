@@ -38,6 +38,7 @@ export function RequestedServices({ route }) {
           <RequestedServiceCard
             key={servico.cd_servico}
             name={isCare ? 'Nome tutor' : ''}
+            status="Ainda não confirmado"
             image={require('../../assets/img/anonymous.png')}
             typeService={servico.nm_tipo_servico}
             dateService={servico.dt_time_servico}

@@ -25,7 +25,7 @@ export function RequestedServiceCard(props) {
           {props.name}
         </Text>
         <Text fontWeight="black" fontSize={20} color="white">
-          Serviço agendado
+          Status: {props.status}
         </Text>
       </VStack>
       <VStack p={4}>
