@@ -192,7 +192,7 @@ export function RegisterAddress({ route }) {
       />
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content
-          bg="primary.700"
+          bg={mainColor}
           w="80%"
           p={4}
           borderRadius={20}
