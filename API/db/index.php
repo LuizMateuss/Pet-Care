@@ -28,6 +28,11 @@
     $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
     $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
     $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
+    $app->map(['get', 'post'], '/setService/{selectedPet}/{servico}/{formatedDate}/{serviceStatus}/{servicePrice}/{serviceZipCode}/{serviceHouseNumber}/{serviceHouseComplement}', 'getSetService');
+    $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
+    $app->map(['get', 'post'], '/confirmedServices/{id}/{isCare}', 'getConfirmedServices');
+    $app->map(['get', 'post'], '/requests', 'getRequests');
+    $app->map(['get', 'post'], '/requestAccept/{id}/{serviceID}', 'getRequestAccept');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -293,6 +298,122 @@
         $stmt->bindParam("petWeight", $petWeight);
         $stmt->bindParam("petDescription", $petDescription);
         $stmt->execute();
+    }
+
+    function getSetService(Request $request, Response $response, array $args){
+        $servico=$args['servico'];
+        $formatedDate=$args['formatedDate'];
+        $serviceStatus=$args['serviceStatus'];
+        $servicePrice=$args['servicePrice'];
+        $selectedPet=$args['selectedPet'];
+        $serviceZipCode=$args['serviceZipCode'];
+        $serviceHouseNumber=$args['serviceHouseNumber'];
+        $serviceHouseComplement=$args['serviceHouseComplement'];
+        $conn = getConn();
+
+        $sql = "INSERT INTO servico SET nm_tipo_servico=:servico, dt_time_servico=:formatedDate, sg_estado_servico=:serviceStatus, vl_servico=:servicePrice, cd_animal=:selectedPet, cd_cep_historico=:serviceZipCode, cd_numero_rua_historico=:serviceHouseNumber, nm_complemento_historico=:serviceHouseComplement";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("servico", $servico);
+        $stmt->bindParam("formatedDate", $formatedDate);
+        $stmt->bindParam("serviceStatus", $serviceStatus);
+        $stmt->bindParam("servicePrice", $servicePrice);
+        $stmt->bindParam("selectedPet", $selectedPet);
+        $stmt->bindParam("serviceZipCode", $serviceZipCode);
+        $stmt->bindParam("serviceHouseNumber", $serviceHouseNumber);
+        $stmt->bindParam("serviceHouseComplement", $serviceHouseComplement);
+
+        $stmt->execute();
+
+        $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getRequestedServices(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql = "SELECT s.cd_servico, u.cd_usuario, s.nm_tipo_servico, s.dt_time_servico, s.vl_servico, 
+        s.sg_estado_servico, a.cd_animal, a.nm_animal, s.cd_usuario as cuidador, u.cd_isCare
+            from servico as s join animal as a
+                on a.cd_animal = s.cd_animal
+                    join usuario as u
+                        on u.cd_usuario = a.cd_usuario 
+                            where s.sg_estado_servico = 'S' and u.cd_usuario=:id and s.cd_usuario is null";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getConfirmedServices(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $isCare=$args['isCare'];
+        $conn = getConn();
+
+        if($isCare == "true"){
+            $sql = "SELECT s.cd_servico, tutor.cd_usuario as tutor, tutor.nm_usuario as tutorName, s.nm_tipo_servico, s.dt_time_servico, s.vl_servico, 
+            s.sg_estado_servico, a.nm_animal, cuidador.cd_usuario as cuidador, cuidador.nm_usuario as cuidadorName, cuidador.cd_isCare
+                from servico as s join animal as a
+                    on a.cd_animal = s.cd_animal
+                        join usuario as tutor
+                            on tutor.cd_usuario = a.cd_usuario
+                                join usuario as cuidador
+                                    on cuidador.cd_usuario = s.cd_usuario
+                where s.sg_estado_servico = 'S' and cuidador.cd_usuario=:id and s.cd_usuario is not null";
+        }else if($isCare == "false"){
+            $sql = "SELECT s.cd_servico, tutor.cd_usuario as tutor, tutor.nm_usuario as tutorName, s.nm_tipo_servico, s.dt_time_servico, s.vl_servico, 
+            s.sg_estado_servico, a.nm_animal, cuidador.cd_usuario as cuidador, cuidador.nm_usuario as cuidadorName, cuidador.cd_isCare
+                from servico as s join animal as a
+                    on a.cd_animal = s.cd_animal
+                        join usuario as tutor
+                            on tutor.cd_usuario = a.cd_usuario
+                                join usuario as cuidador
+                                    on cuidador.cd_usuario = s.cd_usuario
+                where s.sg_estado_servico = 'S' and tutor.cd_usuario=:id and s.cd_usuario is not null";
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getRequests(Request $request, Response $response, array $args){
+        $stmt = getConn()->prepare(
+            "SELECT s.*, tp.nm_tipo_animal as specie, rc.nm_raca_animal as race, u.nm_usuario, a.cd_peso_animal, a.dt_nascimento_animal, a.nm_genero_animal from servico as s 
+                join animal as a on a.cd_animal = s.cd_animal
+                    join raca_animal as rc on rc.cd_raca_animal = a.cd_raca_animal
+                        join tipo_animal as tp on tp.cd_tipo_animal = rc.cd_tipo_animal
+                    join usuario as u on u.cd_usuario = a.cd_usuario
+            where sg_estado_servico='s' and s.cd_usuario is null");
+        $stmt->execute();
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getRequestAccept(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $serviceID=$args['serviceID'];
+        $stmt = getConn()->prepare(
+            "UPDATE servico SET cd_usuario=:id where cd_servico=:serviceID");
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("serviceID", $serviceID);
+        $stmt->execute();
+        $message = "Cadastrado";
+        $response->getBody()->write(json_encode($message));
+        return $response;
     }
 
     $app->run();

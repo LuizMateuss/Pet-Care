@@ -21,7 +21,7 @@ export function StartService({ route }) {
   const { colors } = useTheme()
   const [showModal, setShowModal] = useState(false)
   const [address, setAddress] = useState(null)
-  const { isCare, user } = route.params
+  const { isCare, user, service } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   const navigation = useNavigation()
 
@@ -34,7 +34,6 @@ export function StartService({ route }) {
 
   async function handleAddress() {
     const response = await AsyncStorage.getItem('@petcare:coords')
-    console.log(response)
     setAddress(JSON.parse(response))
   }
 
@@ -112,10 +111,14 @@ export function StartService({ route }) {
           />
 
           <View mt={2} alignItems="center">
-            <Text color="white">Animal: Bob</Text>
-            <Text color="white">Horário de início: xx:xx</Text>
-            <Text color="white">Serviço: Passeio</Text>
-            <Text color="white">Cuidador: xxx-xxx</Text>
+            <Text color="white">Animal: {service.nm_animal}</Text>
+            <Text color="white">Horário de início: {service.dt_time_servico}</Text>
+            <Text color="white">Serviço: {service.nm_tipo_servico}</Text>
+            {service.cuidador ?
+            <Text color="white">
+              {isCare ? `Tutor: ${service.tutorName}` : `Cuidador: ${service.cuidadorName}`}
+            </Text>
+            : null}
           </View>
         </VStack>
         <VStack>

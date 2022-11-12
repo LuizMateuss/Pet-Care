@@ -4,6 +4,7 @@ import { Image, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 export function Order(props) {
+  const { request, user, isCare } = props
   const navigation = useNavigation()
 
   return (
@@ -30,7 +31,7 @@ export function Order(props) {
             fontSize={20}
             color="secondary.700"
           >
-            Nome Tutor
+            Nome {props.name}
           </Text>
         </VStack>
         <HStack justifyContent="space-between" mt={10}>
@@ -39,7 +40,7 @@ export function Order(props) {
               Espécie
             </Text>
             <Text fontSize={16} color="secondary.700">
-              Cachorro
+              {props.specie}
             </Text>
           </VStack>
           <VStack alignItems="center">
@@ -60,7 +61,7 @@ export function Order(props) {
           rounded={15}
           py={4}
           px={10}
-          onPress={() => navigation.navigate('orderInfo')}
+          onPress={() => navigation.navigate('orderInfo', { request, user, isCare })}
         >
           <Text fontWeight="black" fontSize={16} color="secondary.700">
             Detalhes

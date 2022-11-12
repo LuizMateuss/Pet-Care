@@ -46,6 +46,26 @@ export function ContractService({ route }) {
   useEffect(() => {
     handleAddress()
   }, [])
+
+  async function setService(){
+    let formatedDate = serviceDate.year+'-'+serviceDate.month+'-'+serviceDate.day+' '+serviceDate.hour+':'+serviceDate.minute+':00'
+    const req = await fetch(`${process.env.SERVER_LINK}setService/${selectedPet.cd_animal}/Passeio/${formatedDate}/S/45.20/12345678/77/Complemento`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+      ).catch(() => {
+        setIsLoading(false)
+        Alert.alert(
+          'Desulpe!',
+          'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+      )
+    })
+    setShowModal(true)
+  }
   return (
     <View flex={1} bg="white">
       <Header title="Resumo do serviço" color="#511AC7" />
@@ -69,7 +89,7 @@ export function ContractService({ route }) {
           textAlign="center"
           fontSize={20}
         >
-          Valor do serviço: R$35,00
+          Valor do serviço: R$45,20
         </Text>
 
         <VStack
@@ -105,7 +125,7 @@ export function ContractService({ route }) {
               color="#511AC7"
               fontSize={16}
             >
-              {address.formatted_address}
+              {address.formatted_address} 
             </Text>
           ) : (
             <Text
@@ -144,7 +164,7 @@ export function ContractService({ route }) {
         </VStack>
         <Button title="Realizar pagamento" bg="#511AC7" w="80%" my={5} />
         <Button
-          onPress={() => setShowModal(true)}
+          onPress={() => setService()}
           title="Concluir agendamento"
           bg="#511AC7"
           w="80%"
