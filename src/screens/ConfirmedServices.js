@@ -14,7 +14,7 @@ export function ConfirmedServices({ route }) {
 
   async function getConfirmedService(){
     const req = await fetch(
-      `${process.env.SERVER_LINK}confirmedServices/${user.id}`,
+      `${process.env.SERVER_LINK}confirmedServices/${user.id}/${isCare}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
