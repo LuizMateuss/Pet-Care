@@ -30,6 +30,7 @@
     $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
     $app->map(['get', 'post'], '/setService/{selectedPet}/{servico}/{formatedDate}/{serviceStatus}/{servicePrice}/{serviceZipCode}/{serviceHouseNumber}/{serviceHouseComplement}', 'getSetService');
     $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
+    $app->map(['get', 'post'], '/confirmedServices/{id}', 'getConfirmedServices');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -332,12 +333,36 @@
         $conn = getConn();
 
         $sql = "SELECT s.cd_servico, u.cd_usuario, s.nm_tipo_servico, s.dt_time_servico, s.vl_servico, 
-                    s.sg_estado_servico
-                        from servico as s join animal as a
-                            on a.cd_animal = s.cd_animal
-                                join usuario as u
-                                    on u.cd_usuario = a.cd_usuario 
-                                        where s.sg_estado_servico = 'S' and u.cd_usuario=:id and u.cd_isCare='T'";
+        s.sg_estado_servico, a.cd_animal, a.nm_animal, s.cd_usuario as cuidador, u.cd_isCare
+            from servico as s join animal as a
+                on a.cd_animal = s.cd_animal
+                    join usuario as u
+                        on u.cd_usuario = a.cd_usuario 
+                            where s.sg_estado_servico = 'S' and u.cd_usuario=:id and s.cd_usuario is null";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("id", $id);
+
+        $stmt->execute();
+
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getConfirmedServices(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $conn = getConn();
+
+        $sql = "SELECT s.cd_servico, tutor.cd_usuario as tutor, tutor.nm_usuario as tutorName, s.nm_tipo_servico, s.dt_time_servico, s.vl_servico, 
+        s.sg_estado_servico, a.nm_animal, cuidador.cd_usuario as cuidador, cuidador.nm_usuario as cuidadorName, cuidador.cd_isCare
+            from servico as s join animal as a
+                on a.cd_animal = s.cd_animal
+                    join usuario as tutor
+                        on tutor.cd_usuario = a.cd_usuario
+                            join usuario as cuidador
+                                on cuidador.cd_usuario = s.cd_usuario
+            where s.sg_estado_servico = 'S' and tutor.cd_usuario=:id and s.cd_usuario is not null;";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("id", $id);

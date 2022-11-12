@@ -49,7 +49,7 @@ export function ContractService({ route }) {
 
   async function setService(){
     let formatedDate = serviceDate.year+'-'+serviceDate.month+'-'+serviceDate.day+' '+serviceDate.hour+':'+serviceDate.minute+':00'
-    const req = await fetch(`${process.env.SERVER_LINK}setService/${selectedPet.cd_animal}/Serviço/${formatedDate}/S/45.20/12345678/77/Complemento`,
+    const req = await fetch(`${process.env.SERVER_LINK}setService/${selectedPet.cd_animal}/Passeio/${formatedDate}/S/45.20/12345678/77/Complemento`,
       {
         method: process.env.SERVER_METHOD,
         headers: {

@@ -12,7 +12,6 @@ export function RequestedServices({ route }) {
 
   const [requestedServices, setRequestedServices] = useState([{cd_servico: 0}])
 
-
   async function getRequestedService(){
     const req = await fetch(
       `${process.env.SERVER_LINK}requestedServices/${user.id}`,
@@ -37,7 +36,6 @@ export function RequestedServices({ route }) {
         {requestedServices.map((servico)=>
           <RequestedServiceCard
             key={servico.cd_servico}
-            name={isCare ? 'Nome tutor' : ''}
             status="Ainda não confirmado"
             image={require('../../assets/img/anonymous.png')}
             typeService={servico.nm_tipo_servico}
@@ -45,6 +43,7 @@ export function RequestedServices({ route }) {
             valueService={servico.vl_servico}
             isCare={isCare}
             user={user}
+            service={servico}
           />
         )}
       </ScrollView>

@@ -2,7 +2,7 @@ import { HStack, VStack, Text, Button, Image } from 'native-base'
 import { useNavigation } from '@react-navigation/native'
 export function RequestedServiceCard(props) {
   const navigation = useNavigation()
-  const { isCare, user } = props
+  const { isCare, user, service } = props
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
   return (
     <VStack
@@ -71,7 +71,7 @@ export function RequestedServiceCard(props) {
         <Button
           bg="transparent"
           _pressed={{ bg: 'transparent' }}
-          onPress={() => navigation.navigate('startService', { isCare, user })}
+          onPress={() => navigation.navigate('startService', { isCare, user, service })}
         >
           <Text
             fontWeight="black"
