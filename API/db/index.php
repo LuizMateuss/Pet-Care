@@ -32,6 +32,7 @@
     $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
     $app->map(['get', 'post'], '/confirmedServices/{id}', 'getConfirmedServices');
     $app->map(['get', 'post'], '/requests', 'getRequests');
+    $app->map(['get', 'post'], '/requestAccept/{id}/{serviceID}', 'getRequestAccept');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -385,6 +386,19 @@
             where sg_estado_servico='s' and s.cd_usuario is null");
         $stmt->execute();
         $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getRequestAccept(Request $request, Response $response, array $args){
+        $id=$args['id'];
+        $serviceID=$args['serviceID'];
+        $stmt = getConn()->prepare(
+            "UPDATE servico SET cd_usuario=:id where cd_servico=:serviceID");
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("serviceID", $serviceID);
+        $stmt->execute();
+        $message = "Cadastrado";
         $response->getBody()->write(json_encode($message));
         return $response;
     }

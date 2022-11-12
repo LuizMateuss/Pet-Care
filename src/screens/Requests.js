@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import { Header } from '../components/Header'
 import { Order } from '../components/Order'
 
-export function Requests() {
+export function Requests({ route }) {
+  const {user, isCare} = route.params
   const [requests, setRequests] = useState([{cd_servico: 0}])
   async function getRequests(){
     const req = await fetch(
@@ -32,6 +33,8 @@ export function Requests() {
             name={request.nm_usuario}
             specie={request.specie}
             request={request}
+            user={user}
+            isCare={isCare}
           />
         )}
       </ScrollView>

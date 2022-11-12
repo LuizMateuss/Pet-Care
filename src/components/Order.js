@@ -4,7 +4,7 @@ import { Image, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 export function Order(props) {
-  const { request } = props
+  const { request, user, isCare } = props
   const navigation = useNavigation()
 
   return (
@@ -61,7 +61,7 @@ export function Order(props) {
           rounded={15}
           py={4}
           px={10}
-          onPress={() => navigation.navigate('orderInfo', { request })}
+          onPress={() => navigation.navigate('orderInfo', { request, user, isCare })}
         >
           <Text fontWeight="black" fontSize={16} color="secondary.700">
             Detalhes

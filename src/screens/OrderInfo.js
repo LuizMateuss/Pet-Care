@@ -6,8 +6,24 @@ import { useNavigation } from '@react-navigation/native'
 
 export function OrderInfo({ route }) {
   const navigation = useNavigation()
-  const { request } = route.params
-  
+  const { request, user, isCare } = route.params
+
+  async function acceptRequest(){
+    await fetch(`${process.env.SERVER_LINK}requestAccept/${user.id}/${request.cd_servico}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    nextPage()
+  }
+  function nextPage(){
+    navigation.navigate('startPetCare', { user, isCare })
+  }
+
   return (
     <VStack mt={8}>
       <ScrollView>
@@ -114,7 +130,7 @@ export function OrderInfo({ route }) {
             borderWidth={1}
             borderColor="secondary.700"
             w="40%"
-            onPress={() => navigation.goBack()}
+            onPress={() => acceptRequest()}
           />
           <Button
             color="red.700"
