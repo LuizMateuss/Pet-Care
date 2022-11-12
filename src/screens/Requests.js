@@ -31,6 +31,7 @@ export function Requests() {
             key={request.cd_servico}
             name={request.nm_usuario}
             specie={request.specie}
+            request={request}
           />
         )}
       </ScrollView>
