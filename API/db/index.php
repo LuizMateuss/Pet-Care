@@ -31,6 +31,7 @@
     $app->map(['get', 'post'], '/setService/{selectedPet}/{servico}/{formatedDate}/{serviceStatus}/{servicePrice}/{serviceZipCode}/{serviceHouseNumber}/{serviceHouseComplement}', 'getSetService');
     $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
     $app->map(['get', 'post'], '/confirmedServices/{id}', 'getConfirmedServices');
+    $app->map(['get', 'post'], '/requests', 'getRequests');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -369,6 +370,20 @@
 
         $stmt->execute();
 
+        $message=$stmt->fetchAll(PDO::FETCH_OBJ);
+        $response->getBody()->write(json_encode($message));
+        return $response;
+    }
+
+    function getRequests(Request $request, Response $response, array $args){
+        $stmt = getConn()->prepare(
+            "SELECT s.*, tp.nm_tipo_animal as specie, rc.nm_raca_animal as race, u.nm_usuario, a.cd_peso_animal, a.dt_nascimento_animal, a.nm_genero_animal from servico as s 
+                join animal as a on a.cd_animal = s.cd_animal
+                    join raca_animal as rc on rc.cd_raca_animal = a.cd_raca_animal
+                        join tipo_animal as tp on tp.cd_tipo_animal = rc.cd_tipo_animal
+                    join usuario as u on u.cd_usuario = a.cd_usuario
+            where sg_estado_servico='s' and s.cd_usuario is null");
+        $stmt->execute();
         $message=$stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($message));
         return $response;

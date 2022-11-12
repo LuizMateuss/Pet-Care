@@ -30,7 +30,7 @@ export function Order(props) {
             fontSize={20}
             color="secondary.700"
           >
-            Nome Tutor
+            Nome {props.name}
           </Text>
         </VStack>
         <HStack justifyContent="space-between" mt={10}>
@@ -39,7 +39,7 @@ export function Order(props) {
               Espécie
             </Text>
             <Text fontSize={16} color="secondary.700">
-              Cachorro
+              {props.specie}
             </Text>
           </VStack>
           <VStack alignItems="center">
