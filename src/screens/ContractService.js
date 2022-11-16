@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Header } from '../components/Header'
 import LottieView from 'lottie-react-native'
 
+
 export function ContractService({ route }) {
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
@@ -35,6 +36,7 @@ export function ContractService({ route }) {
       user
     })
   }
+
   return (
     <View flex={1} bg="white">
       <Header title="Resumo do serviço" color="#511AC7" />
@@ -75,7 +77,7 @@ export function ContractService({ route }) {
           <Text textAlign="center" fontSize={20}>
             Selecione o método de pagamento
           </Text>
-          <Button title="Mercado Pago" bg="#511AC7" w="50%" />
+          <Button onPress={()=> props.navigation.navigate('/src/screens/testemercado.js', {price: price.toFixed}) } title="Mercado Pago" bg="#511AC7" w="50%" />
         </VStack>
         <VStack
           bg="white"
