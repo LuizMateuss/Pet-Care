@@ -4,8 +4,26 @@ import { Button } from '../components/Button'
 
 import { useNavigation } from '@react-navigation/native'
 
-export function OrderInfo() {
+export function OrderInfo({ route }) {
   const navigation = useNavigation()
+  const { request, user, isCare } = route.params
+
+  async function acceptRequest(){
+    await fetch(`${process.env.SERVER_LINK}requestAccept/${user.id}/${request.cd_servico}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    nextPage()
+  }
+  function nextPage(){
+    navigation.navigate('startPetCare', { user, isCare })
+  }
+
   return (
     <VStack mt={8}>
       <ScrollView>
@@ -15,7 +33,7 @@ export function OrderInfo() {
           fontWeight="black"
           color="secondary.700"
         >
-          Solicitação #1
+          Solicitação
         </Text>
         <VStack w="90%" p={4} mx="auto" bg="secondary.700" rounded={40}>
           <HStack alignItems="center">
@@ -28,7 +46,7 @@ export function OrderInfo() {
             />
             <VStack ml={5}>
               <Text fontSize={20} fontWeight="black" color="white">
-                Nome do tutor
+                {request.nm_usuario}
               </Text>
               <HStack>
                 <MapPin size={24} color="#FFFFFF" />
@@ -41,10 +59,10 @@ export function OrderInfo() {
 
           <VStack mt={2} alignItems="center">
             <Text fontSize={35} fontWeight="black" color="white">
-              Passeio
+              {request.nm_tipo_servico}
             </Text>
             <Text fontSize={16} color="white">
-              Solicitação para: 01/06 - 14h
+              Solicitação para: {request.dt_time_servico}
             </Text>
           </VStack>
         </VStack>
@@ -55,7 +73,7 @@ export function OrderInfo() {
           textAlign="center"
           my={5}
         >
-          Valor do serviço: R$29,75
+          Valor do serviço: R${request.vl_servico}
         </Text>
         <VStack w="90%" p={4} mx="auto" bg="secondary.700" mb={10} rounded={40}>
           <VStack>
@@ -89,16 +107,16 @@ export function OrderInfo() {
               </VStack>
               <VStack>
                 <Text fontSize={18} color="white">
-                  7kg
+                  {request.cd_peso_animal}kg
                 </Text>
                 <Text fontSize={18} color="white">
-                  2 anos
+                  {request.dt_nascimento_animal}
                 </Text>
                 <Text fontSize={18} color="white">
-                  Pitbull
+                  {request.race}
                 </Text>
                 <Text fontSize={18} color="white">
-                  Feminino
+                  {request.nm_genero_animal}
                 </Text>
               </VStack>
             </HStack>
@@ -112,7 +130,7 @@ export function OrderInfo() {
             borderWidth={1}
             borderColor="secondary.700"
             w="40%"
-            onPress={() => navigation.goBack()}
+            onPress={() => acceptRequest()}
           />
           <Button
             color="red.700"

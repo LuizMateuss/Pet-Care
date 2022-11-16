@@ -26,12 +26,14 @@ export function CustomHamburguer(props) {
         width="80%"
         my={2}
         py={4}
-        onPress={() =>
+        onPress={() => {
+          const newUser = false
           navigation.navigate('profileCare', {
             isCare,
-            user
+            user,
+            newUser
           })
-        }
+        }}
       />
       <Button
         title="Perfil do animal"
@@ -39,12 +41,14 @@ export function CustomHamburguer(props) {
         width="80%"
         my={2}
         py={4}
-        onPress={() =>
+        onPress={() => {
+          const newPet = false
           navigation.navigate('petProfile', {
             isCare,
-            user
+            user,
+            newPet
           })
-        }
+        }}
       />
       <Button
         title="Histórico de serviços"
@@ -67,6 +71,19 @@ export function CustomHamburguer(props) {
         py={4}
         onPress={() =>
           navigation.navigate('requestedServices', {
+            isCare,
+            user
+          })
+        }
+      />
+      <Button
+        title="Serviços confirmados"
+        backgroundColor="#511AC7"
+        width="80%"
+        my={2}
+        py={4}
+        onPress={() =>
+          navigation.navigate('confirmedServices', {
             isCare,
             user
           })

@@ -4,17 +4,17 @@ import { useNavigation } from '@react-navigation/native'
 import { RequestedServiceCard } from '../components/RequestedServiceCard'
 import { useState, useEffect } from 'react'
 
-export function RequestedServices({ route }) {
+export function ConfirmedServices({ route }) {
   const navigation = useNavigation()
 
   const { isCare, user } = route.params
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
-  const [requestedServices, setRequestedServices] = useState([{cd_servico: 0}])
+  const [confirmedServices, setConfirmedServices] = useState([{cd_servico: 0}])
 
-  async function getRequestedService(){
+  async function getConfirmedService(){
     const req = await fetch(
-      `${process.env.SERVER_LINK}requestedServices/${user.id}`,
+      `${process.env.SERVER_LINK}confirmedServices/${user.id}/${isCare}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -24,26 +24,27 @@ export function RequestedServices({ route }) {
       }
     )
     const res = await req.json()
-    setRequestedServices(res)
+    setConfirmedServices(res)
   }
-  useEffect(()=>{getRequestedService()},[])
+  useEffect(()=>{getConfirmedService()},[])
 
   return (
     <VStack>
-      <Header title="Serviços agendados" color={mainColor} />
+      <Header title="Serviços confirmados" color={mainColor} />
 
       <ScrollView>
-        {requestedServices.map((servico)=>
+        {confirmedServices.map((service)=>
           <RequestedServiceCard
-            key={servico.cd_servico}
-            status="Ainda não confirmado"
+            key={service.cd_servico}
+            name={isCare ? `${service.tutorName}` : `${service.cuidadorName}`}
+            status="Confirmado"
             image={require('../../assets/img/anonymous.png')}
-            typeService={servico.nm_tipo_servico}
-            dateService={servico.dt_time_servico}
-            valueService={servico.vl_servico}
+            typeService={service.nm_tipo_servico}
+            dateService={service.dt_time_servico}
+            valueService={service.vl_servico}
             isCare={isCare}
             user={user}
-            service={servico}
+            service={service}
           />
         )}
       </ScrollView>

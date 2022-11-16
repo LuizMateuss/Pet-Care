@@ -31,21 +31,12 @@ export function CreateAccount({ route }) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [dateBirth, setDateBirth] = useState('')
+  const [cpf, setCpf] = useState('')
   const [check, setCheck] = useState(false)
   const navigation = useNavigation()
   const { isCare } = route.params
   let configEmail
 
-  function verifyIsCareAndNextPage(user) {
-    if (isCare) {
-      navigation.navigate('registerAddress', {
-        isCare,
-        user
-      })
-    } else {
-      navigation.navigate('registerAddress', { isCare, user })
-    }
-  }
   function handleSignUp() {
     if (!email || !password || !confirmPassword || !phone || !dateBirth) {
       return Alert.alert(
@@ -68,7 +59,7 @@ export function CreateAccount({ route }) {
     validationRegex(reg, regexDate)
   }
 
-  function validationRegex(reg, regexDate) {
+  function validationRegex(reg, regexDate, regexCpf) {
     if (reg.test(configEmail) == false) {
       return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
     } else {
@@ -88,15 +79,8 @@ export function CreateAccount({ route }) {
   }
 
   async function registerUser() {
-    let sendIsCare
-    if (isCare) sendIsCare = 'C'
-    else sendIsCare = 'T'
-    let birthday = dateBirth.split('/')
-    birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
-
     const req = await fetch(
-      process.env.SERVER_LINK +
-        `/registration/${name}/${configEmail}/${password}/${birthday}/${phone}/${sendIsCare}`,
+      process.env.SERVER_LINK + `/verifyRegistration/${configEmail}`,
       {
         method: process.env.SERVER_METHOD,
         headers: {
@@ -104,19 +88,49 @@ export function CreateAccount({ route }) {
           'Content-Type': 'application/json'
         }
       }
-    )
+    ).catch(() => {
+      setIsLoading(false)
+      Alert.alert(
+        'Desulpe!',
+        'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+      )
+    })
     const res = await req.json()
+
     if (res) {
-      const user = { name: res.nm_usuario, id: res.cd_usuario }
+      let sendIsCare
+      if (isCare) sendIsCare = 'C'
+      else sendIsCare = 'T'
+      let birthday = dateBirth.split('/')
+      birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+      const user = {
+        name: name,
+        email: configEmail,
+        password: password,
+        birthday: birthday,
+        phone: phone,
+        isCare: sendIsCare
+      }
       verifyIsCareAndNextPage(user)
     } else {
       Alert.alert('Email já Cadastrado', 'Por favor, informe outro email')
     }
   }
 
+  function verifyIsCareAndNextPage(user) {
+    if (isCare) {
+      navigation.navigate('registerAddress', {
+        isCare,
+        user
+      })
+    } else {
+      navigation.navigate('registerAddress', { isCare, user })
+    }
+  }
+
   return (
     <View flex={1}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <LinearGradient
           colors={isCare ? ['#00abbc52', '#00abbc'] : ['#511AC752', '#511AC7']}
           style={{ paddingBottom: 50, flex: 1, flexDirection: 'column' }}
@@ -159,6 +173,7 @@ export function CreateAccount({ route }) {
                 placeholder="Data de Nascimento:"
                 onChangeText={setDateBirth}
               />
+              <Input placeholder="CPF:" onChangeText={setCpf} />
               <HStack alignItems="center" mx="auto" mb="2%" color="white">
                 <Checkbox
                   accessibilityLabel="termos"

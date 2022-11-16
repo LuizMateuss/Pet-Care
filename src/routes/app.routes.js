@@ -22,7 +22,6 @@ import {
 } from '@react-navigation/drawer'
 import { TouchableOpacity } from 'react-native'
 import { SearchPetCare } from '../screens/SearchPetCare'
-import { SelectPetCare } from '../screens/SelectPetCare'
 import { ContractService } from '../screens/ContractService'
 import { ChangePassword } from '../screens/ChangePassword'
 import { RequestedServices } from '../screens/RequestedServices'
@@ -32,6 +31,7 @@ import { EditProfile } from '../screens/EditProfile'
 import { EditPet } from '../screens/EditPet'
 import { SelectAnimal } from '../screens/SelectAnimal'
 import { SelectLocal } from '../screens/SelectLocal'
+import { ConfirmedServices } from '../screens/ConfirmedServices'
 
 const Drawer = createDrawerNavigator()
 function MenuHamburguer() {
@@ -73,11 +73,11 @@ export function AppRoutes() {
       <Screen name="userProfile" component={UserProfile} />
       <Screen name="petProfile" component={PetProfile} />
       <Screen name="searchPetCare" component={SearchPetCare} />
-      <Screen name="selectPetCare" component={SelectPetCare} />
       <Screen name="selectAnimal" component={SelectAnimal} />
       <Screen name="selectLocal" component={SelectLocal} />
       <Screen name="contractService" component={ContractService} />
       <Screen name="requestedServices" component={RequestedServices} />
+      <Screen name="confirmedServices" component={ConfirmedServices} />
       <Screen name="addPet" component={AddPet} />
       <Screen name="editProfile" component={EditProfile} />
       <Screen name="editPet" component={EditPet} />

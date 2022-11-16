@@ -8,11 +8,12 @@ import {
   Radio,
   ScrollView
 } from 'native-base'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
@@ -44,6 +45,8 @@ export function SignIn() {
       let sendIsCare
       if (isCare) sendIsCare = 'C'
       else sendIsCare = 'T'
+      console.log(process.env.SERVER_LINK +
+        `login/${configEmail}/${password}/${sendIsCare}`)
       const req = await fetch(
         process.env.SERVER_LINK +
           `login/${configEmail}/${password}/${sendIsCare}`,
@@ -54,7 +57,13 @@ export function SignIn() {
             'Content-Type': 'application/json'
           }
         }
-      )
+      ).catch(() => {
+        setIsLoading(false)
+        Alert.alert(
+          'Desulpe!',
+          'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+        )
+      })
       //resposta
       const resLogin = await req.json()
 
@@ -94,7 +103,7 @@ export function SignIn() {
   }
 
   return (
-    <ScrollView bg="white">
+    <ScrollView bg="white" keyboardShouldPersistTaps="always">
       <LinearGradient colors={['#511AC7', '#00ABBC']}>
         <VStack>
           {/* IMAGEM PET CARE */}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   VStack,
   ScrollView,
@@ -6,9 +6,10 @@ import {
   Image,
   Text,
   HStack,
-  Modal
+  Modal,
+  Platform
 } from 'native-base'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import {
   CalendarBlank,
   CaretLeft,
@@ -17,12 +18,86 @@ import {
 import { TouchableOpacity } from 'react-native'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
+import {
+  DateTimePicker,
+  DateTimePickerAndroid
+} from '@react-native-community/datetimepicker'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SearchPetCare({ route }) {
-  const [showModal, setShowModal] = useState(false)
   const { isCare, user } = route.params
-
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
+  const [newName, setNewName] = useState(user.name)
+  const [newEmail, setNewEmail] = useState()
+  const [newPhone, setNewPhone] = useState()
+
+  const [date, setDate] = useState(new Date(1598051730000))
+  const [mode, setMode] = useState('date')
+  const [show, setShow] = useState(false)
+  const [text, setText] = useState('Empty')
+  const [address, setAddress] = useState()
+  const [selectedPet, setSelectedPet] = useState()
+
+  const [showModal, setShowModal] = useState(false)
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate
+    setDate(currentDate)
+  }
+
+  const showMode = currentMode => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true
+    })
+  }
+
+  const showDatepicker = () => {
+    showMode('date')
+  }
+
+  const showTimepicker = () => {
+    showMode('time')
+  }
+
+  async function handlePet() {
+    const response = await AsyncStorage.getItem('@petcare:selectedPet')
+    setSelectedPet(JSON.parse(response))
+  }
+  async function handleAddress() {
+    const req = await fetch(
+      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
+      {
+        method: process.env.SERVER_METHOD,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    const res = await req.json()
+
+    setAddress({
+      street: res[0].nm_logradouro,
+      houseNumber: res[0].cd_numero_rua,
+      complement: res[0].nm_complemento,
+      district: res[0].nm_bairro,
+      zipCode: res[0].cd_cep,
+      city: res[0].nm_cidade,
+      uf: res[0].nm_uf
+    })
+    setNewEmail(res[0].nm_email)
+    setNewPhone(res[0].cd_telefone)
+  }
+
+  useEffect(() => {
+    handlePet()
+    handleAddress()
+  }, [isFocused])
+
   return (
     <View flex={1} pt={10} bg="white">
       <ScrollView bg="white">
@@ -31,7 +106,7 @@ export function SearchPetCare({ route }) {
             <TouchableOpacity
               onPress={() => navigation.navigate('menuHamburguer', { isCare })}
             >
-              <CaretLeft size={20} color="#511AC7" />
+              <CaretLeft size={32} color="#511AC7" />
             </TouchableOpacity>
 
             <Text
@@ -55,7 +130,7 @@ export function SearchPetCare({ route }) {
             textAlign="center"
             fontWeight="light"
             color="#511AC7"
-            fontSize={20}
+            fontSize={15}
           >
             São 30 minutos de passeio e muita diversão para seu pet.
           </Text>
@@ -65,7 +140,7 @@ export function SearchPetCare({ route }) {
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectAnimal')}
+            onPress={() => navigation.navigate('selectAnimal', { user })}
           />
           <VStack bg="#f4f4f4">
             <Text
@@ -82,16 +157,42 @@ export function SearchPetCare({ route }) {
               color="#511AC7"
               fontSize={18}
             >
-              Bob
+              {selectedPet ? (
+                <Text
+                  textAlign="center"
+                  fontWeight="black"
+                  color="#511AC7"
+                  fontSize={16}
+                >
+                  {selectedPet.nm_animal}
+                </Text>
+              ) : (
+                <Text
+                  textAlign="center"
+                  fontWeight="black"
+                  color="#511AC7"
+                  fontSize={16}
+                >
+                  Nenhum animal selecionado.
+                </Text>
+              )}
             </Text>
           </VStack>
           <Button
             my={4}
-            title="Selecionar local"
+            title="Alterar local"
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() => navigation.navigate('selectLocal')}
+            onPress={() =>
+              navigation.navigate('selectLocal', {
+                isCare,
+                user,
+                newName,
+                newEmail,
+                newPhone
+              })
+            }
           />
           <VStack bg="#f4f4f4" py={2}>
             <Text
@@ -102,23 +203,28 @@ export function SearchPetCare({ route }) {
             >
               Local selecionado:
             </Text>
-            <Text
-              textAlign="center"
-              fontWeight="black"
-              color="#511AC7"
-              fontSize={16}
-            >
-              Rua Aletória Demais, Nº 666 - Ap. 11. CEP: 11545-111, Santos/SP.
-            </Text>
+            {address ? (
+              <Text
+                textAlign="center"
+                fontWeight="black"
+                color="#511AC7"
+                fontSize={16}
+              >
+                {address.street}, {address.houseNumber}. {address.complement}.{' '}
+                {address.district}, {address.city} - {address.uf},{' '}
+                {address.zipCode}.
+              </Text>
+            ) : (
+              <Text
+                textAlign="center"
+                fontWeight="black"
+                color="#511AC7"
+                fontSize={16}
+              >
+                Nenhum endereço selecionado.
+              </Text>
+            )}
           </VStack>
-          <Text
-            textAlign="center"
-            fontWeight="light"
-            color="#000"
-            fontSize={20}
-          >
-            Selecione uma data
-          </Text>
           <Button
             my={4}
             title="Selecionar data"
@@ -135,33 +241,44 @@ export function SearchPetCare({ route }) {
               borderRadius={20}
               alignItems="center"
             >
-              <Text
-                color="white"
-                fontSize={20}
-                fontWeight="black"
-                textAlign="center"
-                my={2}
-              >
-                Insira uma data:
-              </Text>
               <VStack>
                 <HStack alignItems="center" justifyContent="space-between">
-                  <Text color="white" fontSize={16} fontWeight="black">
-                    Data:
-                  </Text>
-                  <Input
-                    placeholder="00/00/0000"
-                    ml={4}
-                    w="60%"
-                    maxLength={10}
+                  <Button
+                    title="Selecione a data"
+                    bg="white"
+                    w="80%"
+                    color="#511AC7"
+                    onPress={() => showMode('date')}
                   />
                 </HStack>
                 <HStack alignItems="center" justifyContent="space-between">
-                  <Text color="white" fontSize={16} fontWeight="black">
-                    Horário:
-                  </Text>
-                  <Input placeholder="00:00" ml={4} w="60%" maxLength={5} />
+                  <Button
+                    title="Selecione o horário"
+                    bg="white"
+                    w="80%"
+                    color="#511AC7"
+                    onPress={() => showMode('time')}
+                  />
                 </HStack>
+                <Text
+                  color="white"
+                  fontSize={20}
+                  fontWeight="black"
+                  textAlign="center"
+                  my={2}
+                >
+                  Dia e horário selecionados:
+                </Text>
+                <Text
+                  color="white"
+                  fontSize={20}
+                  fontWeight="black"
+                  textAlign="center"
+                  my={2}
+                >
+                  {date.getDate()}/{date.getMonth()}/{date.getFullYear()} às{' '}
+                  {date.getHours()}:{date.getMinutes()}
+                </Text>
               </VStack>
               <Button
                 title="Adicionar data"
@@ -174,14 +291,55 @@ export function SearchPetCare({ route }) {
               />
             </Modal.Content>
           </Modal>
+          <VStack bg="#f4f4f4">
+            <Text
+              textAlign="center"
+              fontWeight="light"
+              color="#000"
+              fontSize={20}
+            >
+              Data e hora selecionada:
+            </Text>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            <Text
+              textAlign="center"
+              fontWeight="black"
+              color="#511AC7"
+              fontSize={18}
+            >
+              Dia {date.getDate()}/{date.getMonth()}/{date.getFullYear()} às{' '}
+              {date.getHours()}:{date.getMinutes()}
+            </Text>
+          </VStack>
           <Button
-            title="Achar um cuidador"
+            title="Ir para tela de pagamento"
             bg="#511AC7"
             w="70%"
             py={4}
-            onPress={() =>
-              navigation.navigate('selectPetCare', { isCare, user })
-            }
+            onPress={() => {
+              const serviceDate = {
+                day: date.getDate(),
+                month: date.getMonth(),
+                year: date.getFullYear(),
+                hour: date.getHours(),
+                minute: date.getMinutes()
+              }
+              navigation.navigate('contractService', {
+                isCare,
+                user,
+                selectedPet,
+                serviceDate
+              })
+            }}
           />
         </VStack>
       </ScrollView>
