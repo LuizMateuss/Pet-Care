@@ -6,7 +6,8 @@ import {
   Text,
   View,
   Radio,
-  ScrollView
+  ScrollView,
+  Modal
 } from 'native-base'
 import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
@@ -17,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
+  const [showModal, setShowModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,8 +47,10 @@ export function SignIn() {
       let sendIsCare
       if (isCare) sendIsCare = 'C'
       else sendIsCare = 'T'
-      console.log(process.env.SERVER_LINK +
-        `login/${configEmail}/${password}/${sendIsCare}`)
+      console.log(
+        process.env.SERVER_LINK +
+          `login/${configEmail}/${password}/${sendIsCare}`
+      )
       const req = await fetch(
         process.env.SERVER_LINK +
           `login/${configEmail}/${password}/${sendIsCare}`,
@@ -188,13 +192,13 @@ export function SignIn() {
               </Text>
 
               <HStack mx={4} justifyContent="space-between">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowModal(true)}>
                   <Image
                     alt="Facebook"
                     source={require('../../assets/img/facebook.png')}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowModal(true)}>
                   <Image
                     alt="Google"
                     source={require('../../assets/img/google.png')}
@@ -211,6 +215,15 @@ export function SignIn() {
             />
           </View>
         </VStack>
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Content bg="white" w="80%" p={8} alignItems="center">
+            <Modal.CloseButton />
+            <Text color="black" textAlign="center" my={5}>
+              Em breve você poderá realizar seu cadastro e login através do
+              Google e do Facebook!
+            </Text>
+          </Modal.Content>
+        </Modal>
       </LinearGradient>
     </ScrollView>
   )
