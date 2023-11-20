@@ -8,6 +8,7 @@ import { ProfileInfo } from '../components/ProfileInfo'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Button } from '../components/Button'
 import { useEffect, useState } from 'react'
+import { APIconnection } from '../api/connection';
 
 export function ProfileCare({ route }) {
   const navigation = useNavigation()
@@ -21,30 +22,29 @@ export function ProfileCare({ route }) {
   const [userInformations, setUserInformations] = useState({})
 
   async function getAddressInformations() {
-    const req = await fetch(
-      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    const res = await req.json()
-    setAddress({
-      street: res[0].nm_logradouro,
-      houseNumber: res[0].cd_numero_rua,
-      complement: res[0].nm_complemento,
-      district: res[0].nm_bairro,
-      zipCode: res[0].cd_cep,
-      city: res[0].nm_cidade,
-      uf: res[0].nm_uf
-    })
-    setUserInformations({
-      email: res[0].nm_email,
-      phone: res[0].cd_telefone
-    })
+    try{
+      const res = await APIconnection(
+        `/addressInformations/${user.id}`,
+        null,
+        'GET'
+      )
+  
+      setAddress({
+        street: res[0].nm_logradouro,
+        houseNumber: res[0].cd_numero_rua,
+        complement: res[0].nm_complemento,
+        district: res[0].nm_bairro,
+        zipCode: res[0].cd_cep,
+        city: res[0].nm_cidade,
+        uf: res[0].nm_uf
+      })
+      setUserInformations({
+        email: res[0].nm_email,
+        phone: res[0].cd_telefone
+      })
+    } catch(error){
+      console.error(error)
+    }
   }
   useEffect(() => {
     getAddressInformations()

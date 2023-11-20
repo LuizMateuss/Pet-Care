@@ -15,6 +15,7 @@ web-build/
 
 vendor/
 .env
+.vscode
 
 #android studio
 .gradle

@@ -14,6 +14,7 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { APIconnection } from '../api/connection';
 
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
@@ -45,44 +46,42 @@ export function SignIn() {
       let sendIsCare
       if (isCare) sendIsCare = 'C'
       else sendIsCare = 'T'
-      console.log(process.env.SERVER_LINK +
-        `login/${configEmail}/${password}/${sendIsCare}`)
-      const req = await fetch(
-        process.env.SERVER_LINK +
-          `login/${configEmail}/${password}/${sendIsCare}`,
-        {
-          method: process.env.SERVER_METHOD,
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
+
+      try{
+        const resLogin = await APIconnection(
+          `/login`, 
+          {
+            "email": configEmail,
+            "password": password,
+            "isCare": sendIsCare
           }
+        );
+
+        const bdEmail = resLogin.nm_email
+        const bdPassword = resLogin.nm_senha
+        const bdIsCare = resLogin.cd_iscare
+        const user = { name: resLogin.nm_usuario, id: resLogin.cd_usuario }
+
+        setIsLoading(false)
+        if (
+          configEmail === bdEmail &&
+          password === bdPassword &&
+          sendIsCare === bdIsCare
+        ) {
+          verifyIsCareAndNextPage(user)
+        } else {
+          Alert.alert(
+            'E-mail, senha ou tipo de conta inválido!',
+            'Verifique suas informações ou faça cadastro, caso ainda não tenha.'
+          )
         }
-      ).catch(() => {
+
+      } catch(error){
+        console.error(error)
         setIsLoading(false)
         Alert.alert(
           'Desulpe!',
           'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
-        )
-      })
-      //resposta
-      const resLogin = await req.json()
-
-      const bdEmail = resLogin.nm_email
-      const bdPassword = resLogin.nm_senha
-      const bdIsCare = resLogin.cd_isCare
-      const user = { name: resLogin.nm_usuario, id: resLogin.cd_usuario }
-
-      setIsLoading(false)
-      if (
-        configEmail === bdEmail &&
-        password === bdPassword &&
-        sendIsCare === bdIsCare
-      ) {
-        verifyIsCareAndNextPage(user)
-      } else {
-        Alert.alert(
-          'E-mail, senha ou tipo de conta inválido!',
-          'Verifique suas informações ou faça cadastro, caso ainda não tenha.'
         )
       }
     }

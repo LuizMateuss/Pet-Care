@@ -4,35 +4,44 @@
     use \Psr\Http\Message\ResponseInterface as Response;
     use \Sct\Common\Environment;
     Environment::load(__DIR__);
-    
-    $app = new \Slim\App;
+
+    $configuration = [
+        'settings' => [
+            'displayErrorDetails' => getenv('DISPLAY_ERROR'),
+        ],
+    ];
+    $c = new \Slim\Container($configuration);
+    $app = new \Slim\App($c);
 
     //conectando com o banco
     function getConn(){
-        return new PDO('mysql:host='.getenv('HOST').':'.getenv('PORT').';dbname='.getenv('DATABASE'),
+        return new PDO(
+            getenv('SGBD').':host='.getenv('HOST').';port='.getenv('PORT').';dbname='.getenv('DATABASE'),
             getenv('USER'),
-            getenv('PASSWD'),
-            array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+            getenv('PASSWD')
         );
     }
     
     // rotas
     $app->get( '/usuario', 'getUsuario');
-    $app->map(['get', 'post'], '/login/{email}/{password}/{isCare}', 'getLogin');
-    $app->map(['get', 'post'], '/verifyRegistration/{email}', 'getVerifyRegistration');
-    $app->map(['get', 'post'], '/registration/{name}/{email}/{password}/{birthday}/{phone}/{isCare}/{cep}/{addressNumber}/{logradouro}/{addressComplement}/{bairro}/{localidade}/{uf}', 'getRegistration');
-    $app->map(['get', 'post'], '/updateUser/{id}/{newName}/{newEmail}/{newPhone}/{zipCode}/{newHouseNumber}/{street}/{newComplement}/{district}/{city}/{uf}', 'getUpdateUser');
+    $app->post('/login', 'getLogin');
+    $app->post('/verifyRegistration', 'getVerifyRegistration');
+    $app->post('/registration', 'getRegistration');
+    $app->put('/updateUser', 'getUpdateUser');
     $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
-    $app->map(['get', 'post'], '/addressInformations/{id}', 'getAddressInformations');
+    
+    $app->get('/addressInformations/{id}', 'getAddressInformations');
+
     $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
     $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
-    $app->map(['get', 'post'], '/deletePet/{id}', 'getDeletePet');
-    $app->map(['get', 'post'], '/updatePet/{id}/{petName}/{petWeight}/{petDescription}', 'getUpdatePet');
-    $app->map(['get', 'post'], '/setService/{selectedPet}/{servico}/{formatedDate}/{serviceStatus}/{servicePrice}/{serviceZipCode}/{serviceHouseNumber}/{serviceHouseComplement}', 'getSetService');
+    $app->delete('/deletePet/{id}', 'getDeletePet');
+    $app->put('/updatePet/{id}', 'getUpdatePet');
+
+    $app->post('/setService/{selectedPet}', 'getSetService');
     $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
     $app->map(['get', 'post'], '/confirmedServices/{id}/{isCare}', 'getConfirmedServices');
-    $app->map(['get', 'post'], '/requests', 'getRequests');
-    $app->map(['get', 'post'], '/requestAccept/{id}/{serviceID}', 'getRequestAccept');
+    $app->get('/requests', 'getRequests');
+    $app->put('/requestAccept/{id}/{serviceID}', 'getRequestAccept');
 
 
     //FUNÇÕES DE CONCÇÃO
@@ -52,10 +61,10 @@
         return $response;
     }
 
-    function getLogin(Request $request, Response $response, array $args){
-        $email = $args['email'];
-        $password = $args['password'];
-        $isCare = $args['isCare'];
+    function getLogin(Request $request, Response $response, array $args): Response{
+        $email = $request->getParsedBody()['email'];
+        $password = $request->getParsedBody()['password'];
+        $isCare = $request->getParsedBody()['isCare'];
 
         $conn = getConn();
         $sql ="SELECT cd_usuario, nm_usuario, nm_email, nm_senha, cd_isCare FROM usuario WHERE nm_email=:nm_email AND nm_senha=:nm_senha AND cd_isCare=:cd_isCare";
@@ -70,8 +79,8 @@
         return $response;
     }
 
-    function getVerifyRegistration(Request $request, Response $response, array $args){
-        $email = $args['email'];
+    function getVerifyRegistration(Request $request, Response $response, array $args): Response{
+        $email = $request->getParsedBody()['email'] ?? '';
         $conn = getConn();
 
         $sql = "SELECT nm_email FROM usuario WHERE nm_email=:nm_email";
@@ -89,55 +98,68 @@
         return $response;
     }
 
-    function getRegistration(Request $request, Response $response, array $args){
-        $name = $args['name'];
-        $email = $args['email'];
-        $password = $args['password'];
-        $birthday = $args['birthday'];
-        $phone = $args['phone'];
-        $isCare = $args['isCare'];
+    function getRegistration(Request $request, Response $response, array $args): Response{
+        $name = $request->getParsedBody()['name'];
+        $email = $request->getParsedBody()['email'];
+        $password = $request->getParsedBody()['password'];
+        $birthday = $request->getParsedBody()['birthday'];
+        $phone = $request->getParsedBody()['phone'];
+        $isCare = $request->getParsedBody()['isCare'];
+        $cpf = $request->getParsedBody()['cpf'];
+        $cep = $request->getParsedBody()['cep'];
+        $addressNumber = $request->getParsedBody()['addressNumber'];
+        $logradouro = $request->getParsedBody()['logradouro'];
+        $addressComplement = $request->getParsedBody()['addressComplement'];
+        $bairro = $request->getParsedBody()['bairro'];
+        $localidade = $request->getParsedBody()['localidade'];
+        $uf = $request->getParsedBody()['uf'];
 
-        $cep = $args['cep'];
-        $addressNumber = $args['addressNumber'];
-        $logradouro = $args['logradouro'];
-        $addressComplement = $args['addressComplement'];
-        $bairro = $args['bairro'];
-        $localidade = $args['localidade'];
-        $uf = $args['uf'];
         $conn = getConn();
-        
-        $sql = "INSERT INTO usuario 
-                    SET nm_usuario=:nm_usuario, nm_email=:nm_email, nm_senha=:nm_senha, dt_nascimento=:dt_nascimento, cd_telefone=:cd_telefone, cd_isCare=:cd_isCare";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam("nm_usuario", $name);
-        $stmt->bindParam("nm_email", $email);
-        $stmt->bindParam("nm_senha", $password);
-        $stmt->bindParam("dt_nascimento", $birthday);
-        $stmt->bindParam("cd_telefone", $phone);
-        $stmt->bindParam("cd_isCare", $isCare);
-        $stmt->execute();
+        try {
+            $conn->beginTransaction();
 
-        $sql = "SELECT cd_usuario, nm_usuario FROM usuario WHERE nm_email=:nm_email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam("nm_email", $email);
-        $stmt->execute();
-        $message=$stmt->fetchObject();
+            $sql = "INSERT INTO usuario (nm_usuario, nm_email, nm_senha, dt_nascimento, cd_telefone, cd_isCare, cd_cpf)
+                        VALUES (:nm_usuario, :nm_email, :nm_senha, :dt_nascimento, :cd_telefone, :cd_isCare, :cpf)
+            ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam("nm_usuario", $name);
+            $stmt->bindParam("nm_email", $email);
+            $stmt->bindParam("nm_senha", $password);
+            $stmt->bindParam("dt_nascimento", $birthday);
+            $stmt->bindParam("cd_telefone", $phone);
+            $stmt->bindParam("cd_isCare", $isCare);
+            $stmt->bindParam("cpf", $cpf);
+            $stmt->execute();
 
-        $id=$message->cd_usuario;
+            $sql = "SELECT cd_usuario, nm_usuario FROM usuario WHERE nm_email=:nm_email";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam("nm_email", $email);
+            $stmt->execute();
+            $message=$stmt->fetchObject();
 
-        $sql = "INSERT INTO endereco
-            SET nm_logradouro=:logradouro, cd_numero_rua=:addressNumber,nm_complemento=:addressComplement, nm_bairro=:bairro, nm_cidade=:localidade, nm_uf=:uf, cd_cep=:cep, cd_usuario=:id";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam("id", $id);
-        $stmt->bindParam("logradouro", $logradouro);
-        $stmt->bindParam("addressNumber", $addressNumber);
-        $stmt->bindParam("addressComplement", $addressComplement);
-        $stmt->bindParam("bairro", $bairro);
-        $stmt->bindParam("localidade", $localidade);
-        $stmt->bindParam("uf", $uf);
-        $stmt->bindParam("cep", $cep);
-        $stmt->execute();
+            $id=$message->cd_usuario;
 
+            $sql = "INSERT INTO endereco 
+                    (nm_logradouro, cd_numero_rua, nm_complemento, nm_bairro, nm_cidade, nm_uf, cd_cep, cd_usuario)
+                VALUES 
+                    (:logradouro, :addressNumber, :addressComplement, :bairro, :localidade, :uf, :cep, :id)
+            ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam("id", $id);
+            $stmt->bindParam("logradouro", $logradouro);
+            $stmt->bindParam("addressNumber", $addressNumber);
+            $stmt->bindParam("addressComplement", $addressComplement);
+            $stmt->bindParam("bairro", $bairro);
+            $stmt->bindParam("localidade", $localidade);
+            $stmt->bindParam("uf", $uf);
+            $stmt->bindParam("cep", $cep);
+            $stmt->execute();
+
+            $conn->commit();
+        } catch (Exception $e) {
+            $conn->rollBack();
+            $message = $e;
+        }
         $response->getBody()->write(json_encode($message));
         return $response;
     }
@@ -159,42 +181,56 @@
         return $response;
     }
 
-    function getUpdateUser(Request $request, Response $response, array $args){
-        $id=$args['id'];
-        $newName=$args['newName'];
-        $newEmail=$args['newEmail'];
-        $newPhone=$args['newPhone'];
-        $zipCode=$args['zipCode'];
-        $newHouseNumber=$args['newHouseNumber'];
-        $street=$args['street'];
-        $newComplement=$args['newComplement'];
-        $district=$args['district'];
-        $city=$args['city'];
-        $uf=$args['uf'];
+    function getUpdateUser(Request $request, Response $response, array $args): Response{
+        $id = $request->getParsedBody()['id'];
+        $newName = $request->getParsedBody()['newName'];
+        $newEmail = $request->getParsedBody()['newEmail'];
+        $newPhone = $request->getParsedBody()['newPhone'];
+        $zipCode = $request->getParsedBody()['zipCode'];
+        $newHouseNumber = $request->getParsedBody()['newHouseNumber'];
+        $street = $request->getParsedBody()['street'];
+        $newComplement = $request->getParsedBody()['newComplement'];
+        $district = $request->getParsedBody()['district'];
+        $city = $request->getParsedBody()['city'];
+        $uf = $request->getParsedBody()['uf'];
 
-        $sql = "UPDATE usuario 
-                    SET nm_usuario=:UserName, nm_email=:newEmail, cd_telefone=:newPhone 
-                WHERE cd_usuario=:id";
-        $stmt = getConn()->prepare($sql);
-        $stmt->bindParam("id", $id);
-        $stmt->bindParam("UserName", $newName);
-        $stmt->bindParam("newEmail", $newEmail);
-        $stmt->bindParam("newPhone", $newPhone);
-        $stmt->execute();
+        $conn = getConn();
+        try {
+            $conn->beginTransaction();
 
-        $sql = "UPDATE endereco
-                    SET cd_cep=:zipCode, cd_numero_rua=:newHouseNumber, nm_logradouro=:street, nm_complemento=:newComplement, nm_bairro=:district, nm_cidade=:city, nm_uf=:uf
-                WHERE cd_usuario=:id";
-        $stmt = getConn()->prepare($sql);
-        $stmt->bindParam("id", $id);
-        $stmt->bindParam("zipCode", $zipCode);
-        $stmt->bindParam("newHouseNumber", $newHouseNumber);
-        $stmt->bindParam("street", $street);
-        $stmt->bindParam("newComplement", $newComplement);
-        $stmt->bindParam("district", $district);
-        $stmt->bindParam("city", $city);
-        $stmt->bindParam("uf", $uf);
-        $stmt->execute();
+            $sql = "UPDATE usuario 
+                        SET nm_usuario=:UserName, nm_email=:newEmail, cd_telefone=:newPhone 
+                    WHERE cd_usuario=:id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam("id", $id);
+            $stmt->bindParam("UserName", $newName);
+            $stmt->bindParam("newEmail", $newEmail);
+            $stmt->bindParam("newPhone", $newPhone);
+            $stmt->execute();
+
+            $sql = "UPDATE endereco
+                        SET cd_cep=:zipCode, cd_numero_rua=:newHouseNumber, nm_logradouro=:street, nm_complemento=:newComplement, nm_bairro=:district, nm_cidade=:city, nm_uf=:uf
+                    WHERE cd_usuario=:id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam("id", $id);
+            $stmt->bindParam("zipCode", $zipCode);
+            $stmt->bindParam("newHouseNumber", $newHouseNumber);
+            $stmt->bindParam("street", $street);
+            $stmt->bindParam("newComplement", $newComplement);
+            $stmt->bindParam("district", $district);
+            $stmt->bindParam("city", $city);
+            $stmt->bindParam("uf", $uf);
+            $stmt->execute();
+
+            $conn->commit();
+            $response = $response->withStatus(200);
+            $response->getBody()->write(json_encode(['success' => 'OK']));
+        } catch (Exception $e) {
+            $conn->rollBack();
+            $response = $response->withStatus(406);
+            $response->getBody()->write(json_encode(['erro' => $e]));
+        }
+        return $response;
     }
 
     function getChangePasswd(Request $request, Response $response, array $args){
@@ -225,15 +261,18 @@
         $race = $args['race'];
         $conn = getConn();
 
-        $sql = "INSERT INTO animal
-            SET nm_animal=:AnimalName, dt_nascimento_animal=:birth, nm_genero_animal=:gender, cd_peso_animal=:animalWeight, ds_animal=:animalDescription, cd_usuario=:id, cd_porte_animal=:size, cd_raca_animal=:race";
+        $sql = "INSERT INTO animal 
+        (nm_animal, dt_nascimento_animal, nm_genero_animal, cd_peso_animal, ds_animal, cd_usuario, cd_porte_animal, cd_raca_animal)
+        VALUES 
+        (:AnimalName, :birth, :gender, :animalweight, :animaldescription, :id, :size, :race);
+        ";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("id", $id);
         $stmt->bindParam("AnimalName", $name);
         $stmt->bindParam("birth", $birth);
         $stmt->bindParam("gender", $gender);
-        $stmt->bindParam("animalWeight", $weight);
-        $stmt->bindParam("animalDescription", $description);
+        $stmt->bindParam("animalweight", $weight);
+        $stmt->bindParam("animaldescription", $description);
         $stmt->bindParam("size", $size);
         $stmt->bindParam("race", $race);
         $stmt->execute();
@@ -272,21 +311,29 @@
         return $response;
     }
 
-    function getDeletePet(Request $request, Response $response, array $args){
+    function getDeletePet(Request $request, Response $response, array $args): Response{
         $id=$args['id'];
         $conn = getConn();
 
         $sql="DELETE FROM animal WHERE cd_animal=:id";
         $stmt=$conn->prepare($sql);
         $stmt->bindParam("id", $id);
-        $stmt->execute();
+        try{
+            $stmt->execute();
+            $response = $response->withStatus(200);
+            $response->getBody()->write(json_encode(['success' => 'OK']));
+        }catch(Exception $error){
+            $response = $response->withStatus(406);
+            $response->getBody()->write(json_encode(['error' => $error]));
+        }
+        return $response;
     }
 
-    function getUpdatePet(Request $request, Response $response, array $args){
+    function getUpdatePet(Request $request, Response $response, array $args): Response{
         $id=$args['id'];
-        $petName=$args['petName'];
-        $petWeight=$args['petWeight'];
-        $petDescription=$args['petDescription'];
+        $petName=$request->getParsedBody()['petName'];
+        $petWeight=$request->getParsedBody()['petWeight'];
+        $petDescription=$request->getParsedBody()['petDescription'];
         $conn = getConn();
 
         $sql="UPDATE animal
@@ -297,21 +344,35 @@
         $stmt->bindParam("petName", $petName);
         $stmt->bindParam("petWeight", $petWeight);
         $stmt->bindParam("petDescription", $petDescription);
-        $stmt->execute();
+        try{
+            $stmt->execute();
+            $response = $response->withStatus(200);
+            $response->getBody()->write(json_encode(['success' => 'OK']));
+        }catch(Exception $error){
+            $response = $response->withStatus(406);
+            $response->getBody()->write(json_encode(['error' => $error]));
+        }
+        return $response;
     }
 
     function getSetService(Request $request, Response $response, array $args){
-        $servico=$args['servico'];
-        $formatedDate=$args['formatedDate'];
-        $serviceStatus=$args['serviceStatus'];
-        $servicePrice=$args['servicePrice'];
+        $servico=$request->getParsedBody()['servico'];
+        $formatedDate=$request->getParsedBody()['formatedDate'];
+        $serviceStatus=$request->getParsedBody()['serviceStatus'];
+        $servicePrice=$request->getParsedBody()['servicePrice'];
         $selectedPet=$args['selectedPet'];
-        $serviceZipCode=$args['serviceZipCode'];
-        $serviceHouseNumber=$args['serviceHouseNumber'];
-        $serviceHouseComplement=$args['serviceHouseComplement'];
+        $serviceZipCode=$request->getParsedBody()['serviceZipCode'];
+        $serviceHouseNumber=$request->getParsedBody()['serviceHouseNumber'];
+        $serviceHouseComplement=$request->getParsedBody()['serviceHouseComplement'];
         $conn = getConn();
 
-        $sql = "INSERT INTO servico SET nm_tipo_servico=:servico, dt_time_servico=:formatedDate, sg_estado_servico=:serviceStatus, vl_servico=:servicePrice, cd_animal=:selectedPet, cd_cep_historico=:serviceZipCode, cd_numero_rua_historico=:serviceHouseNumber, nm_complemento_historico=:serviceHouseComplement";
+        $sql = "INSERT INTO servico 
+        (nm_tipo_servico, dt_time_servico, sg_estado_servico, vl_servico, cd_animal, 
+        cd_cep_historico, cd_numero_rua_historico, nm_complemento_historico)
+        VALUES 
+        (:servico, :formatedDate, :serviceStatus, :servicePrice, :selectedPet, 
+        :serviceZipCode, :serviceHouseNumber, :serviceHouseComplement);
+        ";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("servico", $servico);
@@ -323,10 +384,14 @@
         $stmt->bindParam("serviceHouseNumber", $serviceHouseNumber);
         $stmt->bindParam("serviceHouseComplement", $serviceHouseComplement);
 
-        $stmt->execute();
-
-        $message = "Cadastrado";
-        $response->getBody()->write(json_encode($message));
+        try{
+            $stmt->execute();
+            $response = $response->withStatus(200);
+            $response->getBody()->write(json_encode(['success' => 'OK']));
+        }catch(Exception $error){
+            $response = $response->withStatus(406);
+            $response->getBody()->write(json_encode(['error' => $error]));
+        }
         return $response;
     }
 
@@ -396,7 +461,7 @@
                     join raca_animal as rc on rc.cd_raca_animal = a.cd_raca_animal
                         join tipo_animal as tp on tp.cd_tipo_animal = rc.cd_tipo_animal
                     join usuario as u on u.cd_usuario = a.cd_usuario
-            where sg_estado_servico='s' and s.cd_usuario is null");
+            where sg_estado_servico='S' and s.cd_usuario is null");
         $stmt->execute();
         $message=$stmt->fetchAll(PDO::FETCH_OBJ);
         $response->getBody()->write(json_encode($message));

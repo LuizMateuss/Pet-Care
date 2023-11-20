@@ -1,10 +1,11 @@
 import { VStack, Text, HStack, Image, ScrollView } from 'native-base'
-import { TouchableOpacity } from 'react-native'
+import { Alert, TouchableOpacity } from 'react-native'
 import { Button } from '../components/Button'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
+import { APIconnection } from '../api/connection';
 
 export function EditProfile({ route }) {
   const navigation = useNavigation()
@@ -19,48 +20,56 @@ export function EditProfile({ route }) {
   const [address, setAddress] = useState('')
 
   async function getAddressInformations() {
-    const req = await fetch(
-      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    const res = await req.json()
-    setAddress({
-      street: res[0].nm_logradouro,
-      houseNumber: res[0].cd_numero_rua,
-      complement: res[0].nm_complemento,
-      district: res[0].nm_bairro,
-      zipCode: res[0].cd_cep,
-      city: res[0].nm_cidade,
-      uf: res[0].nm_uf
-    })
-    setNewEmail(res[0].nm_email)
-    setNewPhone(res[0].cd_telefone)
+    try{
+      const res = await APIconnection(
+        `/addressInformations/${user.id}`,
+        null,
+        'GET'
+      )
+
+      setAddress({
+        street: res[0].nm_logradouro,
+        houseNumber: res[0].cd_numero_rua,
+        complement: res[0].nm_complemento,
+        district: res[0].nm_bairro,
+        zipCode: res[0].cd_cep,
+        city: res[0].nm_cidade,
+        uf: res[0].nm_uf
+      })
+      setNewEmail(res[0].nm_email)
+      setNewPhone(res[0].cd_telefone)
+    } catch(error){
+      console.error('Address error: ', error)
+    }
   }
 
   async function bdRegisterAdd() {
-    await fetch(
-      `${process.env.SERVER_LINK}updateUser/${user.id}/${newName}/${newEmail}/${newPhone}/${address.zipCode}/${address.houseNumber}/${address.street}/${address.complement}/${address.district}/${address.city}/${address.uf}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    ).catch(() => {
-      verify = false
+    try{
+      const res = await APIconnection(
+        `/updateUser`,
+        {
+          "id": user.id,
+          "newName": newName,
+          "newEmail": newEmail,
+          "newPhone": newPhone,
+          "zipCode": address.zipCode,
+          "newHouseNumber": address.houseNumber,
+          "street": address.street,
+          "newComplement": address.complement,
+          "district": address.district,
+          "city": address.city,
+          "uf": address.uf
+        },
+        'PUT'
+      )
+      handleNextPage()
+    } catch(error){
+      console.error('put: ', error)
       Alert.alert(
         'Desulpe!',
         'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
-      )
-    })
-    handleNextPage()
+        )
+    }
   }
 
   function handleNextPage() {

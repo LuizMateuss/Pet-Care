@@ -14,9 +14,9 @@ export function RequestedServices({ route }) {
 
   async function getRequestedService(){
     const req = await fetch(
-      `${process.env.SERVER_LINK}requestedServices/${user.id}`,
+      `${process.env.SERVER_LINK}/requestedServices/${user.id}`,
       {
-        method: process.env.SERVER_METHOD,
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

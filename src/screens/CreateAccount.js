@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 
+import { APIconnection } from '../api/connection';
 /*
   Tela de criação de conta.
   -> Componente InputData recebe:
@@ -39,36 +40,41 @@ export function CreateAccount({ route }) {
 
   function handleSignUp() {
     if (!email || !password || !confirmPassword || !phone || !dateBirth) {
-      return Alert.alert(
+      Alert.alert(
         'Tente novamente',
         'Por favor, informe todos os campos.'
-      )
-    } else if (password != confirmPassword) {
-      return Alert.alert('Tente novamente', 'As senhas não conferem.')
-    }
-    setIsLoading(true)
-    setTimeout(validationInput, 2000)
+        )
+        return setIsLoading(false)
+      } else if (password != confirmPassword) {
+        Alert.alert('Tente novamente', 'As senhas não conferem.')
+        return setIsLoading(false)
+      }
+    setTimeout(validationInput, 1)
+    setIsLoading(false)
   }
 
   function validationInput() {
+    setIsLoading(true)
     configEmail = email.toLowerCase().trim()
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
     const regexDate =
-      /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-    setIsLoading(false)
+      /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/
     validationRegex(reg, regexDate)
   }
 
   function validationRegex(reg, regexDate, regexCpf) {
     if (reg.test(configEmail) == false) {
-      return Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+      Alert.alert('E-mail inválido', 'Insira um e-mail válido!')
+      setIsLoading(false)
     } else {
       if (regexDate.test(dateBirth) == false) {
+        setIsLoading(false)
         return Alert.alert('Data inválida', 'Insira uma data válida!')
       } else {
         if (check) {
           registerUser()
         } else {
+          setIsLoading(false)
           return Alert.alert(
             'Termos e condições',
             'Por favor, aceite os termos e condições.'
@@ -79,41 +85,42 @@ export function CreateAccount({ route }) {
   }
 
   async function registerUser() {
-    const req = await fetch(
-      process.env.SERVER_LINK + `/verifyRegistration/${configEmail}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+    try {
+      const res = await APIconnection(
+        `/verifyRegistration`, 
+        {email: configEmail}
+      );
+      
+      if (res) {
+        let sendIsCare
+        if (isCare) sendIsCare = 'C'
+        else sendIsCare = 'T'
+        let birthday = dateBirth.split('/')
+        birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
+        const user = {
+          name: name,
+          email: configEmail,
+          password: password,
+          birthday: birthday,
+          phone: phone,
+          isCare: sendIsCare,
+          cpf: cpf
         }
+        setIsLoading(false)
+        verifyIsCareAndNextPage(user)
+      } else {
+        setIsLoading(false)
+        Alert.alert('Email já Cadastrado', 'Por favor, informe outro email')
       }
-    ).catch(() => {
-      setIsLoading(false)
+    } catch (error) {
+      console.error('error: ', error)
       Alert.alert(
         'Desulpe!',
-        'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+        'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.',
+        [
+          {text: 'OK', onPress: () => setIsLoading(false)},
+        ]
       )
-    })
-    const res = await req.json()
-
-    if (res) {
-      let sendIsCare
-      if (isCare) sendIsCare = 'C'
-      else sendIsCare = 'T'
-      let birthday = dateBirth.split('/')
-      birthday = `${birthday[2]}-${birthday[1]}-${birthday[0]}`
-      const user = {
-        name: name,
-        email: configEmail,
-        password: password,
-        birthday: birthday,
-        phone: phone,
-        isCare: sendIsCare
-      }
-      verifyIsCareAndNextPage(user)
-    } else {
-      Alert.alert('Email já Cadastrado', 'Por favor, informe outro email')
     }
   }
 
@@ -170,14 +177,18 @@ export function CreateAccount({ route }) {
               />
               <Input placeholder="Telefone:" onChangeText={setPhone} />
               <Input
-                placeholder="Data de Nascimento:"
+                placeholder="Data de Nascimento: dd/mm/aaaa"
                 onChangeText={setDateBirth}
               />
               <Input placeholder="CPF:" onChangeText={setCpf} />
               <HStack alignItems="center" mx="auto" mb="2%" color="white">
                 <Checkbox
                   accessibilityLabel="termos"
-                  onChange={() => (check ? setCheck(false) : setCheck(true))}
+                  aria-label="termos"
+                  onChange={() => {
+                    (check ? setCheck(false) : setCheck(true))
+                    setIsLoading(false)
+                  }}
                   rounded={50}
                   colorScheme="green"
                   borderColor="white"
@@ -195,7 +206,9 @@ export function CreateAccount({ route }) {
                 backgroundColor="transparent"
                 borderColor="white"
                 borderWidth={1}
-                onPress={handleSignUp}
+                onPress={() => {
+                  handleSignUp()
+                }}
                 isLoading={isLoading}
               />
               <View borderBottomWidth={1} my="2%" borderColor="white" />

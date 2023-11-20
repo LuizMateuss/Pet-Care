@@ -8,10 +8,13 @@ import MapView, { Marker } from 'react-native-maps'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { Input } from '../components/Input'
 
+import { APIconnection } from '../api/connection';
+
 export function RegisterAddress({ route }) {
   const [address, setAddress] = useState(null)
   const [addressComplement, setAddressComplement] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const { isCare, user } = route.params
 
@@ -35,37 +38,48 @@ export function RegisterAddress({ route }) {
    */
 
   async function bdRegisterAdd() {
+    setIsLoading(true)
     if (address.erro) {
       return Alert.alert(
         'Endereço inválido!',
         'Porfavor, verifique os valores.'
       )
     }
-    let verify = true
-    const req = await fetch(
-      `${process.env.SERVER_LINK}registration/${user.name}/${user.email}/${user.password}/${user.birthday}/${user.phone}/${user.isCare}/${address.cep}/${address.numero}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    ).catch(() => {
-      verify = false
-      Alert.alert(
-        'Desulpe!',
-        'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
-      )
-    })
+    try {
+      const res = await APIconnection(
+          `/registration`, 
+          {
+              name: user.name,
+              email: user.email,
+              password: user.password,
+              birthday: user.birthday,
+              phone: user.phone,
+              isCare: user.isCare,
+              cpf: user.cpf,
 
-    const res = await req.json()
-
-    if (res) {
-      const User = { id: res.cd_usuario, name: res.nm_usuario }
-      if (verify) {
-        handleNextPage(User)
+              cep: address.cep,
+              addressNumber: address.numero,
+              logradouro: address.logradouro,
+              addressComplement: addressComplement,
+              bairro: address.bairro,
+              localidade: address.localidade,
+              uf: address.uf
+          }
+        );
+      if(res){
+          const User = {id: res.cd_usuario, name: res.nm_usuario}
+          setIsLoading(false)
+          handleNextPage(User)
       }
+      else {
+          Alert.alert("Desulpe!","Não foi possível realizar o cadastro")
+          setIsLoading(false)
+
+      }
+    } catch (error) {
+        console.error('error: ', error)
+        Alert.alert("Desulpe!","Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.")
+        setIsLoading(false)
     }
   }
 
@@ -90,10 +104,20 @@ export function RegisterAddress({ route }) {
         'Porfavor, preencha os campos e verifique os valores.'
       )
     }
-    let UserAddress = { address, addressComplement }
-    bdRegisterAdd()
+    setTimeout(bdRegisterAdd, 1)
+    setIsLoading(false)
   }
   const navigation = useNavigation()
+
+  function redirectViaCep(){
+    Alert.alert(
+      'Desculpe...', 
+      'Estamos tendo dificuldades para autenticar o endereço com o Google.\nVocê será redirecionado para outra tela de cadastro',
+      [
+        {text: 'OK', onPress: () => navigation.navigate('registerAddressCep', { isCare, user })},
+      ]
+    )
+  }
   return (
     <VStack bg="white" h="100%">
       <VStack h="55%">
@@ -126,6 +150,18 @@ export function RegisterAddress({ route }) {
         <GooglePlacesAutocomplete
           placeholder="Insira o local"
           enablePoweredByContainer={false}
+          onFail={(error) => {
+            console.error('Fail: ', error)
+            redirectViaCep()
+          }}
+          onNotFound={(error) => {
+            console.error('NotFound: ', error)
+            redirectViaCep()
+          }}
+          onTimeout={(error) => {
+            console.error('Timeout: ', error)
+            redirectViaCep()
+          }}
           onPress={async (data, details = null) => {
             setInitialCords({
               latitude: details.geometry.location.lat,
@@ -189,6 +225,7 @@ export function RegisterAddress({ route }) {
         px={8}
         w="70%"
         onPress={verfiyFieldsAndAddAddressToObject}
+        isLoading={isLoading}
       />
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content
