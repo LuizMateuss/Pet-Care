@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PetCare",
-    "slug": "petCare",
+    "slug": "petcare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -30,7 +30,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "b4414dd7-b042-45d5-9aff-1366cf1f5661"
+        "projectId": "f0aa52d7-90c0-4eb4-a845-14ef32b90e14"
       }
     }
   }
