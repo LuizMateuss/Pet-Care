@@ -7,18 +7,22 @@ export function Requests({ route }) {
   const {user, isCare} = route.params
   const [requests, setRequests] = useState([{cd_servico: 0}])
   async function getRequests(){
-    const req = await fetch(
-      `${process.env.SERVER_LINK}requests`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+    try{
+      const req = await fetch(
+        `${process.env.SERVER_LINK}/requests`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
         }
-      }
-    )
-    const res = await req.json()
-    setRequests(res)
+      )
+      const res = await req.json()
+      setRequests(res)
+    }catch(error){
+      console.error(error)
+    }
   }
   useEffect(()=>{getRequests()},[])
 

@@ -14,9 +14,9 @@ export function PetProfile({ route }) {
 
   async function getPetInformations(){
     const req = await fetch(
-      `${process.env.SERVER_LINK}petInformations/${user.id}`,
+      `${process.env.SERVER_LINK}/petInformations/${user.id}`,
       {
-        method: process.env.SERVER_METHOD,
+        method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

@@ -124,7 +124,7 @@ export function StartPetCare({ route }) {
           )}
           {isCare ? (
             <View>
-              <HStack w="70%" mx="auto" mt="5%" mb={18} alignItems="center">
+              {/* <HStack w="70%" mx="auto" mt="5%" mb={18} alignItems="center">
                 <Switch size="lg" colorScheme="primary" />
                 <Text
                   ml={5}
@@ -134,7 +134,7 @@ export function StartPetCare({ route }) {
                 >
                   Estou online para receber solicitações
                 </Text>
-              </HStack>
+              </HStack> */}
 
               <Button
                 title="Logout"

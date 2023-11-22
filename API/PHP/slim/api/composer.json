@@ -1,0 +1,12 @@
+{
+    "name": "petcare/api",
+    "autoload": {
+        "psr-4": {
+            "Sct\\": "secrets/"
+        }
+    },
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.6"
+    }
+}

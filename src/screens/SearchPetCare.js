@@ -23,6 +23,7 @@ import {
   DateTimePickerAndroid
 } from '@react-native-community/datetimepicker'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { APIconnection } from '../api/connection';
 
 export function SearchPetCare({ route }) {
   const { isCare, user } = route.params
@@ -68,29 +69,27 @@ export function SearchPetCare({ route }) {
     setSelectedPet(JSON.parse(response))
   }
   async function handleAddress() {
-    const req = await fetch(
-      `${process.env.SERVER_LINK}addressInformations/${user.id}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    const res = await req.json()
-
-    setAddress({
-      street: res[0].nm_logradouro,
-      houseNumber: res[0].cd_numero_rua,
-      complement: res[0].nm_complemento,
-      district: res[0].nm_bairro,
-      zipCode: res[0].cd_cep,
-      city: res[0].nm_cidade,
-      uf: res[0].nm_uf
-    })
-    setNewEmail(res[0].nm_email)
-    setNewPhone(res[0].cd_telefone)
+    try{
+      const res = await APIconnection(
+        `/addressInformations/${user.id}`,
+        null,
+        'GET'
+      )
+  
+      setAddress({
+        street: res[0].nm_logradouro,
+        houseNumber: res[0].cd_numero_rua,
+        complement: res[0].nm_complemento,
+        district: res[0].nm_bairro,
+        zipCode: res[0].cd_cep,
+        city: res[0].nm_cidade,
+        uf: res[0].nm_uf
+      })
+      setNewEmail(res[0].nm_email)
+      setNewPhone(res[0].cd_telefone)
+    } catch(error){
+      console.error(error)
+    }
   }
 
   useEffect(() => {
