@@ -11,6 +11,8 @@
     // Criação do aplicativo
     $app = AppFactory::create();
 
+    // Parse json, form data e xml
+    $app->addBodyParsingMiddleware();
     // Configuração para aparecer erros
     $app->addRoutingMiddleware();
 
@@ -25,7 +27,8 @@
      * Note: This middleware should be added last. It will not handle any exceptions/errors
      * for middleware added after it.
      */
-    $errorMiddleware = $app->addErrorMiddleware(getenv('DISPLAY_ERROR'), true, true);
+    $show_error = getenv('DISPLAY_ERROR');
+    $errorMiddleware = $app->addErrorMiddleware($show_error, true, true);
 
     //conectando com o banco
     function getConn(){
