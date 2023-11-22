@@ -1,10 +1,11 @@
 import { VStack, Text, Image, HStack, Modal, View } from 'native-base'
-import { TouchableOpacity } from 'react-native'
+import { Alert, TouchableOpacity } from 'react-native'
 import { useState } from 'react'
 import { Button } from '../components/Button'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
 import { useNavigation } from '@react-navigation/native'
+import { APIconnection } from '../api/connection';
 
 export function EditPet({ route }) {
   const [showModal, setShowModal] = useState([false, ''])
@@ -16,17 +17,19 @@ export function EditPet({ route }) {
   const [newPetDs, setNewPetDs] = useState(pet.ds_animal)
 
   async function deletePet(){
-    await fetch(`${process.env.SERVER_LINK}deletePet/${pet.cd_animal}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    let VerifyPet=!newPet
-    nextPage(VerifyPet)
+    try{
+      await APIconnection(
+        `/deletePet/${pet.cd_animal}`, 
+        {},
+        'DELETE'
+      );
+    }catch(error){
+      console.error(error)
+      Alert.alert("Desulpe!","Não foi possível deletar o seu animalzinho")
+    }finally{
+      let VerifyPet=!newPet
+      nextPage(VerifyPet)
+    }
   }
 
   function VerifyPetInformation(){
@@ -47,17 +50,23 @@ export function EditPet({ route }) {
   }
 
   async function updatePet(petName, petWeight, petDescription){
-    await fetch(`${process.env.SERVER_LINK}updatePet/${pet.cd_animal}/${petName}/${petWeight}/${petDescription}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    let VerifyPet=!newPet
-    nextPage(VerifyPet)
+    try{
+      await APIconnection(
+        `/updatePet/${pet.cd_animal}`, 
+        {
+          "petName": petName,
+          "petWeight": petWeight,
+          "petDescription": petDescription
+        },
+        'PUT'
+      );
+    }catch(error){
+      console.error(error)
+      Alert.alert("Desulpe!","Não foi possível realizar a alteração")
+    }finally{
+      let VerifyPet=!newPet
+      nextPage(VerifyPet)
+    }
   }
 
   function nextPage(pet){

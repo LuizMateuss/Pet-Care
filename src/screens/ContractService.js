@@ -16,6 +16,8 @@ import { useNavigation } from '@react-navigation/native'
 import { Header } from '../components/Header'
 import LottieView from 'lottie-react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { APIconnection } from '../api/connection';
+import { Alert } from 'react-native'
 
 export function ContractService({ route }) {
   const [showModal, setShowModal] = useState(false)
@@ -49,22 +51,28 @@ export function ContractService({ route }) {
 
   async function setService(){
     let formatedDate = serviceDate.year+'-'+serviceDate.month+'-'+serviceDate.day+' '+serviceDate.hour+':'+serviceDate.minute+':00'
-    const req = await fetch(`${process.env.SERVER_LINK}setService/${selectedPet.cd_animal}/Passeio/${formatedDate}/S/45.20/12345678/77/Complemento`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-      ).catch(() => {
-        setIsLoading(false)
-        Alert.alert(
-          'Desulpe!',
-          'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+    try{
+      const res = await APIconnection(
+        `/setService/${selectedPet.cd_animal}`,
+        {
+          "servico": "Passeio",
+          "formatedDate": formatedDate,
+          "serviceStatus": "S",
+          "servicePrice": 45.20,
+          "serviceZipCode": "12345678",
+          "serviceHouseNumber": "77",
+          "serviceHouseComplement": "Complemento"
+        },
+        'POST'
       )
-    })
-    setShowModal(true)
+      setShowModal(true)
+    } catch(error){
+      console.error(error)
+      Alert.alert(
+        'Desculpe, ', 
+        'Não foi possível realizar o cadastro do seu serviço...'
+      )
+    }
   }
   return (
     <View flex={1} bg="white">

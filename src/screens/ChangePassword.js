@@ -50,9 +50,6 @@ export function ChangePassword({ route }) {
         'Senha atual é identica à nova senha.'
       )
     }
-    // console.log(currentPasswd)
-    // console.log(newPasswd)
-    // console.log(confirmPasswd)
     updatePasswd()
     setShowModal(true)
   }
@@ -60,16 +57,15 @@ export function ChangePassword({ route }) {
   async function updatePasswd() {
     const req = await fetch(
       process.env.SERVER_LINK +
-        `changepasswd/${user.id}/${currentPasswd}/${newPasswd}`,
+        `/changepasswd/${user.id}/${currentPasswd}/${newPasswd}`,
       {
-        method: process.env.SERVER_METHOD,
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         }
       }
     )
-    console.log('foi')
   }
 
   function closeModal() {

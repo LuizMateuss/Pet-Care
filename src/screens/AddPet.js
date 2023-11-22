@@ -43,10 +43,9 @@ export function AddPet({ route }) {
 
     let sendDescription=description
     if(!description) sendDescription=null
-
-    let req = await fetch(`${process.env.SERVER_LINK}registrationAnimal/${user.id}/${name}/${birthday}/${gender}/${weight}/${sendDescription}/${size}/${race}`,
+    let req = await fetch(`${process.env.SERVER_LINK}/registrationAnimal/${user.id}/${name}/${birthday}/${gender}/${weight}/${sendDescription}/${size}/${race}`,
       {
-        method: process.env.SERVER_METHOD,
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

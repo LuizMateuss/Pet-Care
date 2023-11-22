@@ -26,6 +26,7 @@ import { ContractService } from '../screens/ContractService'
 import { ChangePassword } from '../screens/ChangePassword'
 import { RequestedServices } from '../screens/RequestedServices'
 import { RegisterAddress } from '../screens/RegisterAddress'
+import { RegisterAddressCep } from '../screens/RegisterAddressCep'
 import { AddPet } from '../screens/AddPet'
 import { EditProfile } from '../screens/EditProfile'
 import { EditPet } from '../screens/EditPet'
@@ -60,6 +61,7 @@ export function AppRoutes() {
       <Screen name="optionsSignUp" component={OptionsSignUp} />
       <Screen name="createAccount" component={CreateAccount} />
       <Screen name="registerAddress" component={RegisterAddress} />
+      <Screen name="registerAddressCep" component={RegisterAddressCep} />
       <Screen name="menuHamburguer" component={MenuHamburguer} />
       <Screen name="profileCare" component={ProfileCare} />
       <Screen name="changePassword" component={ChangePassword} />

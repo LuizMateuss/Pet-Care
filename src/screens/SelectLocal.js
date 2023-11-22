@@ -9,12 +9,14 @@ import { useNavigation } from '@react-navigation/native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Input } from '../components/Input'
+import { APIconnection } from '../api/connection';
+import { Alert } from 'react-native'
 
 export function SelectLocal({ route }) {
   const navigation = useNavigation()
 
   const { isCare, user, newName, newEmail, newPhone } = route.params
-  console.log(route.params)
+
   const mainColor = isCare ? '#00ABBC' : '#511AC7'
 
   const [pickupAndDropCords, setPickupAndDropCords] = useState({
@@ -29,25 +31,39 @@ export function SelectLocal({ route }) {
   const [showModal, setShowModal] = useState(false)
 
   async function changeAddressAndNextPage() {
-    await fetch(
-      `${process.env.SERVER_LINK}updateUser/${user.id}/${newName}/${newEmail}/${newPhone}/${address.cep}/${address.numero}/${address.logradouro}/${addressComplement}/${address.bairro}/${address.localidade}/${address.uf}`,
-      {
-        method: process.env.SERVER_METHOD,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    ).catch(() => {
-      verify = false
+    try{
+      const res = await APIconnection(
+        `/updateUser`,
+        {
+          "id": user.id,
+          "newName": newName,
+          "newEmail": newEmail,
+          "newPhone": newPhone,
+          "zipCode": address.cep,
+          "newHouseNumber": address.numero,
+          "street": address.logradouro,
+          "newComplement": addressComplement,
+          "district": address.bairro,
+          "city": address.localidade,
+          "uf": address.uf
+        },
+        'PUT'
+      )
+    } catch(error){
+      console.error('put: ', error)
       Alert.alert(
         'Desulpe!',
         'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
+        )
+    }
+    navigation.goBack()
+  }
+
+  function googleApiError(){
+    Alert.alert(
+      'Desulpe!',
+      'Estamos enfrentando problemas de conexão, por favor tente novamente mais tarde.'
       )
-    })
-    console.log(
-      `${process.env.SERVER_LINK}updateUser/${user.id}/${newName}/${newEmail}/${newPhone}/${address.cep}/${address.numero}/${address.logradouro}/${address.complemento}/${address.bairro}/${address.localidade}/${address.uf}`
-    )
     navigation.goBack()
   }
 
@@ -83,6 +99,18 @@ export function SelectLocal({ route }) {
 
       <GooglePlacesAutocomplete
         placeholder="Insira o local"
+        onFail={(error) => {
+          console.error('Fail: ', error)
+          googleApiError()
+        }}
+        onNotFound={(error) => {
+          console.error('NotFound: ', error)
+          googleApiError()
+        }}
+        onTimeout={(error) => {
+          console.error('Timeout: ', error)
+          googleApiError()
+        }}
         onPress={async (data, details = null) => {
           setPickupAndDropCords({
             latitude: details.geometry.location.lat,

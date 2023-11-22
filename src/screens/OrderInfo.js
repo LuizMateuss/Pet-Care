@@ -9,9 +9,9 @@ export function OrderInfo({ route }) {
   const { request, user, isCare } = route.params
 
   async function acceptRequest(){
-    await fetch(`${process.env.SERVER_LINK}requestAccept/${user.id}/${request.cd_servico}`,
+    await fetch(`${process.env.SERVER_LINK}/requestAccept/${user.id}/${request.cd_servico}`,
       {
-        method: process.env.SERVER_METHOD,
+        method: 'PUT',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

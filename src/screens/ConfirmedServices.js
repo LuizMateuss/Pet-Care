@@ -14,9 +14,9 @@ export function ConfirmedServices({ route }) {
 
   async function getConfirmedService(){
     const req = await fetch(
-      `${process.env.SERVER_LINK}confirmedServices/${user.id}/${isCare}`,
+      `${process.env.SERVER_LINK}/confirmedServices/${user.id}/${isCare}`,
       {
-        method: process.env.SERVER_METHOD,
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export function ConfirmedServices({ route }) {
         {confirmedServices.map((service)=>
           <RequestedServiceCard
             key={service.cd_servico}
-            name={isCare ? `${service.tutorName}` : `${service.cuidadorName}`}
+            name={isCare ? `${service.tutorname}` : `${service.cuidadorname}`}
             status="Confirmado"
             image={require('../../assets/img/anonymous.png')}
             typeService={service.nm_tipo_servico}
