@@ -2,16 +2,30 @@
     require 'vendor/autoload.php';
     use \Psr\Http\Message\ServerRequestInterface as Request;
     use \Psr\Http\Message\ResponseInterface as Response;
-    use \Sct\Common\Environment;
+    use Slim\Factory\AppFactory;
+    use Sct\Common\Environment;
+
+    // Carrega o ambiente .env
     Environment::load(__DIR__);
 
-    $configuration = [
-        'settings' => [
-            'displayErrorDetails' => getenv('DISPLAY_ERROR'),
-        ],
-    ];
-    $c = new \Slim\Container($configuration);
-    $app = new \Slim\App($c);
+    // Criação do aplicativo
+    $app = AppFactory::create();
+
+    // Configuração para aparecer erros
+    $app->addRoutingMiddleware();
+
+    /**
+     * Add Error Middleware
+     *
+     * @param bool                  $displayErrorDetails -> Should be set to false in production
+     * @param bool                  $logErrors -> Parameter is passed to the default ErrorHandler
+     * @param bool                  $logErrorDetails -> Display error details in error log
+     * @param LoggerInterface|null  $logger -> Optional PSR-3 Logger  
+     *
+     * Note: This middleware should be added last. It will not handle any exceptions/errors
+     * for middleware added after it.
+     */
+    $errorMiddleware = $app->addErrorMiddleware(getenv('DISPLAY_ERROR'), true, true);
 
     //conectando com o banco
     function getConn(){
