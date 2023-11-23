@@ -2,7 +2,8 @@ name: Deploy mobile app
 on:
   push:
     branches:
-      - main
+    #   - main
+      - teste-actions
     paths:
       - 'Mobile/**'
 jobs:
