@@ -3,12 +3,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - '.github/**'
-      - 'API/**'
-      - '.gitignore'
-      - '**.md'
-
+    paths:
+      - 'Mobile/**'
 jobs:
   build:
     runs-on: ubuntu-latest
