@@ -27,10 +27,11 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN_DEV }}
-          working-directory: ./Mobile
 
       - name: 📦 Install dependencies
+        working-directory: ./Mobile
         run: npm install
 
       - name: 🚀 Build app
+        working-directory: ./Mobile
         run: eas build --non-interactive --platform android
