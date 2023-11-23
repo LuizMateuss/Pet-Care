@@ -28,7 +28,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN_DEV }}
 
       - name: 📦 Install dependencies
-        run: npm install ./Mobile/
+        run: cd ./Mobile/ && npm install
 
       - name: 🚀 Build app
         run: cd ./Mobile/ && eas build --non-interactive --platform android
