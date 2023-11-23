@@ -47,9 +47,9 @@ export function SignIn() {
       if (isCare) sendIsCare = 'C'
       else sendIsCare = 'T'
 
-      try{
+      try {
         const resLogin = await APIconnection(
-          `/login`, 
+          `/login`,
           {
             "email": configEmail,
             "password": password,
@@ -76,7 +76,7 @@ export function SignIn() {
           )
         }
 
-      } catch(error){
+      } catch (error) {
         console.error(error)
         setIsLoading(false)
         Alert.alert(
@@ -151,7 +151,7 @@ export function SignIn() {
               </HStack>
             </Radio.Group>
             <Button
-              title="Logar"
+              title={`Logar ${process.env.SERVER_LINK}`}
               borderWidth={1}
               borderColor="white"
               marginY={1}

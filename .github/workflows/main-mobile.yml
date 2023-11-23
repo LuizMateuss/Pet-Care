@@ -1,4 +1,7 @@
 name: Deploy mobile app
+env:
+  SERVER_LINK: ${{ secrets.SERVER_LINK }}
+  GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
 on:
   push:
     branches:
