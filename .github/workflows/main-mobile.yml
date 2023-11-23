@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 🏗 Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 20.x
           cache: npm
           cache-dependency-path: Mobile/package-lock.json
         
       - name: 🏗 Setup Expo and EAS
-        uses: expo/expo-github-action@v7
+        uses: expo/expo-github-action@v8
         with:
           expo-version: latest
           eas-version: latest
@@ -34,4 +34,5 @@ jobs:
 
       - name: 🚀 Build app
         working-directory: ./Mobile
-        run: eas build --non-interactive --platform android
+        # run: eas build --non-interactive --platform android
+        run: eas update --auto
