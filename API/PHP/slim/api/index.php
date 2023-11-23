@@ -63,8 +63,10 @@
 
     //FUNÇÕES DE CONCÇÃO
     $app->get('/', function(Request $request, Response $response, array $args){
-        var_dump($_ENV);
-        $response->getBody()->write("Teste API - HOME ".getenv('DISPLAY_ERROR'));
+        $response->getBody()->write("Teste API - HOME "
+        .getenv('SGBD').':host='.getenv('HOST').';port='
+        .getenv('PORT').';dbname='.getenv('DATABASE')."\n".getenv('USER')."\n".
+        getenv('PASSWD'));
         return $response;
     });
 
