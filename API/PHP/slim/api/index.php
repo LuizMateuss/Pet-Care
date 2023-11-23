@@ -66,7 +66,7 @@
         $response->getBody()->write("Teste API - HOME "
         .getenv('SGBD').':host='.getenv('HOST').';port='
         .getenv('PORT').';dbname='.getenv('DATABASE')."\n".getenv('USER')."\n".
-        getenv('PASSWD'));
+        getenv('PASSWD')."\n".getenv('DISPLAY_ERROR'));
         return $response;
     });
 
