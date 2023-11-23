@@ -6,6 +6,7 @@ on:
       - teste-actions
     paths:
       - 'Mobile/**'
+      - '.github/**'
 jobs:
   build:
     runs-on: ubuntu-latest
