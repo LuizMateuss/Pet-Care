@@ -33,7 +33,7 @@ jobs:
           echo "DATABASE=${{ secrets.DATABASE }}" >> ./API/PHP/slim/api/.env
           echo "USER=${{ secrets.USER }}" >> ./API/PHP/slim/api/.env
           echo "PASSWD=${{ secrets.PASSWD }}" >> ./API/PHP/slim/api/.env
-          echo "DISPLAY_ERROR=${{ secrets.DISPLAY_ERROR }}${{ secrets.ENDPOINT }}" >> ./API/PHP/slim/api/.env
+          echo "DISPLAY_ERROR=${{ secrets.DISPLAY_ERROR }};${{ secrets.ENDPOINT }}" >> ./API/PHP/slim/api/.env
 
       - name: Pull Vercel Environment Information
         working-directory: ./API/PHP/slim
