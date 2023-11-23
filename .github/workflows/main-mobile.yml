@@ -38,4 +38,5 @@ jobs:
       - name: 🚀 Build app
         working-directory: ./Mobile
         # run: eas build --non-interactive --platform android
-        run: eas update --auto
+        # run: eas update --auto
+        run: eas update --auto --platform android

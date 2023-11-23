@@ -3,19 +3,21 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-  SGBD: ${{ secrets.SGBD_DEV }}
-  HOST: ${{ secrets.VERCEL_PROJECT_ID_DEV }}
-  PORT: ${{ secrets.PORT_DEV }}
-  DATABASE: ${{ secrets.DATABASE_DEV }}
-  USER: ${{ secrets.USER_DEV }}
-  PASSWD: ${{ secrets.PASSWD_DEV }}
-  DISPLAY_ERROR: ${{ secrets.DISPLAY_ERROR_DEV }}
+  SGBD: ${{ secrets.SGBD }}
+  HOST: ${{ secrets.VERCEL_PROJECT_ID }}
+  PORT: ${{ secrets.PORT }}
+  DATABASE: ${{ secrets.DATABASE }}
+  USER: ${{ secrets.USER }}
+  PASSWD: ${{ secrets.PASSWD }}
+  DISPLAY_ERROR: ${{ secrets.DISPLAY_ERROR }}
 on:
   push:
     branches:
-      - pre-main
+      # - pre-main
+      - teste-actions
     paths:
       - 'API/PHP/slim/**'
+      - '.github/**'
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest

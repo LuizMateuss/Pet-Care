@@ -151,7 +151,7 @@ export function SignIn() {
               </HStack>
             </Radio.Group>
             <Button
-              title={`Logar ${process.env.SERVER_LINK}`}
+              title="Logar"
               borderWidth={1}
               borderColor="white"
               marginY={1}
