@@ -23,14 +23,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          # command: your-command-here
+          working_dir: "API/PHP/slim/api"
+
       - name: Pull Vercel Environment Information
         working-directory: ./API/PHP/slim
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build Project Artifacts
         working-directory: ./API/PHP/slim
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

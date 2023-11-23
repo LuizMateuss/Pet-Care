@@ -9,7 +9,7 @@ on:
       - teste-actions
     paths:
       - 'Mobile/**'
-      - '.github/**'
+      # - '.github/**'
 jobs:
   build:
     runs-on: ubuntu-latest
