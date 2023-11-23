@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "jellyfishdev",
     "name": "PetCare",
     "slug": "petcare",
     "version": "1.0.0",
