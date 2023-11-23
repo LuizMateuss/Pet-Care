@@ -33,6 +33,10 @@ jobs:
           # command: your-command-here
           working_dir: "API/PHP/slim/api"
 
+      - name: Criar arquivo .env
+        run: |
+          echo "DISPLAY_ERROR=${{ secrets.DISPLAY_ERROR }}" >> ./API/PHP/slim/api/.env
+
       - name: Pull Vercel Environment Information
         working-directory: ./API/PHP/slim
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}

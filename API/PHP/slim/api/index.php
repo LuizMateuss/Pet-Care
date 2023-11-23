@@ -63,6 +63,7 @@
 
     //FUNÇÕES DE CONCÇÃO
     $app->get('/', function(Request $request, Response $response, array $args){
+        var_dump($_ENV);
         $response->getBody()->write("Teste API - HOME ".getenv('DISPLAY_ERROR'));
         return $response;
     });
