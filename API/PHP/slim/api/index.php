@@ -62,9 +62,8 @@
 
 
     //FUNÇÕES DE CONCÇÃO
-    
     $app->get('/', function(Request $request, Response $response, array $args){
-        $response->getBody()->write("Teste API - HOME ".$show_error);
+        $response->getBody()->write("Teste API - HOME ".getenv('DISPLAY_ERROR'));
         return $response;
     });
 
