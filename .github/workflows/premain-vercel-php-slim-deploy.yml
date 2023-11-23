@@ -2,14 +2,6 @@ name: Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-  SGBD: ${{ secrets.SGBD }}
-  HOST: ${{ secrets.VERCEL_PROJECT_ID }}
-  PORT: ${{ secrets.PORT }}
-  DATABASE: ${{ secrets.DATABASE }}
-  USER: ${{ secrets.USER }}
-  PASSWD: ${{ secrets.PASSWD }}
-  DISPLAY_ERROR: ${{ secrets.DISPLAY_ERROR }}
 on:
   push:
     branches:
@@ -21,6 +13,7 @@ on:
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
+    environment: pre-main
     steps:
       - uses: actions/checkout@v2
 
@@ -30,11 +23,16 @@ jobs:
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
-          # command: your-command-here
           working_dir: "API/PHP/slim/api"
 
-      - name: Criar arquivo .env
+      - name: Create .env arquive
         run: |
+          echo "SGBD=${{ secrets.SGBD }}" >> ./API/PHP/slim/api/.env
+          echo "HOST=${{ secrets.HOST }}" >> ./API/PHP/slim/api/.env
+          echo "PORT=${{ secrets.PORT }}" >> ./API/PHP/slim/api/.env
+          echo "DATABASE=${{ secrets.DATABASE }}" >> ./API/PHP/slim/api/.env
+          echo "USER=${{ secrets.USER }}" >> ./API/PHP/slim/api/.env
+          echo "PASSWD=${{ secrets.PASSWD }}" >> ./API/PHP/slim/api/.env
           echo "DISPLAY_ERROR=${{ secrets.DISPLAY_ERROR }}" >> ./API/PHP/slim/api/.env
 
       - name: Pull Vercel Environment Information
@@ -47,4 +45,4 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} 
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
