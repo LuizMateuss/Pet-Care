@@ -75,9 +75,9 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN_DEV }}
 
-      - name: 📦 Install dependencies
-        working-directory: ./Mobile
-        run: npm install
+      # - name: 📦 Install dependencies
+        # working-directory: ./Mobile
+        # run: npm install
 
       - name: 🚀 Build app
         env:
@@ -86,4 +86,6 @@ jobs:
         working-directory: ./Mobile
         # run: eas build --non-interactive --platform android
         # run: eas update --auto
-        run: eas update --auto --platform android
+        run: |
+          echo "Teste $deploymentUrl"
+          # eas update --auto --platform android
