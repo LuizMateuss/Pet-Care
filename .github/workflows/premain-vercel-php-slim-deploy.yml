@@ -46,8 +46,8 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
         run: |
-          # vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
-          vercel deploy > deployment-url.txt
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
+          # vercel deploy > deployment-url.txt
           # check the exit code
           code=$?
           if [ $code -eq 0 ]; then
