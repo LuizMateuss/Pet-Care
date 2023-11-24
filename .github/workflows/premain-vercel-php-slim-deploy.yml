@@ -60,6 +60,9 @@ jobs:
               echo "There was an error: $errorMessage"
           fi
           echo "Teste $deploymentUrl"
+          export SERVER_LINK=$deploymentUrl
+          echo "Link"
+          echo $SERVER_LINK
 
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
@@ -75,18 +78,20 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN_DEV }}
 
-      # - name: 📦 Install dependencies
-        # working-directory: ./Mobile
-        # run: npm install
+      - name: 📦 Install dependencies
+        working-directory: ./Mobile
+        run: npm install
 
       - name: 🚀 Build app
         env:
-          SERVER_LINK: $deploymentUrl
+          SERVER_LINK: $SERVER_LINK
           GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
         working-directory: ./Mobile
         # run: eas build --non-interactive --platform android
         # run: eas update --auto
         run: |
           echo "Teste $deploymentUrl"
+          echo "Link"
+          echo $SERVER_LINK
           eas update --auto --platform android > deployment-app.txt
           cat deployment-app.txt
