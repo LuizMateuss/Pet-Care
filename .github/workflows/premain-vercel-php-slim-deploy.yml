@@ -112,5 +112,3 @@ jobs:
           eas update --auto --platform android > deployment-app.txt
           echo "Arquivo"
           cat deployment-app.txt
-          echo "Arquivo2"
-          cat ../API/PHP/slim/deployment-url.txt
