@@ -11,11 +11,11 @@ on:
       - 'API/PHP/slim/**'
       - '.github/**'
 jobs:
-  Deploy-Preview:
+  Deploy-Preview-To-Vercel:
     runs-on: ubuntu-latest
     environment: pre-main
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -45,4 +45,45 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
+          vercel deploy > deployment-url.txt
+          # check the exit code
+          code=$?
+          if [ $code -eq 0 ]; then
+              # Now you can use the deployment url from stdout for the next step of your workflow
+              deploymentUrl=`cat deployment-url.txt`
+              
+          else
+              # Handle the error
+              errorMessage=`cat error.txt`
+              echo "There was an error: $errorMessage"
+          fi
+          echo "Teste $deploymentUrl"
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: npm
+          cache-dependency-path: Mobile/package-lock.json
+        
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN_DEV }}
+
+      - name: 📦 Install dependencies
+        working-directory: ./Mobile
+        run: npm install
+
+      - name: 🚀 Build app
+        env:
+          SERVER_LINK: $deploymentUrl
+          GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
+        working-directory: ./Mobile
+        # run: eas build --non-interactive --platform android
+        # run: eas update --auto
+        run: eas update --auto --platform android

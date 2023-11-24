@@ -45,28 +45,25 @@
     $app->post('/verifyRegistration', 'getVerifyRegistration');
     $app->post('/registration', 'getRegistration');
     $app->put('/updateUser', 'getUpdateUser');
-    $app->map(['get', 'post'], '/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
+    $app->post('/changepasswd/{id}/{currentpasswd}/{newpasswd}', 'getChangePasswd');
     
     $app->get('/addressInformations/{id}', 'getAddressInformations');
 
-    $app->map(['get', 'post'], '/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
-    $app->map(['get', 'post'], '/petInformations/{id}', 'getPetInformations');
+    $app->post('/registrationAnimal/{id}/{name}/{birth}/{gender}/{weight}/{description}/{size}/{race}', 'getregistrationAnimal');
+    $app->get('/petInformations/{id}', 'getPetInformations');
     $app->delete('/deletePet/{id}', 'getDeletePet');
     $app->put('/updatePet/{id}', 'getUpdatePet');
 
     $app->post('/setService/{selectedPet}', 'getSetService');
-    $app->map(['get', 'post'], '/requestedServices/{id}', 'getRequestedServices');
-    $app->map(['get', 'post'], '/confirmedServices/{id}/{isCare}', 'getConfirmedServices');
+    $app->post('/requestedServices/{id}', 'getRequestedServices');
+    $app->post('/confirmedServices/{id}/{isCare}', 'getConfirmedServices');
     $app->get('/requests', 'getRequests');
     $app->put('/requestAccept/{id}/{serviceID}', 'getRequestAccept');
 
 
     //FUNÇÕES DE CONCÇÃO
     $app->get('/', function(Request $request, Response $response, array $args){
-        $response->getBody()->write("Teste API - HOME "
-        .getenv('SGBD').':host='.getenv('HOST').';port='
-        .getenv('PORT').';dbname='.getenv('DATABASE')."\n".getenv('USER')."\n".
-        getenv('PASSWD')."\n".getenv('DISPLAY_ERROR'));
+        $response->getBody()->write("Teste API - HOME ".getenv('DISPLAY_ERROR'));
         return $response;
     });
 
