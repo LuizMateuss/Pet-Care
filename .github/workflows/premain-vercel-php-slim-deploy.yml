@@ -46,7 +46,7 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
         run: |
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > /deployment-url.txt
           # vercel deploy > deployment-url.txt
           # check the exit code
           code=$?
@@ -63,6 +63,7 @@ jobs:
           export SERVER_LINK=$deploymentUrl
           echo "Link"
           echo $SERVER_LINK
+          ls
         env:
           SERVER_LINK: $SERVER_LINK
       - name: Teste
@@ -99,3 +100,5 @@ jobs:
           eas update --auto --platform android > deployment-app.txt
           echo "Arquivo"
           cat deployment-app.txt
+          echo "Arquivo2"
+          cat ../API/PHP/slim/deployment-url.txt
