@@ -63,6 +63,10 @@ jobs:
           export SERVER_LINK=$deploymentUrl
           echo "Link"
           echo $SERVER_LINK
+        env:
+          SERVER_LINK: $SERVER_LINK
+      - name: Teste
+        run: echo $SERVER_LINK
 
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
@@ -84,7 +88,6 @@ jobs:
 
       - name: 🚀 Build app
         env:
-          SERVER_LINK: $SERVER_LINK
           GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
         working-directory: ./Mobile
         # run: eas build --non-interactive --platform android
@@ -94,4 +97,5 @@ jobs:
           echo "Link"
           echo $SERVER_LINK
           eas update --auto --platform android > deployment-app.txt
+          echo "Arquivo"
           cat deployment-app.txt
