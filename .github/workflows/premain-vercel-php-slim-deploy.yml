@@ -14,6 +14,9 @@ jobs:
   Deploy-Preview-To-Vercel:
     runs-on: ubuntu-latest
     environment: pre-main
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
     steps:
       - uses: actions/checkout@v3
 
@@ -45,8 +48,9 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
+        id: step1
         run: |
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > /deployment-url.txt
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
           # vercel deploy > deployment-url.txt
           # check the exit code
           code=$?
@@ -63,12 +67,14 @@ jobs:
           export SERVER_LINK=$deploymentUrl
           echo "Link"
           echo $SERVER_LINK
+          echo "test=$deploymentUrl" >> "$GITHUB_OUTPUT"
           ls
-        env:
-          SERVER_LINK: $SERVER_LINK
-      - name: Teste
-        run: echo $SERVER_LINK
-
+  
+  Mobile-Update:
+    runs-on: ubuntu-latest
+    environment: pre-main
+    needs: Deploy-Preview-To-Vercel
+    steps:
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
@@ -89,11 +95,14 @@ jobs:
 
       - name: 🚀 Build app
         env:
+          SERVER_LINK: ${{needs.Deploy-Preview-To-Vercel.outputs.output1}}
           GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
         working-directory: ./Mobile
         # run: eas build --non-interactive --platform android
         # run: eas update --auto
         run: |
+          echo "link server"
+          echo "$SERVER_LINK"
           echo "Teste $deploymentUrl"
           echo "Link"
           echo $SERVER_LINK
