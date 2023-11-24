@@ -88,4 +88,5 @@ jobs:
         # run: eas update --auto
         run: |
           echo "Teste $deploymentUrl"
-          # eas update --auto --platform android
+          eas update --auto --platform android > deployment-app.txt
+          cat deployment-app.txt
