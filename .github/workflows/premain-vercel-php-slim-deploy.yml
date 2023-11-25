@@ -58,7 +58,6 @@ jobs:
               echo "There was an error: $errorMessage"
           fi
           echo "test=$deploymentUrl" >> "$GITHUB_OUTPUT"
-          # clear
   
   Mobile-Update:
     runs-on: ubuntu-latest
@@ -100,8 +99,12 @@ jobs:
         # run: eas update --auto
       - name: teste
         run: |
-          echo "QRCode: ${{ steps.preview.outputs.qr }}"
           echo "Id ${{ steps.preview.outputs.groupId }}"
+          echo "QRCode: ${{ steps.preview.outputs.qr }}"
+          echo "androidId ${{ steps.preview.outputs.androidId }}"
+          echo "androidQR ${{ steps.preview.outputs.androidQR }}"
+          echo "iosId ${{ steps.preview.outputs.iosId }}"
+          echo "iosQR ${{ steps.preview.outputs.iosQR }}"
 
 # https://vercel.com/docs/cli/deploy#standard-output-usage
 # https://docs.expo.dev/develop/development-builds/share-with-your-team/
