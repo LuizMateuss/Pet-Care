@@ -16,7 +16,6 @@ jobs:
     environment: pre-main
     outputs:
       output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
     steps:
       - uses: actions/checkout@v3
 
@@ -51,24 +50,15 @@ jobs:
         id: step1
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
-          # vercel deploy > deployment-url.txt
-          # check the exit code
           code=$?
           if [ $code -eq 0 ]; then
-              # Now you can use the deployment url from stdout for the next step of your workflow
               deploymentUrl=`cat deployment-url.txt`
-              
           else
-              # Handle the error
               errorMessage=`cat error.txt`
               echo "There was an error: $errorMessage"
           fi
-          echo "Teste $deploymentUrl"
-          export SERVER_LINK=$deploymentUrl
-          echo "Link"
-          echo $SERVER_LINK
           echo "test=$deploymentUrl" >> "$GITHUB_OUTPUT"
-          ls
+          clear
   
   Mobile-Update:
     runs-on: ubuntu-latest
@@ -96,19 +86,27 @@ jobs:
         working-directory: ./Mobile
         run: npm install
 
-      - name: 🚀 Build app
+      - name: 🚀 Create preview
+        uses: expo/expo-github-action/preview@v8
         env:
           SERVER_LINK: ${{needs.Deploy-Preview-To-Vercel.outputs.output1}}
           GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
-        working-directory: ./Mobile
+        id: preview
+        with:
+          command: eas update --auto
+          comment: false
+          working-directory: ./Mobile
         # run: eas build --non-interactive --platform android
         # run: eas update --auto
+      - name: teste
         run: |
-          echo "link server"
-          echo "$SERVER_LINK"
-          echo "Teste $deploymentUrl"
-          echo "Link"
-          echo $SERVER_LINK
-          eas update --auto --platform android > deployment-app.txt
-          echo "Arquivo"
-          cat deployment-app.txt
+          echo "QRCode: ${{ steps.preview.outputs.qr }}"
+          echo "Id ${{ steps.preview.outputs.groupId }}"
+
+# https://vercel.com/docs/cli/deploy#standard-output-usage
+# https://docs.expo.dev/develop/development-builds/share-with-your-team/
+# https://docs.expo.dev/eas-update/github-actions/#publish-previews-on-pull-requests
+# https://github.com/expo/expo-github-action/tree/main/preview#readme
+
+
+# https://docs.expo.dev/build-reference/variants/
