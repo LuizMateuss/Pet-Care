@@ -1,5 +1,8 @@
 # PetCare 🐾
 
+## Welcome to PetCare 🐾
+PetCare is not just an app; it's a community dedicated to connecting pet caregivers with loving pet owners for delightful and secure walks. 🌟
+
 ## Description
 
 PetCare is an application designed to connect pet caregivers with pet owners for delightful and safe walks. 🐶 Whether you're a caring pet parent or a dedicated caregiver, PetCare makes finding the perfect match easy and enjoyable.
@@ -15,7 +18,7 @@ To get started with PetCare, follow these simple steps:
 
 ## Usage
 
-You can also experience PetCare instantly by using our Expo deployment. Just click on the [Expo PetCare Deployment Link](exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac) or scan the QR code below:
+You can also experience PetCare instantly by using our Expo deployment. Just copy and paste the link on expo app: exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac or scan the QR code below:
 
 ![PetCare Expo QR Code](<QR_CODE_IMAGE_URL>)
 
@@ -39,6 +42,6 @@ Active and continuously improving. Expect regular updates and enhancements.
 
 Explore our Figma prototype at [PetCare Figma Prototype](https://cutt.ly/wwOIuvWR).
 
-## Contact
+## Contact 🚀
 
-For inquiries, suggestions, or just a friendly chat, drop us an email at jellyfishdevelopment@gmail.com. We're excited to connect with you! 🌊📧
+For inquiries, suggestions, or just a friendly chat, drop us an email at jellyfishdevelopment@gmail.com. We're excited to connect with you! 📧
