@@ -7,7 +7,7 @@
 </p>
 
 ## Welcome to PetCare
-PetCare is not just an app; it's a community dedicated to connecting pet caregivers with loving pet owners for delightful and secure walks. 🌟
+PetCare is not just an app; it's a community dedicated to connecting pet caregivers with loving pet owners for delightful and secure walks 💜🚶
 
 ## Description
 
@@ -24,9 +24,10 @@ To get started with PetCare, follow these simple steps:
 
 ## Usage
 
-You can also experience PetCare instantly by using our Expo deployment. Just copy and paste the link on expo app: exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac or scan the QR code below:
+You can also experience PetCare instantly by using our Expo deployment. Just copy and paste the link on expo app: exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac
 
-![PetCare Expo QR Code](<QR_CODE_IMAGE_URL>)
+<!--or scan the QR code below:-->
+<!--![PetCare Expo QR Code](<QR_CODE_IMAGE_URL>)-->
 
 ## Contributions
 
