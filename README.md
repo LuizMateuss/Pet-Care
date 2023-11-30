@@ -13,6 +13,8 @@ PetCare is not just an app; it's a community dedicated to connecting pet caregiv
 
 PetCare is an application designed to connect pet caregivers with pet owners for delightful and safe walks. 🐶 Whether you're a caring pet parent or a dedicated caregiver, PetCare makes finding the perfect match easy and enjoyable.
 
+
+<!--
 ## Installation
 
 To get started with PetCare, follow these simple steps:
@@ -20,7 +22,7 @@ To get started with PetCare, follow these simple steps:
 1. Install Node.js
 2. Install dependencies using `npm i`
 3. Run the project with `npx expo start`
-4. Open your preferred Android emulator or use the Expo app to scan the QR code for immediate access.
+4. Open your preferred Android emulator or use the Expo app to scan the QR code for immediate access. -->
 
 ## Usage
 
