@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=BM72He8W3SE
 import { LinearGradient } from 'expo-linear-gradient'
 import {
   HStack,
@@ -16,13 +17,90 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { APIconnection } from '../api/connection';
 
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 export function SignIn() {
   const [isCare, setIsCare] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
+  // This goes inside your component
+  // This useEffect will run the handleResponse function when response changes
+  useEffect(() => {
+    handleResponse();
+  }, [response]);
+  // GitHub Endpoints
 
+  // const token = '3d980f1d0279cd4cba89'
+  const token = '01a2a6a98303f91880a4'
+  const discovery = {
+    authorizationEndpoint: "https://github.com/login/oauth/authorize",
+    tokenEndpoint: "https://github.com/login/oauth/access_token",
+    // revocationEndpoint: `https://github.com/settings/connections/applications/${token}`,
+    revocationEndpoint: `https://github.com/settings/connections/applications/${token}`,
+  };
+
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      // clientId: process.env.EXPO_PUBLIC_GITHUB_CLIENT_ID!,
+      clientId: `${token}`,
+      scopes: ["identity", "user:email", "user:follow"],
+      redirectUri: makeRedirectUri(),
+      // redirectUri: 'petcare://',
+    },
+    discovery,
+  );
+
+  useEffect(() => {
+    handleResponse();
+  }, [response]);
+
+  async function handleResponse() {
+    console.log('res1: ', response)
+    console.log('req: ', request)
+    // Verify that everything went well
+    if (response?.type === "success") {
+      // Here we grab the code from the response
+      const { code } = response.params;
+
+      // And use this code to get the access_token
+      const { token_type, scope, access_token } = await createTokenWithCode(code);
+
+      // Just in case we don't have the token return early
+      if (!access_token) return;
+
+      // GithubAuthProvider is a class that we can import from 'firebase/auth'
+      // We pass the token and it returns a credential
+      // const credential = GithubAuthProvider.credential(access_token);
+
+      // Finally we use that credential to register the user in Firebase
+      // const data = await signInWithCredential(auth, credential);
+      console.log('acc: ', access_token)
+    }
+  }
+
+  // This function makes a POST request for the token
+  async function createTokenWithCode(code) {
+    const url =
+      `https://github.com/login/oauth/access_token` +
+      // `?client_id=${process.env.EXPO_PUBLIC_GITHUB_CLIENT_ID}` +
+      `?client_id=${token}` +
+      // `&client_secret=${process.env.EXPO_PUBLIC_GITHUB_CLIENT_SECRET}` +
+      // `&client_secret=403a63ebd1dc08318d75c3eaac25b8a928d5b786` +
+      `&client_secret=dffcd730e8b4dbe63fd9827a796feaea57ed716f` +
+      `&code=${code}`; // 👈 we are passing the code here
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    // The response should come with: { token_type, scope, access_token }
+    return res.json();
+  }
   //valida campos vázios
   function handleSignIn() {
     if (!email || !password || isCare === '') {
@@ -171,6 +249,9 @@ export function SignIn() {
               marginY={1}
               width="100%"
               onPress={() => navigation.navigate('optionsSignUp')}
+            // onPress={() => {
+            //   promptAsync()
+            // }}
             />
           </VStack>
 
@@ -187,10 +268,16 @@ export function SignIn() {
               </Text>
 
               <HStack mx={4} justifyContent="space-between">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => { promptAsync() }}>
                   <Image
                     alt="Facebook"
                     source={require('../../assets/img/facebook.png')}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { promptAsync() }}>
+                  <Image
+                    alt="Github"
+                    source={require('../../assets/img/github.png')}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity>
