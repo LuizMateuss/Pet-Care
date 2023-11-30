@@ -1,6 +1,6 @@
 # PetCare 🐾
 
-## Welcome to PetCare 🐾
+## Welcome to PetCare
 PetCare is not just an app; it's a community dedicated to connecting pet caregivers with loving pet owners for delightful and secure walks. 🌟
 
 ## Description
