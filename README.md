@@ -1,4 +1,10 @@
-# PetCare 🐾
+<p align="center">
+    <a href="https://github.com/LuizMateuss/Pet-Care/">
+        <img src="https://i.imgur.com/Z6OOazx.png" width="400"></a>
+    <br><br>
+    <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=black"></a>
+    <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-%23007ACC.svg?style=flat&logo=php&logoColor=white"></a>
+</p>
 
 ## Welcome to PetCare
 PetCare is not just an app; it's a community dedicated to connecting pet caregivers with loving pet owners for delightful and secure walks. 🌟
