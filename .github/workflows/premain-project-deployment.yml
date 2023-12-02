@@ -9,13 +9,13 @@ on:
       - teste-actions
     paths:
       - 'API/PHP/slim/**'
-      # - '.github/**'
+      - '.github/**'
 jobs:
   Deploy-Preview-To-Vercel:
     runs-on: ubuntu-latest
     environment: pre-main
     outputs:
-      output1: ${{ steps.step1.outputs.test }}
+      vercel-link: ${{ steps.vercel-deploy.outputs.link }}
     steps:
       - uses: actions/checkout@v3
 
@@ -47,7 +47,7 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./API/PHP/slim
-        id: step1
+        id: vercel-deploy
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
           code=$?
@@ -57,12 +57,17 @@ jobs:
               errorMessage=`cat error.txt`
               echo "There was an error: $errorMessage"
           fi
-          echo "test=$deploymentUrl" >> "$GITHUB_OUTPUT"
+          echo "link=$deploymentUrl" >> "$GITHUB_OUTPUT"
   
   Mobile-Update:
     runs-on: ubuntu-latest
     environment: pre-main
     needs: Deploy-Preview-To-Vercel
+    outputs:
+      androidId: ${{ steps.preview.outputs.androidId }}
+      androidQR: ${{ steps.preview.outputs.androidQR }}
+      iosId: ${{ steps.preview.outputs.iosId }}
+      iosQR: ${{ steps.preview.outputs.iosQR }}
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
@@ -88,24 +93,49 @@ jobs:
       - name: 🚀 Create preview
         uses: expo/expo-github-action/preview@v8
         env:
-          SERVER_LINK: ${{needs.Deploy-Preview-To-Vercel.outputs.output1}}
+          SERVER_LINK: ${{needs.Deploy-Preview-To-Vercel.outputs.vercel-link}}
           GOOGLE_MAP_API_KEY: ${{ secrets.GOOGLE_MAP_API_KEY }}
         id: preview
         with:
           command: eas update --auto
           comment: false
           working-directory: ./Mobile
-        # run: eas build --non-interactive --platform android
-        # run: eas update --auto
-      - name: teste
+
+      - name: teste1
         run: |
           echo "Id ${{ steps.preview.outputs.groupId }}"
           echo "QRCode: ${{ steps.preview.outputs.qr }}"
+
           echo "androidId ${{ steps.preview.outputs.androidId }}"
           echo "androidQR ${{ steps.preview.outputs.androidQR }}"
+
           echo "iosId ${{ steps.preview.outputs.iosId }}"
           echo "iosQR ${{ steps.preview.outputs.iosQR }}"
 
+          echo "androidId=${{ steps.preview.outputs.androidId }}" >> "$GITHUB_OUTPUT"
+          echo "androidQR=${{ steps.preview.outputs.androidQR }}" >> "$GITHUB_OUTPUT"
+          echo "iosId=${{ steps.preview.outputs.iosId }}" >> "$GITHUB_OUTPUT"
+          echo "iosQR=${{ steps.preview.outputs.iosQR }}" >> "$GITHUB_OUTPUT"
+  
+  update-readme:
+    runs-on: ubuntu-latest
+    environment: pre-main
+    needs: Mobile-Update
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: teste1
+        run: |
+          echo "Id ${{ needs.Mobile-Update.outputs.androidId }}"
+          echo "QRCode: ${{ needs.Mobile-Update.outputs.androidQR }}"
+          echo "iosId ${{ needs.Mobile-Update.outputs.iosId }}"
+          echo "iosQR ${{ needs.Mobile-Update.outputs.iosQR }}"
+
+
+
+
+          
 # https://vercel.com/docs/cli/deploy#standard-output-usage
 # https://docs.expo.dev/develop/development-builds/share-with-your-team/
 # https://docs.expo.dev/eas-update/github-actions/#publish-previews-on-pull-requests

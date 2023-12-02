@@ -26,11 +26,33 @@ To get started with PetCare, follow these simple steps:
 
 ## Usage
 
-You can also experience PetCare instantly by using our Expo deployment. Just copy and paste the link on expo app: exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac
+You can also experience PetCare instantly by using our Expo deployment. 
+Dowload the expo app:
+[Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&pcampaignid=web_share)
+[Apple Store](https://apps.apple.com/br/app/expo-go/id982107779)
+Just copy and paste the link on expo app: 
+<details>
+  <summary>Clique para copiar</summary>
 
-<!--or scan the QR code below:-->
-<!--![PetCare Expo QR Code](<QR_CODE_IMAGE_URL>)-->
+  ```bash
+  git clone https://github.com/seu-usuario/seu-repositorio.git
+  ```
+</details>
 
+PetCare Android: exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac
+PetCare iPhone: exp://u.expo.dev/update/c5a52953-7fff-40bb-907f-f7fa65f3eaac
+
+[Texto Reutilizável]: https://qr.expo.dev/eas-update?updateId=df0294b9-2263-42df-85e2-88a2774e7b25&appScheme=exp&host=u.expo.dev
+
+Or click the link to scan the QR code:
+[PetCare Expo Android QR Code]([Texto Reutilizável])
+<p align="center">
+    <img src="[Texto Reutilizável]" width="400" alt="Update preview QR code">
+</p>
+[PetCare Expo iPhone QR Code][Texto Reutilizável]
+<p align="center">
+    <img src="https://qr.expo.dev/eas-update?updateId=df0294b9-2263-42df-85e2-88a2774e7b25&appScheme=exp&host=u.expo.dev" width="400" alt="Update preview QR code">
+</p>
 ## Contributions
 
 Yes, we welcome contributions! Reach out to us via email at jellyfishdevelopment@gmail.com to discuss and contribute to the project.
