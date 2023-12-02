@@ -9,7 +9,7 @@ on:
       - teste-actions
     paths:
       - 'API/PHP/slim/**'
-      - '.github/**'
+      # - '.github/**'
 jobs:
   Deploy-Preview-To-Vercel:
     runs-on: ubuntu-latest
