@@ -31,7 +31,7 @@ Dowload the expo app:<br>
 [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&pcampaignid=web_share)<br>
 [Apple Store](https://apps.apple.com/br/app/expo-go/id982107779)
 <br><br>
-Just copy and paste the link on expo app:
+Just copy and paste the link on expo app:<br>
 PetCare Android:
 ```
 exp://u.expo.dev/update/2134
