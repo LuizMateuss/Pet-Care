@@ -34,16 +34,16 @@ Dowload the expo app:<br>
 Just copy and paste the link on expo app:
 <details open>
 	<summary>PetCare Android</summary>
-		```bash
-		 exp://u.expo.dev/update/teste3
-        ```
+    ```bash
+        exp://u.expo.dev/update/teste3
+    ```
 </details>
 <br>
 <details open>
 	<summary>PetCare iPhone</summary>
-		```bash
-        exp://u.expo.dev/update/teste4
-        ```
+    ```bash
+    exp://u.expo.dev/update/teste4
+    ```
 </details><br>
 <details open>
   <summary>Teste 3</summary>
@@ -52,9 +52,9 @@ Just copy and paste the link on expo app:
   ```
 </details><br>:
 Or  scan the QR code:<br>
-[PetCare Expo QR Code](${qrCode})
+[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=34r)
 <p align="center">
-    <img src="${qrCode}" width="200" alt="Update preview QR code">
+    <img src="https://qr.expo.dev/eas-update?projectId=34r" width="200" alt="Update preview QR code">
 </p>
 
 ## Contributions
