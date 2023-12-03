@@ -32,22 +32,12 @@ Dowload the expo app:<br>
 [Apple Store](https://apps.apple.com/br/app/expo-go/id982107779)
 <br><br>
 Just copy and paste the link on expo app:
-<details open>
-	<summary>PetCare Android</summary>
-    ```bash
-        exp://u.expo.dev/update/2134
-    ```
-</details>
-<br>
-<details open>
-	<summary>PetCare iPhone</summary>
-    ```bash
-    exp://u.expo.dev/update/123
-    ```
-</details><br>
+
 ```
 $ npm install --save @github/clipboard-copy-element
 ```
+
+<br>
 Or  scan the QR code:<br>
 [PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=5)
 <p align="center">
