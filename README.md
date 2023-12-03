@@ -26,27 +26,29 @@ To get started with PetCare, follow these simple steps:
 
 ## Usage
 
-You can also experience PetCare instantly by using our Expo deployment. 
-Dowload the expo app:<br>
+You can also experience PetCare instantly by using our Expo deployment.<br>
+Start dowloading the expo app:<br>
 [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&pcampaignid=web_share)<br>
 [Apple Store](https://apps.apple.com/br/app/expo-go/id982107779)
 <br><br>
 Just copy and paste the link on expo app:<br>
 PetCare Android:
 ```
-exp://u.expo.dev/update/2134
+exp://u.expo.dev/update/b4c4f147-47ed-4284-bc0e-d093eadd4349
 ```
 
 PetCare iPhone:
 ```
-exp://u.expo.dev/update/3vegvf3e
+exp://u.expo.dev/update/98bfaa4d-e1b5-476a-a516-a010c1a44176
 ```
 
 <br>
 Or  scan the QR code:<br>
-[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=5)
+
+[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=f0aa52d7-90c0-4eb4-a845-14ef32b90e14&groupId=b4c4f147-47ed-4284-bc0e-d093eadd4349)
+
 <p align="center">
-    <img src="https://qr.expo.dev/eas-update?projectId=5" width="200" alt="Update preview QR code">
+    <img src="https://qr.expo.dev/eas-update?projectId=f0aa52d7-90c0-4eb4-a845-14ef32b90e14&groupId=b4c4f147-47ed-4284-bc0e-d093eadd4349" width="200" alt="Update preview QR code">
 </p>
 
 ## Contributions
