@@ -45,7 +45,13 @@ Just copy and paste the link on expo app:
         exp://u.expo.dev/update/98bfaa4d-e1b5-476a-a516-a010c1a44176
         ```
 </details><br>
+<details>
+  <summary>Clique para copiar</summary>
 
+  ```bash
+  git clone https://github.com/seu-usuario/seu-repositorio.git
+  ```
+</details>>br:
 Or  scan the QR code:<br>
 [PetCare Expo QR Code]($qrCode)
 <p align="center">
