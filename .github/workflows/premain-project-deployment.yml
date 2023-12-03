@@ -113,7 +113,7 @@ jobs:
 
           echo "androidId=${{ steps.preview.outputs.androidId }}" >> "$GITHUB_OUTPUT"
           echo "iosId=${{ steps.preview.outputs.iosId }}" >> "$GITHUB_OUTPUT"
-          echo "androidQR=${{ steps.preview.outputs.qr }}" >> "$GITHUB_OUTPUT"
+          echo "qr=${{ steps.preview.outputs.qr }}" >> "$GITHUB_OUTPUT"
   
   Update-Readme:
     runs-on: ubuntu-latest
@@ -131,6 +131,7 @@ jobs:
           androidId=${{ needs.Mobile-Update.outputs.androidId }}
           iosId=${{ needs.Mobile-Update.outputs.iosId }}
           qrCode=${{ needs.Mobile-Update.outputs.qr }}
+          echo "$qrCode"
           # qrCode="https://qr.expo.dev/eas-update?projectId=123"
 
           sed -i "/^PetCare Android:/,/exp:\/\/u.expo.dev\/update\/.*/s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$androidId#" README.md
