@@ -34,20 +34,19 @@ Dowload the expo app:<br>
 Just copy and paste the link on expo app:
 <details open>
 	<summary>PetCare Android</summary>
-		```bash
-		 exp://u.expo.dev/update/teste1
-        ```
+    ```bash
+        exp://u.expo.dev/update/teste1
+    ```
 </details>
 <br>
 <details open>
 	<summary>PetCare iPhone</summary>
-		```bash
-        exp://u.expo.dev/update/teste2
-        ```
+    ```bash
+    exp://u.expo.dev/update/teste2
+    ```
 </details><br>
 <details open>
   <summary>Teste 3</summary>
-
   ```bash
   exp://u.expo.dev/update/testea
   ```
