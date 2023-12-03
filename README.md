@@ -32,9 +32,14 @@ Dowload the expo app:<br>
 [Apple Store](https://apps.apple.com/br/app/expo-go/id982107779)
 <br><br>
 Just copy and paste the link on expo app:
-
+PetCare Android:
 ```
-$ npm install --save @github/clipboard-copy-element
+exp://u.expo.dev/update/2134
+```
+
+PetCare iPhone:
+```
+exp://u.expo.dev/update/3vegvf3e
 ```
 
 <br>
