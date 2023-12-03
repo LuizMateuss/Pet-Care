@@ -65,9 +65,8 @@ jobs:
     needs: Deploy-Preview-To-Vercel
     outputs:
       androidId: ${{ steps.preview.outputs.androidId }}
-      androidQR: ${{ steps.preview.outputs.androidQR }}
       iosId: ${{ steps.preview.outputs.iosId }}
-      iosQR: ${{ steps.preview.outputs.iosQR }}
+      qr: ${{ steps.preview.outputs.qr }}
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
@@ -113,29 +112,44 @@ jobs:
           echo "iosQR ${{ steps.preview.outputs.iosQR }}"
 
           echo "androidId=${{ steps.preview.outputs.androidId }}" >> "$GITHUB_OUTPUT"
-          echo "androidQR=${{ steps.preview.outputs.androidQR }}" >> "$GITHUB_OUTPUT"
           echo "iosId=${{ steps.preview.outputs.iosId }}" >> "$GITHUB_OUTPUT"
-          echo "iosQR=${{ steps.preview.outputs.iosQR }}" >> "$GITHUB_OUTPUT"
+          echo "androidQR=${{ steps.preview.outputs.qr }}" >> "$GITHUB_OUTPUT"
   
-  update-readme:
+  Update-Readme:
     runs-on: ubuntu-latest
     environment: pre-main
     needs: Mobile-Update
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
+        with:
+          sparse-checkout: README.md
+          sparse-checkout-cone-mode: false
 
-      - name: teste1
+      - name: teste2
         run: |
           echo "Id ${{ needs.Mobile-Update.outputs.androidId }}"
-          echo "QRCode: ${{ needs.Mobile-Update.outputs.androidQR }}"
           echo "iosId ${{ needs.Mobile-Update.outputs.iosId }}"
-          echo "iosQR ${{ needs.Mobile-Update.outputs.iosQR }}"
+          echo "QRCode: ${{ needs.Mobile-Update.outputs.qr }}"
+
+          androidId = ${{ needs.Mobile-Update.outputs.androidId }}
+          iosId = ${{ needs.Mobile-Update.outputs.iosId }}
+          qrCode = ${{ needs.Mobile-Update.outputs.qr }}
+
+          sed -i "/<summary>PetCare Android<\/summary>/,/exp:\/\/u.expo.dev\/update\// s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$androidId#" README.md
+          sed -i "/<summary>PetCare iPhone<\/summary>/,/exp:\/\/u.expo.dev\/update\// s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$iosId#" README.md
+          sed -i 's#https://qr.expo.dev/eas-update?projectId=[^ )"]*#$qrCode#g' README.md
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Updated Readme"
+          git push
 
 
 
 
-          
+
 # https://vercel.com/docs/cli/deploy#standard-output-usage
 # https://docs.expo.dev/develop/development-builds/share-with-your-team/
 # https://docs.expo.dev/eas-update/github-actions/#publish-previews-on-pull-requests
