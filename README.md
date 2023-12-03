@@ -27,9 +27,10 @@ To get started with PetCare, follow these simple steps:
 ## Usage
 
 You can also experience PetCare instantly by using our Expo deployment. 
-Dowload the expo app:
-[Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&pcampaignid=web_share)
+Dowload the expo app:<br>
+[Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&pcampaignid=web_share)<br>
 [Apple Store](https://apps.apple.com/br/app/expo-go/id982107779)
+<br><br>
 Just copy and paste the link on expo app:
 <details open>
 	<summary>PetCare Android</summary>
