@@ -35,14 +35,14 @@ Just copy and paste the link on expo app:
 <details open>
 	<summary>PetCare Android</summary>
 		```bash
-		 exp://u.expo.dev/update/b98861fc-17cc-4aa0-8801-3c3c581a5391
+		 exp://u.expo.dev/update/teste1
         ```
 </details>
 <br>
 <details open>
 	<summary>PetCare iPhone</summary>
 		```bash
-        exp://u.expo.dev/update/98bfaa4d-e1b5-476a-a516-a010c1a44176
+        exp://u.expo.dev/update/teste2
         ```
 </details><br>
 <details>
