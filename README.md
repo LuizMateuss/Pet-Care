@@ -52,9 +52,9 @@ Just copy and paste the link on expo app:
   ```
 </details><br>:
 Or  scan the QR code:<br>
-[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=34r)
+[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=2)
 <p align="center">
-    <img src="https://qr.expo.dev/eas-update?projectId=34r" width="200" alt="Update preview QR code">
+    <img src="https://qr.expo.dev/eas-update?projectId=2" width="200" alt="Update preview QR code">
 </p>
 
 ## Contributions
