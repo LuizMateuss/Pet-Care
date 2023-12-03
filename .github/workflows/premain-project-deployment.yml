@@ -132,9 +132,9 @@ jobs:
           echo "iosId ${{ needs.Mobile-Update.outputs.iosId }}"
           echo "QRCode: ${{ needs.Mobile-Update.outputs.qr }}"
 
-          androidId = ${{ needs.Mobile-Update.outputs.androidId }}
-          iosId = ${{ needs.Mobile-Update.outputs.iosId }}
-          qrCode = ${{ needs.Mobile-Update.outputs.qr }}
+          androidId=${{ needs.Mobile-Update.outputs.androidId }}
+          iosId=${{ needs.Mobile-Update.outputs.iosId }}
+          qrCode=${{ needs.Mobile-Update.outputs.qr }}
 
           sed -i "/<summary>PetCare Android<\/summary>/,/exp:\/\/u.expo.dev\/update\// s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$androidId#" README.md
           sed -i "/<summary>PetCare iPhone<\/summary>/,/exp:\/\/u.expo.dev\/update\// s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$iosId#" README.md
