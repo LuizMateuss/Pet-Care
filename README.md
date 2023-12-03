@@ -35,23 +35,23 @@ Just copy and paste the link on expo app:
 <details open>
 	<summary>PetCare Android</summary>
     ```bash
-        exp://u.expo.dev/update/teste234
+        exp://u.expo.dev/update/2134
     ```
 </details>
 <br>
 <details open>
 	<summary>PetCare iPhone</summary>
     ```bash
-    exp://u.expo.dev/update/teste123
+    exp://u.expo.dev/update/123
     ```
 </details><br>
 ```
 $ npm install --save @github/clipboard-copy-element
 ```
 Or  scan the QR code:<br>
-[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=4)
+[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=5)
 <p align="center">
-    <img src="https://qr.expo.dev/eas-update?projectId=4" width="200" alt="Update preview QR code">
+    <img src="https://qr.expo.dev/eas-update?projectId=5" width="200" alt="Update preview QR code">
 </p>
 
 ## Contributions
