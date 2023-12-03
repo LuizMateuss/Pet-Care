@@ -45,12 +45,9 @@ Just copy and paste the link on expo app:
     exp://u.expo.dev/update/teste4
     ```
 </details><br>
-<details open>
-  <summary>Teste 3</summary>
-  ```bash
-  exp://u.expo.dev/update/testea
-  ```
-</details>
+```
+$ npm install --save @github/clipboard-copy-element
+```
 Or  scan the QR code:<br>
 [PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=2)
 <p align="center">
