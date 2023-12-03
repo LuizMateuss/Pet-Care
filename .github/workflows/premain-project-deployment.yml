@@ -132,8 +132,8 @@ jobs:
           # iosId=${{ needs.Mobile-Update.outputs.iosId }}
           # qrCode=${{ needs.Mobile-Update.outputs.qr }}
 
-          androidId="teste1"
-          iosId="teste2"
+          androidId="teste3"
+          iosId="teste4"
           qrCode="https://qr.expo.dev/eas-update?projectId=2"
 
           sed -i "/<summary>PetCare Android<\/summary>/,/exp:\/\/u.expo.dev\/update\// s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$androidId#" README.md
