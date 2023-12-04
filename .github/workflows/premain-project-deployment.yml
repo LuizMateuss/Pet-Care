@@ -130,18 +130,17 @@ jobs:
         run: |
           androidId=${{ needs.Mobile-Update.outputs.androidId }}
           iosId=${{ needs.Mobile-Update.outputs.iosId }}
-          qrCode=${{ needs.Mobile-Update.outputs.qr }}
-          echo "$qrCode"
-          # qrCode="https://qr.expo.dev/eas-update?projectId=123"
+          qrCode=$'${{ needs.Mobile-Update.outputs.qr }}'
+          formatedqrCode=$(printf '%s\n' "$qrCode" | sed -e 's/\&/\\&/g')
 
           sed -i "/^PetCare Android:/,/exp:\/\/u.expo.dev\/update\/.*/s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$androidId#" README.md
           sed -i "/^PetCare iPhone:/,/exp:\/\/u.expo.dev\/update\/.*/s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$iosId#" README.md
-          sed -i "s#https://qr.expo.dev/eas-update?projectId=[^ )\x22]*#$qrCode#g" README.md
+          sed -i "s#https://qr.expo.dev/eas-update?projectId=[^ )\x22]*#$formatedqrCode#g" README.md
 
           git config user.name LuizMateuss
           git config user.email 99288913+LuizMateuss@users.noreply.github.com
           git add README.md
-          git commit -m "Updated Readme"
+          git commit -m "Automatic update Expo link in Readme"
           # git commit --amend --no-edit
           git push
 
