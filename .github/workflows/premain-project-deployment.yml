@@ -126,12 +126,13 @@ jobs:
           sparse-checkout: README.md
           sparse-checkout-cone-mode: false
 
-      - name: teste2
+      - name: Update Links
         run: |
           androidId=${{ needs.Mobile-Update.outputs.androidId }}
           iosId=${{ needs.Mobile-Update.outputs.iosId }}
           qrCode=$'${{ needs.Mobile-Update.outputs.qr }}'
           formatedqrCode=$(printf '%s\n' "$qrCode" | sed -e 's/\&/\\&/g')
+          printf '%s\n' "$formatedqrCode"
 
           sed -i "/^PetCare Android:/,/exp:\/\/u.expo.dev\/update\/.*/s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$androidId#" README.md
           sed -i "/^PetCare iPhone:/,/exp:\/\/u.expo.dev\/update\/.*/s#exp://u.expo.dev/update/.*#exp://u.expo.dev/update/$iosId#" README.md
