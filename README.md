@@ -34,21 +34,21 @@ Start dowloading the expo app:<br>
 Just copy and paste the link bellow on your Expo app:<br>
 PetCare Android:
 ```
-exp://u.expo.dev/update/b4c4f147-47ed-4284-bc0e-d093eadd4349
+exp://u.expo.dev/update/8f216cd3-d727-45cc-a06e-e3c00d96ac48
 ```
 
 PetCare iPhone:
 ```
-exp://u.expo.dev/update/98bfaa4d-e1b5-476a-a516-a010c1a44176
+exp://u.expo.dev/update/1de176fe-83d4-4012-96af-c18d4602211f
 ```
 
 <br>
 Or  scan the QR code:<br>
 
-[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=f0aa52d7-90c0-4eb4-a845-14ef32b90e14&groupId=b4c4f147-47ed-4284-bc0e-d093eadd4349)
+[PetCare Expo QR Code](https://qr.expo.dev/eas-update?projectId=f0aa52d7-90c0-4eb4-a845-14ef32b90e14&groupId=68578f1e-3cb4-4db0-911c-93a3541c79e1)
 
 <p align="center">
-    <img src="https://qr.expo.dev/eas-update?projectId=f0aa52d7-90c0-4eb4-a845-14ef32b90e14&groupId=b4c4f147-47ed-4284-bc0e-d093eadd4349" width="200" alt="Update preview QR code">
+    <img src="https://qr.expo.dev/eas-update?projectId=f0aa52d7-90c0-4eb4-a845-14ef32b90e14&groupId=68578f1e-3cb4-4db0-911c-93a3541c79e1" width="200" alt="Update preview QR code">
 </p>
 
 ## Contributions
