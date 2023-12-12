@@ -37,6 +37,7 @@
     "react-native-google-places-autocomplete": "^2.4.1",
     "react-native-maps": "1.7.1",
     "react-native-maps-directions": "^1.9.0",
+    "react-native-mask-text": "^0.14.2",
     "react-native-reanimated": "~3.3.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
